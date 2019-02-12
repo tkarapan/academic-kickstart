@@ -10,7 +10,7 @@ role = "PhD student in Cognitive Neuroscience and Neuroimaging"
 
 # Organizations/Affiliations
 #   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.
-organizations = [ { name = "University of York", url = "https://www.york.ac.uk/psychology" } ]
+organizations = [ { name = "University of York", url = "https://www.york.ac.uk" } ]
 
 # Short bio (displayed in user profile at end of posts)
 bio = "My research interests include brain connectivity, neural dynamics and unconstrained ongoing experience."
@@ -79,6 +79,6 @@ I am a 3rd year PhD student in cognitive neuroscience and neuroimaging at the de
 
 Born in [Veria](https://en.wikipedia.org/wiki/Veria), Greece, I received my bachelor's degree in physics (upper second-class honours) from the department of [Physics](https://www.physics.auth.gr/en) at the Aristotle University of Thessaloniki, Greece. Following several years of physics tutoring in Greece, I changed my career path and moved to the UK, where I obtained my master's degree in cognitive neuroscience (distinction) at the department of Psychology at the University of York, under the supervision of Prof. [Gary Green](https://www.york.ac.uk/psychology/staff/emeritusfaculty/ggrg1/).
 
-Upon graduating my master's program, I worked as a research assistant in the Mind-Wandering lab led by Prof. [Jonny Smallwood](https://www.york.ac.uk/psychology/staff/academicstaff/jonathan_smallwood/). A year later I was awarded a studentship for a PhD under the supervision of Prof. Smallwood, from the department of Psychology at the University of York. After a 5 month break in my second PhD year, in order to work on a pilot fMRI project investigating experiences in virtual/augmented reality led by Prof. [Alex Wade](https://www.york.ac.uk/psychology/staff/academicstaff/alex-wade/), I am currently at the end of my PhD.
+Upon graduating my master's program, I worked as a research assistant in the Mind-Wandering lab led by Prof. [Jonathan Smallwood](https://www.york.ac.uk/psychology/staff/academicstaff/jonathan_smallwood/). A year later I was awarded a studentship for a PhD under the supervision of Prof. Smallwood, from the department of Psychology at the University of York. After a 5 month break in my second PhD year, in order to work on a pilot fMRI project investigating experiences in virtual/augmented reality led by Prof. [Alex Wade](https://www.york.ac.uk/psychology/staff/academicstaff/alex-wade/), I am currently at the end of my PhD.
 
 My thesis investigates the neural correlates of ongoing experience, utilising different neuroimaging scanning modalities (DWI, resting state fMRI) and analysis techniques (static connectivity and dynamic hidden Markov modelling).

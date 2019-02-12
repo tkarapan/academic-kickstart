@@ -3,7 +3,7 @@
 widget = "accomplishments"  # Do not modify this line!
 active = true  # Activate this widget? true/false
 
-title = "Awards, Conference presentations and Organising activities"
+title = "Awards, Conference presentations & Organising activities"
 subtitle = ""
 
 # Order that this section will appear in.
@@ -24,7 +24,7 @@ date_format = "2006"
   organization = "Department of Psychology, University of York, UK"
   certificate_url = ""
   date_start = "2015-10-01"
-  date_end = "2019-02-28"
+  date_end = "2018-10-01"
   description = ""
 
 [[item]]

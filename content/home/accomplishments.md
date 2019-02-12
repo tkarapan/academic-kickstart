@@ -11,7 +11,7 @@ weight = 9
 
 # Date format
 #   Refer to https://sourcethemes.com/academic/docs/customization/#date-format
-date_format = "Jan 2006"
+date_format = "2006"
 
 # Accomplishments.
 #   Add/remove as many `[[item]]` blocks below as you like.
@@ -23,8 +23,8 @@ date_format = "Jan 2006"
   title = "PhD departmental studentship"
   organization = "Department of Psychology, University of York, UK"
   certificate_url = ""
-  date_start = "2018"
-  date_end = "2015"
+  date_start = "2019-02-28"
+  date_end = "2015-10-01"
   description = ""
 
 [[item]]

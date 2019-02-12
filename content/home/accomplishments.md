@@ -20,35 +20,27 @@ date_format = "2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 
 [[item]]
-  title = "PhD departmental studentship"
-  organization = "Department of Psychology, University of York, UK"
-  certificate_url = ""
-  date_start = ""
+  title = "Neural Networks and Deep Learning"
+  organization = "Coursera"
+  certificate_url = "https://www.coursera.org"
+  date_start = "2018-10-01"
   date_end = ""
   description = ""
 
 [[item]]
-  title = "Organization for Human Brain Mapping international conference"
-  organization = "Singapore, 2018"
-  certificate_url = ""
-  date_start = ""
+  title = "Blockchain Fundamentals"
+  organization = "edX"
+  certificate_url = "https://www.edx.org"
+  date_start = "2018-03-01"
   date_end = ""
-  description = "Poster presentation"
-
+  description = ""
+  
 [[item]]
-  title = "Organization for Human Brain Mapping international conference"
-  organization = "Vancouver, Canada, 2017"
-  certificate_url = ""
-  date_start = ""
-  date_end = ""
-  description = "Poster presentation"
-
-[[item]]
-  title = "Brainhack Global"
-  organization = "York Neuroimaging Centre, York, UK, 2017"
-  certificate_url = ""
-  date_start = ""
-  date_end = ""
-  description = "Member of the organising committee"
+  title = "Intro to Python"
+  organization = "DataCamp"
+  certificate_url = "https://www.datacamp.com"
+  date_start = "2017-07-01"
+  date_end = "2017-12-21"
+  description = ""
 
 +++

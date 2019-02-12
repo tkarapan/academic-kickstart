@@ -50,3 +50,5 @@ Copyright 2017 [George Cushen](https://georgecushen.com).
 Released under the [MIT](https://github.com/sourcethemes/academic-kickstart/blob/master/LICENSE.md) license.
 
 [![Analytics](https://ga-beacon.appspot.com/UA-78646709-2/academic-kickstart/readme?pixel)](https://github.com/igrigorik/ga-beacon)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0e545801-34a8-40e6-99c5-d2af1a6a5869/deploy-status)](https://app.netlify.com/sites/tkarap/deploys)

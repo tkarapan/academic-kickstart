@@ -39,7 +39,7 @@ date_format = "2006"
   title = "Organization for Human Brain Mapping international conference"
   organization = "Vancouver, Canada, 2017"
   certificate_url = ""
-  date_start = "2017"
+  date_start = ""
   date_end = ""
   description = "Poster presentation"
 

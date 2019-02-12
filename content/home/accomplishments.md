@@ -29,25 +29,25 @@ date_format = "2006"
 
 [[item]]
   title = "Organization for Human Brain Mapping international conference"
-  organization = "Singapore"
+  organization = "Singapore, 2018"
 #  certificate_url = "https://www.coursera.org"
-  date_start = "2018"
+#  date_start = "2018"
 #  date_end = "2015"
   description = "Poster presentation"
 
 [[item]]
   title = "Organization for Human Brain Mapping international conference"
-  organization = "Vancouver, Canada"
+  organization = "Vancouver, Canada, 2017"
 #  certificate_url = "https://www.coursera.org"
-  date_start = "2017"
+#  date_start = "2017"
 #  date_end = "2015"
   description = "Poster presentation"
 
 [[item]]
   title = "Brainhack Global"
-  organization = "York Neuroimaging Centre, York, UK"
+  organization = "York Neuroimaging Centre, York, UK, 2017"
 #  certificate_url = "https://www.coursera.org"
-  date_start = "2017"
+#  date_start = "2017"
 #  date_end = "2015"
   description = "Member of the organising committee"
 

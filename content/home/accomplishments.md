@@ -23,8 +23,8 @@ date_format = "2006"
   title = "PhD departmental studentship"
   organization = "Department of Psychology, University of York, UK"
   certificate_url = ""
-  date_start = "2019-02-28"
-  date_end = "2015-10-01"
+  date_start = ""
+  date_end = ""
   description = ""
 
 [[item]]

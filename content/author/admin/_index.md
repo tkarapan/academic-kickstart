@@ -22,7 +22,7 @@ email = ""
 interests = [
   "Brain Connectivity",
   "Neural Dynamics",
-  "Neural Trait-State Interactions"
+  "Neural Trait-State Interactions",
   "Unconstrained ongoing experience"
 ]
 

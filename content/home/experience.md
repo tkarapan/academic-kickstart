@@ -39,7 +39,7 @@ date_format = "2006"
   company_url = ""
   location = "department of Psychology, University of York, UK"
   date_start = "2014-10-01"
-  date_end = "2015-10-1"
+  date_end = "2015-10-01"
   description = ""
   
 [[experience]]
@@ -48,7 +48,7 @@ date_format = "2006"
   company_url = ""
   location = "department of Psychology, University of York, UK"
   date_start = "2014-06-01"
-  date_end = "2015-02-1"
+  date_end = "2015-02-01"
   description = "" 
 
 [[experience]]
@@ -57,7 +57,7 @@ date_format = "2006"
   company_url = ""
   location = "Thessaloniki, Greece"
   date_start = "2007-01-01"
-  date_end = "2013-10-1"
+  date_end = "2013-10-01"
   description = ""  
 
 +++

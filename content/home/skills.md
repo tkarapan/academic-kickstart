@@ -55,7 +55,7 @@ weight = 7
 [[feature]]
   icon = "desktop"
   icon_pack = "fas"
-  name = "Task scripting"
+  name = "Scripting"
   description = """
   * PsychoPy
   * Unity

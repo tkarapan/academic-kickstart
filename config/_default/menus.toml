@@ -7,16 +7,31 @@
   name = "Home"
   url = "#about"
   weight = 1
+  
+[[main]]
+  name = "Skills"
+  url = "#skills"
+  weight = 2
+  
+[[main]]
+  name = "Experience"
+  url = "#experience"
+  weight = 3
+  
+[[main]]
+  name = "Presentations"
+  url = "#accomplishments"
+  weight = 4
 
 [[main]]
   name = "Publications"
-  url = "#publications_featured"
-  weight = 2
+  url = "#publications"
+  weight = 5
 
 [[main]]
   name = "Contact"
   url = "#contact"
-  weight = 3
+  weight = 6
 
 # Link to a PDF of your resume/CV from the menu.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.

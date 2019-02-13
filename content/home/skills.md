@@ -24,7 +24,7 @@ weight = 7
 [[feature]]
   icon = "brain"
   icon_pack = "fas"
-  name = "Neuroimaging data analysis"
+  name = "Data analysis"
   description = """
   * FSL/FMRIB Software Library
   * NAF/YNiC Software
@@ -44,6 +44,21 @@ weight = 7
   * GE 3T Signa Excite HDX
   * Siemens Prisma 3T
   * 4D Neuroimaging Magnes 3600 MEG
+  """
+  
+[[feature]]
+  icon = "chalkboard-teacher "
+  icon_pack = "fas"
+  name = "Teaching"
+  description = "Undergraduate & postgraduate level"
+  
+[[feature]]
+  icon = "desktop"
+  icon_pack = "fas"
+  name = "Task scripting"
+  description = """
+  * PsychoPy
+  * Unity
   """
 
 +++

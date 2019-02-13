@@ -20,36 +20,46 @@ date_format = "2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 [[experience]]
   title = "Research assistant"
-  company = "Member of Prof. Alex Wade’s lab"
+  company = "Prof. Alex Wade’s lab"
   company_url = ""
-  location = "department of Psychology, University of York, UK"
+  location = "University of York, UK"
   date_start = "2016-10-01"
   date_end = "2017-03-01"
   description = """
-  Responsibilities include:
-  
-  * Analysing
-  * Modelling
-  * Deploying
+  * Coordinating & running fMRI & MEG experiments
+  * Developing 3D tasks using the [Unity](https://unity3d.com/) game engine
+  * Analysing fMRI datasets
+  * Contributing to NeuroImaging Analysis Framework ([NAF](https://vcs.ynic.york.ac.uk/naf)) codebase & documentation
   """
 
 [[experience]]
   title = "Research assistant"
-  company = "Member of Prof. Jonathan Smallwood’s lab"
+  company = "Prof. Jonathan Smallwood’s lab"
   company_url = ""
-  location = "department of Psychology, University of York, UK"
+  location = "University of York, UK"
   date_start = "2014-10-01"
   date_end = "2015-10-01"
-  description = ""
+  description = """
+  * Coordinating & running neuroimaging studies at full length:
+      * designing an experiment
+      * setting up scanning protocols
+      * coding behavioural tasks ([PsychoPy](https://www.psychopy.org/))
+      * recruiting participants
+      * acquiring & analysing behavioural & neuroimaging data (fMRI, DWI, MEG)
+      * preparing manuscripts for publication
+      * presenting results at science meetings
+  * Developing data analysis pipelines in Python
+  """
   
 [[experience]]
   title = "Research collaborator"
   company = "York Neuroimaging Centre, UK"
   company_url = ""
-  location = "department of Psychology, University of York, UK"
+  location = "University of York, UK"
   date_start = "2014-06-01"
   date_end = "2015-02-01"
-  description = "" 
+  description = """
+  * Analysing fMRI & MEG datasets
 
 [[experience]]
   title = "Physics teacher"

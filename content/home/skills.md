@@ -16,21 +16,34 @@ weight = 7
 # For available icons, see: https://sourcethemes.com/academic/docs/widgets/#icons
 
 [[feature]]
-  icon = "r-project"
+  icon = "python"
   icon_pack = "fab"
-  name = "R"
-  description = "90%"
+  name = "Python"
+  description = ""
   
 [[feature]]
-  icon = "chart-line"
+  icon = "brain"
   icon_pack = "fas"
-  name = "Statistics"
-  description = "100%"  
+  name = "Neuroimaging data analysis"
+  description = """
+  * FSL/FMRIB Software Library
+  * NAF/YNiC Software
+"""  
   
 [[feature]]
-  icon = "camera-retro"
+  icon = "code"
   icon_pack = "fas"
-  name = "Photography"
-  description = "10%"
+  name = "Matlab"
+  description = ""
+  
+[[feature]]
+  icon = "brain"
+  icon_pack = "fas"
+  name = "Scanner operator"
+  description = """
+  * GE 3T Signa Excite HDX
+  * Siemens Prisma 3T
+  * 4D Neuroimaging Magnes 3600 MEG
+  """
 
 +++

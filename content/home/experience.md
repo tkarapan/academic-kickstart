@@ -26,6 +26,7 @@ date_format = "2006"
   date_start = "2016-10-01"
   date_end = "2017-03-01"
   description = """
+  
   * Coordinating & running fMRI & MEG experiments
   * Developing 3D tasks using the [Unity](https://unity3d.com/) game engine
   * Analysing fMRI datasets
@@ -40,6 +41,7 @@ date_format = "2006"
   date_start = "2014-10-01"
   date_end = "2015-10-01"
   description = """
+  
   * Coordinating & running neuroimaging studies at full length:
   
       * designing an experiment
@@ -60,6 +62,7 @@ date_format = "2006"
   date_start = "2014-06-01"
   date_end = "2015-02-01"
   description = """
+  
   * Analysing fMRI & MEG datasets
   """
 

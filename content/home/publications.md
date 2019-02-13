@@ -4,14 +4,14 @@
 widget = "publications"  # Do not modify this line!
 active = true  # Activate this widget? true/false
 
-title = "Recent Publications"
+title = "Publications"
 subtitle = ""
 
 # Order that this section will appear in.
 weight = 20
 
 # Number of publications to list.
-count = 10
+count = 20
 
 # View.
 #   1 = List

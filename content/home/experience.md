@@ -60,6 +60,7 @@ date_format = "2006"
   date_end = "2015-02-01"
   description = """
   * Analysing fMRI & MEG datasets
+  """
 
 [[experience]]
   title = "Physics teacher"

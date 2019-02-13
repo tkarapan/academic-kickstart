@@ -41,6 +41,7 @@ date_format = "2006"
   date_end = "2015-10-01"
   description = """
   * Coordinating & running neuroimaging studies at full length:
+  
       * designing an experiment
       * setting up scanning protocols
       * coding behavioural tasks ([PsychoPy](https://www.psychopy.org/))

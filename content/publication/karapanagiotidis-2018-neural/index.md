@@ -26,6 +26,6 @@ doi = "10.1101/454371"
 <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
 
 
-<div style="width: 100px; display: inline-block;" data-badge-popover="left" data-badge-type="donut" data-doi="10.1101/454371" data-hide-no-mentions="true" class="altmetric-embed"></div>
+<div style="width: 100px; display: inline-block;" data-badge-popover="right" data-badge-type="donut" data-doi="10.1101/454371" data-hide-no-mentions="true" class="altmetric-embed"></div>
 <div style="display: inline-block; margin-bottom: 4em; margin-right: 40em;" class="__dimensions_badge_embed__" data-doi="10.1101/454371" data-hide-zero-citations="true" data-style="small_circle" ></div>
 

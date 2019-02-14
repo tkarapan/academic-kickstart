@@ -1,6 +1,5 @@
 +++
 title = "Publications"
-subtitle = "Testing"
 
 # View.
 #   1 = List

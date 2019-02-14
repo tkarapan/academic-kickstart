@@ -27,7 +27,7 @@ date_format = "2006"
   date_end = "2017-03-01"
   description = """
   
-  * Coordinating & running fMRI & MEG experiments
+  * Coordinating & running fMRI & MEG experiments investigating experiences in virtual/augmented reality
   * Developing 3D tasks using the [Unity](https://unity3d.com/) game engine
   * Analysing fMRI datasets
   * Contributing to NeuroImaging Analysis Framework ([NAF](https://vcs.ynic.york.ac.uk/naf)) codebase & documentation
@@ -42,7 +42,7 @@ date_format = "2006"
   date_end = "2015-10-01"
   description = """
   
-  * Coordinating & running neuroimaging studies at full length:
+  * Coordinating & running neuroimaging studies investigating the neural correlates of unconstrained ongoing experience at full length:
   
       * designing an experiment
       * setting up scanning protocols
@@ -63,11 +63,11 @@ date_format = "2006"
   date_end = "2015-02-01"
   description = """
   
-  * Analysing fMRI & MEG datasets
+  * Working on a clinical neuroimaging (fMRI & MEG) study on epilepsy
   """
 
 [[experience]]
-  title = "Physics teacher"
+  title = "Physics tutor"
   company = ""
   company_url = ""
   location = "Thessaloniki, Greece"

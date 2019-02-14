@@ -33,12 +33,12 @@ interests = [
   year = 2019
 
 [[education.courses]]
-  course = "MSc in Cognitive Neuroscience"
+  course = "MSc in Cognitive Neuroscience (distinction)"
   institution = "University of York"
   year = 2014
 
 [[education.courses]]
-  course = "BSc in Physics"
+  course = "BSc in Physics (upper second-class honours)"
   institution = "Aristotle University of Thessaloniki"
 
 # Social/Academic Networking

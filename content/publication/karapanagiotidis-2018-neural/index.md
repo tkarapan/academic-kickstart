@@ -7,6 +7,8 @@ abstract = ""
 featured = true
 publication = "*bioRxiv*"
 
+abstract = ""
+
 url_preprint = "https://www.biorxiv.org/content/biorxiv/early/2018/10/26/454371.full-text.pdf"
 
 doi = "10.1101/454371"

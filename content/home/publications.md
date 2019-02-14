@@ -37,3 +37,9 @@ exclude_featured = false
 
 {{% alert note %}} Quickly discover relevant content by [filtering publications]({{< ref "/publication/_index.md" >}}). {{% /alert %}}
 
+[filtering publications]({{< ref "publication/_index.md" >}})
+
+[filtering publications]({{< ref "/_index.md" >}})
+
+[filtering publications]({{< ref "_index.md" >}})
+

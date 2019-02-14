@@ -5,7 +5,7 @@ widget = "publications"  # Do not modify this line!
 active = true  # Activate this widget? true/false
 
 title = "Publications"
-subtitle = "[Search]({{< ref "_index.md" >}})"
+subtitle = "#Search"
 
 # Order that this section will appear in.
 weight = 20

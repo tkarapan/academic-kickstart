@@ -20,3 +20,9 @@ doi = "10.1016/j.neuroimage.2016.12.031"
   focal_point = "Center"
 +++
 
+<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+<div data-badge-popover="right" data-badge-type="donut" data-doi="10.1016/j.neuroimage.2016.12.031" data-hide-no-mentions="true" class="altmetric-embed"></div>
+
+<span class="__dimensions_badge_embed__" data-doi="10.1016/j.neuroimage.2016.12.031" data-style="small_circle"></span><script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+
+

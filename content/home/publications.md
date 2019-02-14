@@ -35,5 +35,3 @@ publication_type = "-1"
 exclude_featured = false
 +++
 
-{{% alert note %}} Quickly discover relevant content by [filtering publications]({{< ref "/publication/_index.md" >}}). {{% /alert %}}
-

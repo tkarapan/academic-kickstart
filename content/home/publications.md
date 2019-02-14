@@ -5,7 +5,7 @@ widget = "publications"  # Do not modify this line!
 active = true  # Activate this widget? true/false
 
 title = "Publications"
-subtitle = "#Search"
+subtitle = "[Search](https://www.tkarap.com/publication/)"
 
 # Order that this section will appear in.
 weight = 20
@@ -34,7 +34,3 @@ publication_type = "-1"
 # Exclude publications that are shown in the Featured Publications widget?
 exclude_featured = false
 +++
-
-{{% alert note %}} Quickly discover relevant content by [filtering publications]({{< ref "/publication/_index.md" >}}). {{% /alert %}}
-
-[filtering publications]({{< ref "publication/_index.md" >}})

@@ -5,6 +5,6 @@ authors = ["Mladen Sormaz", "Elizabeth Jefferies", "Boris C Bernhardt", "**Theod
 publication_types = ["2"]
 abstract = ""
 featured = false
-publication = "*Neuroimage*"
+publication = "*NeuroImage*"
 +++
 

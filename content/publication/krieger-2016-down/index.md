@@ -5,6 +5,6 @@ authors = ["Katya Krieger-Redwood", "Elizabeth Jefferies", "**Theodoros Karapana
 publication_types = ["2"]
 abstract = ""
 featured = false
-publication = "*Neuroimage*"
+publication = "*NeuroImage*"
 +++
 

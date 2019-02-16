@@ -5,6 +5,6 @@ authors = ["Deniz Vatansever", "Danilo Bzdok", "Hao-Ting Wang", "Giovanna Mollo"
 publication_types = ["2"]
 abstract = ""
 featured = false
-publication = "*Neuroimage*"
+publication = "*NeuroImage*"
 +++
 

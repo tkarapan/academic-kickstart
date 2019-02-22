@@ -29,17 +29,17 @@ interests = [
 # List qualifications (such as academic degrees)
 [[education.courses]]
   course = "PhD in Cognitive Neuroscience and Neuroimaging"
-  institution = "University of York"
+  institution = "University of York, UK"
   year = 2019
 
 [[education.courses]]
   course = "MSc in Cognitive Neuroscience"
-  institution = "University of York"
+  institution = "University of York, UK"
   year = 2014
 
 [[education.courses]]
   course = "BSc in Physics"
-  institution = "Aristotle University of Thessaloniki"
+  institution = "Aristotle University of Thessaloniki, Greece"
 
 # Social/Academic Networking
 # For available icons, see: https://sourcethemes.com/academic/docs/widgets/#icons

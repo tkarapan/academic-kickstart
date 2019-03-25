@@ -51,4 +51,12 @@ date_format = "2006"
   date_end = ""
   description = "Member of the organising committee"
 
+[[item]]
+  title = "Member of the YNiC Research Governance Committee"
+  organization = "York Neuroimaging Centre, York, UK"
+  certificate_url = ""
+  date_start = "2016-10-01"
+  date_end = "2018-10-01"
+  description = ""
+
 +++

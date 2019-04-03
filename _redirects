@@ -1,0 +1,2 @@
+# Redirect default Netlify subdomain to primary domain
+https://tkarap.netlify.com/* https://www.tkarap.com/:splat 301!

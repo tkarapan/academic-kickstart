@@ -11,6 +11,6 @@
   
 [[redirects]]
   from = "https://tkarap.netlify.com/*"
-  to = "https://www.tkarap/:splat"
+  to = "https://www.tkarap.com/:splat"
   status = 301
   force = true

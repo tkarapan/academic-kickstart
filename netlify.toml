@@ -10,7 +10,7 @@
   HUGO_ENV = "production"
   
 [[redirects]]
-  from = "https://tkarap.netlify.com"
-  to = "https://www.tkarap.com"
-  status = 200
+  from = "https://tkarap.netlify.com/*"
+  to = "https://www.tkarap/:splat"
+  status = 301
   force = true

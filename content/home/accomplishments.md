@@ -1,6 +1,7 @@
 +++
 # Accomplishments widget.
 widget = "accomplishments"  # Do not modify this line!
+headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
 
 title = "Awards, Conference presentations & Organising activities"

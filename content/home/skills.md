@@ -1,6 +1,7 @@
 +++
 # Feature/Skill widget.
 widget = "featurette"  # Do not modify this line!
+headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
 
 title = "Skills"

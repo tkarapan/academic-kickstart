@@ -4,11 +4,11 @@
 
 widget = "pages"  # Do not modify this line!
 headless = true  # This file represents a page section.
-active = true  # Activate this widget? true/false
+active = false  # Activate this widget? true/false
 weight = 20  # Order that this section will appear.
 
 title = "Publications"
-subtitle = ""
+subtitle = "[Search](/publication/)"
 
 [content]
   # Page type to display. E.g. post, talk, or publication.
@@ -65,7 +65,3 @@ subtitle = ""
  # CSS class.
  css_class = ""
 +++
-
-{{% alert note %}}
-Quickly discover relevant content by [filtering publications]({{< ref "/publication/_index.md" >}}).
-{{% /alert %}}

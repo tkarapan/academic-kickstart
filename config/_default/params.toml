@@ -2,7 +2,7 @@
 # Documentation: https://sourcethemes.com/academic/
 
 # Color theme.
-#   Choose from `default`, `ocean`, `forest`, `dark`, `apogee`, `1950s`, `coffee`, `cupcake`.
+#   Choose from `default`, `ocean`, `forest`, `dark`, `apogee`, `1950s`, `coffee`, `cupcake`, `strawberry`.
 color_theme = "default"
 # Enable users to switch between day and night mode?
 day_night = true
@@ -43,7 +43,7 @@ privacy_pack = false
 #   Examples: "Mon, Jan 2, 2006" or "2006-01-02"
 date_format = "Mon, 02 Jan 2006"
 #   Examples: "3:04 pm" or "15:04"
-time_format = "3:04 PM"
+time_format = "15:04 PM"
 
 ############################
 ## Contact Widget setup   ##
@@ -119,6 +119,7 @@ comment_count = true
 
 # Display next/previous section pager? (true/false)
 section_pager = false
+docs_section_pager = true  # Display pager in Docs layout (e.g. tutorials)?
 
 # Enable in-built social sharing buttons? (true/false)
 sharing = true

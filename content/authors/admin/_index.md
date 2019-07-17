@@ -10,7 +10,7 @@ authors:
 superuser: true
 
 # Role/position
-role: PhD student in Cognitive Neuroscience and Neuroimaging
+role: Postdoctoral Research Associate
 
 # Organizations/Affiliations
 organizations:
@@ -71,10 +71,10 @@ email: ""
 #- Visitors
 ---
 
-I am a 3rd year PhD student in cognitive neuroscience and neuroimaging at the department of [Psychology](https://www.york.ac.uk/psychology/) at the University of York, UK. I am interested in the functional hierachy of the human brain, neural trait-state interactions, as well as their associations with behaviour and unconstrained ongoing experience.
+I am a postdoctoral research associate in Prof. [Jonathan Smallwood's](https://www.york.ac.uk/psychology/staff/academicstaff/jonathan_smallwood/) lab at the department of [Psychology](https://www.york.ac.uk/psychology/) at the University of York, UK. I have a PhD in cognitive neuroscience and neuroimaging and I am interested in the functional hierachy of the human brain, neural trait-state interactions, as well as their associations with behaviour and unconstrained ongoing experience.
 
 Born in [Veria](https://en.wikipedia.org/wiki/Veria), Greece, I received my bachelor's degree in physics from the department of [Physics](https://www.physics.auth.gr/en) at the Aristotle University of Thessaloniki, Greece. Following several years of physics tutoring in Greece, I changed my career path and moved to the UK, where I obtained my master's degree in cognitive neuroscience at the department of Psychology at the University of York, under the supervision of Prof. [Gary Green](https://www.york.ac.uk/psychology/staff/emeritusfaculty/ggrg1/).
 
-Upon graduating my master's programme, I worked as a research assistant in the Mind-Wandering lab led by Prof. [Jonathan Smallwood](https://www.york.ac.uk/psychology/staff/academicstaff/jonathan_smallwood/). A year later, I was awarded a studentship for a PhD under the joint supervision of Prof. Smallwood and Prof. [Elizabeth Jefferies](https://www.york.ac.uk/psychology/staff/academicstaff/ej514/), from the department of Psychology at the University of York. After a 5-month break in my 2nd PhD year, in order to work on a pilot neuroimaging study investigating experiences in virtual/augmented reality led by Prof. [Alex Wade](https://www.york.ac.uk/psychology/staff/academicstaff/alex-wade/), I am currently at the end of my PhD.
+Upon graduating my master's programme, I worked as a research assistant in Prof. Jonathan Smallwood's lab. A year later, I was awarded a studentship for a PhD under the joint supervision of Prof. Smallwood and Prof. [Elizabeth Jefferies](https://www.york.ac.uk/psychology/staff/academicstaff/ej514/), from the department of Psychology at the University of York. After a 5-month break in my 2nd PhD year, in order to work on a pilot neuroimaging study investigating experiences in virtual/augmented reality led by Prof. [Alex Wade](https://www.york.ac.uk/psychology/staff/academicstaff/alex-wade/), I completed my PhD and I am now working as postdoctoral research associate.
 
-My PhD thesis investigates the neural correlates of ongoing experience, utilising different neuroimaging scanning modalities (DWI, resting state fMRI) and analysis techniques (static connectivity and dynamic hidden Markov modelling).
+My PhD thesis investigated the neural correlates of ongoing experience, utilising different neuroimaging modalities (DWI, resting state fMRI) and analysis techniques (static connectivity and dynamic hidden Markov modelling) in order to explore how the structural and functional organisation of the brain at different temporal scales can help us identify the cognitive processes that support different types of unconstrained ongoing experience at different moments in time.

@@ -27,6 +27,14 @@ date_format = "2006"
   date_start = "2015-10-01"
   date_end = "2018-10-01"
   description = ""
+  
+[[item]]
+  title = "Organization for Human Brain Mapping international conference"
+  organization = "Rome, Italy"
+  certificate_url = ""
+  date_start = "2019-07-01"
+  date_end = ""
+  description = "Poster presentation"
 
 [[item]]
   title = "Organization for Human Brain Mapping international conference"

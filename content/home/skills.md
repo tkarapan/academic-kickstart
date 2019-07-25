@@ -41,11 +41,11 @@ weight = 7
   icon = "brain"
   icon_pack = "fas"
   name = "Scanner operator"
-  description = """
-  * GE 3T Signa Excite HDX
-  * Siemens Prisma 3T
-  * 4D Neuroimaging Magnes 3600 MEG
-  """
+  description = "
+  GE 3T Signa Excite HDX
+  Siemens Prisma 3T
+  4D Neuroimaging Magnes 3600 MEG
+  "
   
 [[feature]]
   icon = "chalkboard-teacher "
@@ -57,9 +57,9 @@ weight = 7
   icon = "desktop"
   icon_pack = "fas"
   name = "Scripting"
-  description = """
+  description = "
   * PsychoPy
   * Unity
-  """
+  "
 
 +++

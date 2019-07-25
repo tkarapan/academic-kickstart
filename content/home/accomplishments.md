@@ -29,12 +29,12 @@ date_format = "2006"
   description = ""
   
 [[item]]
-  title = "Organization for Human Brain Mapping Annual meeting"
+  title = "Organization for Human Brain Mapping - Annual meeting"
   organization = "Vancouver, Canada | Singapore | Rome, Italy"
   certificate_url = ""
   date_start = "2017-07-01"
   date_end = "2019-07-01"
-  description = "Poster presentations"
+  description = "Poster presentation"
 
 [[item]]
   title = "Brainhack Global"

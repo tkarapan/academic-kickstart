@@ -28,6 +28,7 @@ weight = 7
   name = "Data analysis"
   description = """
   FSL/FMRIB Software Library
+  
   NAF/YNiC Software
   """  
   
@@ -43,7 +44,9 @@ weight = 7
   name = "Scanner operator"
   description = """
   GE 3T Signa Excite HDX
+  
   Siemens Prisma 3T
+  
   4D Neuroimaging Magnes 3600 MEG
   """
   
@@ -59,6 +62,7 @@ weight = 7
   name = "Scripting"
   description = """
   PsychoPy
+  
   Unity
   """
 

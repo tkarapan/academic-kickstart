@@ -26,10 +26,10 @@ weight = 7
   icon = "brain"
   icon_pack = "fas"
   name = "Data analysis"
-  description = """
-  * FSL/FMRIB Software Library
-  * NAF/YNiC Software
-"""  
+  description = "
+  FSL/FMRIB Software Library
+  NAF/YNiC Software
+  "  
   
 [[feature]]
   icon = "code"
@@ -58,8 +58,8 @@ weight = 7
   icon_pack = "fas"
   name = "Scripting"
   description = "
-  * PsychoPy
-  * Unity
+  PsychoPy
+  Unity
   "
 
 +++

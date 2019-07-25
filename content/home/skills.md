@@ -27,8 +27,7 @@ weight = 7
   icon_pack = "fas"
   name = "Data analysis"
   description = """
-  FSL/FMRIB Software Library
-  
+  FSL/FMRIB Software Library\
   NAF/YNiC Software
   """  
   
@@ -43,10 +42,8 @@ weight = 7
   icon_pack = "fas"
   name = "Scanner operator"
   description = """
-  GE 3T Signa Excite HDX
-  
-  Siemens Prisma 3T
-  
+  GE 3T Signa Excite HDX\
+  Siemens Prisma 3T\
   4D Neuroimaging Magnes 3600 MEG
   """
   
@@ -61,8 +58,7 @@ weight = 7
   icon_pack = "fas"
   name = "Scripting"
   description = """
-  PsychoPy
-  
+  PsychoPy\
   Unity
   """
 

@@ -4,7 +4,7 @@ widget = "accomplishments"  # Do not modify this line!
 headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
 
-title = "Awards, Conference presentations & Organising activities"
+title = "Awards, Conferences & Activities"
 subtitle = ""
 
 # Order that this section will appear in.
@@ -29,28 +29,12 @@ date_format = "2006"
   description = ""
   
 [[item]]
-  title = "Organization for Human Brain Mapping international conference"
-  organization = "Rome, Italy"
-  certificate_url = ""
-  date_start = "2019-07-01"
-  date_end = ""
-  description = "Poster presentation"
-
-[[item]]
-  title = "Organization for Human Brain Mapping international conference"
-  organization = "Singapore"
-  certificate_url = ""
-  date_start = "2018-07-01"
-  date_end = ""
-  description = "Poster presentation"
-  
-[[item]]
-  title = "Organization for Human Brain Mapping international conference"
-  organization = "Vancouver, Canada"
+  title = "Organization for Human Brain Mapping Annual meeting"
+  organization = "Vancouver, Canada | Singapore | Rome, Italy"
   certificate_url = ""
   date_start = "2017-07-01"
-  date_end = ""
-  description = "Poster presentation"
+  date_end = "2019-07-01"
+  description = "Poster presentations"
 
 [[item]]
   title = "Brainhack Global"

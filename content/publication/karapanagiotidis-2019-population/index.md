@@ -10,7 +10,6 @@ publication = "*bioRxiv*"
 url_pdf = "https://www.biorxiv.org/content/biorxiv/early/2019/11/29/857490.full-text.pdf"
 
 doi = "10.1101/857490"
-+++
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder. 
@@ -20,8 +19,10 @@ doi = "10.1101/857490"
 
   # Focal point (optional)
   # Options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
-  focal_point = "Left"
+  focal_point = "Center"
 +++
+
+
 
 <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
 <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>

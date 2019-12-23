@@ -9,7 +9,7 @@ publication = "*bioRxiv*"
 
 url_pdf = "https://www.biorxiv.org/content/10.1101/2019.12.21.885772v1.full.pdf"
 
-doi = "10.1101/2019.12.21.885772 "
+doi = "10.1101/2019.12.21.885772"
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder. 
@@ -19,13 +19,13 @@ doi = "10.1101/2019.12.21.885772 "
 
   # Focal point (optional)
   # Options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
-  focal_point = "Center"
+  focal_point = "Smart"
 +++
 
-<span class="__dimensions_badge_embed__" data-doi="10.1101/2019.12.21.885772" data-legend="hover-right" data-style="small_circle"></span>
+<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
 <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
 
 
-<div style="width: 100px; display: inline-block;" data-badge-popover="right" data-badge-type="donut" data-doi="10.1101/2019.12.21.885772" data-hide-no-mentions="false" class="altmetric-embed"></div>
-<div style="display: inline-block; margin-bottom: 4em; margin-right: 40em;" class="__dimensions_badge_embed__" data-doi="10.1101/454371" data-hide-zero-citations="true" data-style="small_circle" ></div>
+<div style="width: 100px; display: inline-block;" data-badge-popover="right" data-badge-type="donut" data-doi="10.1101/2019.12.21.885772" class="altmetric-embed"></div>
+<div style="display: inline-block; margin-bottom: 4em; margin-right: 40em;" class="__dimensions_badge_embed__" data-doi="10.1101/2019.12.21.885772" data-style="small_circle" ></div>
 

@@ -26,7 +26,10 @@ date_format = "2006"
   location = "University of York, UK"
   date_start = "2019-03-01"
   date_end = ""
-  description = ""
+  description = """
+  
+  * Working on the ERC funded project titled "Not all minds that wander are lost: A neurocognitive test of mind-wandering state’s contribution to human cognition."
+  """
   
 [[experience]]
   title = "Research assistant"

@@ -7,7 +7,7 @@ abstract = "Cognition is not always directed to the events in the here and now a
 featured = false
 publication = "*bioRxiv*"
 
-url_pdf = "https://www.biorxiv.org/content/biorxiv/early/2019/11/29/857490.full-text.pdf"
+url_pdf = "https://www.biorxiv.org/content/10.1101/857490v2.full.pdf"
 
 doi = "10.1101/857490"
 

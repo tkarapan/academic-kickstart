@@ -71,7 +71,7 @@ email: ""
 #- Visitors
 ---
 
-I am a postdoctoral research associate in Prof. [Jonathan Smallwood](https://www.york.ac.uk/psychology/staff/academicstaff/jonathan_smallwood/)'s lab at the department of [Psychology](https://www.york.ac.uk/psychology/) at the University of York, UK. I have a PhD in cognitive neuroscience and neuroimaging and I am interested in the functional hierachy of the human brain, neural trait-state interactions, as well as their associations with behaviour and unconstrained ongoing experience.
+I am a postdoctoral research associate in Prof. [Jonathan Smallwood](https://www.york.ac.uk/psychology/staff/academicstaff/jonathan_smallwood/)'s lab at the department of [Psychology](https://www.york.ac.uk/psychology/) at the University of York, UK. I have a PhD in cognitive neuroscience and neuroimaging and I am interested in the functional hierarchy of the human brain, neural trait-state interactions, as well as their associations with behaviour and unconstrained ongoing experience.
 
 Born in [Veria](https://en.wikipedia.org/wiki/Veria), Greece, I received my bachelor's degree in physics from the department of [Physics](https://www.physics.auth.gr/en) at the Aristotle University of Thessaloniki, Greece. Following several years of physics tutoring in Greece, I changed my career path and moved to the UK, where I obtained my master's degree in cognitive neuroscience at the department of Psychology at the University of York, under the supervision of Prof. [Gary Green](https://www.york.ac.uk/psychology/staff/emeritusfaculty/ggrg1/).
 

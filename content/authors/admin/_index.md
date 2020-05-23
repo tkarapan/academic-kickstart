@@ -38,9 +38,22 @@ education:
     institution: Aristotle University of Thessaloniki, Greece
 
 # Social/Academic Networking
-# For available icons, see: https://sourcethemes.com/academic/docs/widgets/#icons
-#   For an email link, use "fas" icon pack, "envelope" icon, and a link in the
-#   form "mailto:your-email@example.com" or "#contact" for contact widget.
+#
+# Icon pack "fa" includes the following social network icons:
+#
+#   twitter, weibo, linkedin, github, facebook, pinterest, google-plus,
+#   youtube, instagram, soundcloud
+#
+#   For email icon, use "fa" icon pack, "envelope" icon, and
+#   "mailto:your@email.com" as the link.
+#
+#   Full list: https://fortawesome.github.io/Font-Awesome/icons/
+#
+# Icon pack "ai" includes the following academic network icons:
+#
+#   google-scholar, arxiv, orcid, researchgate, mendeley
+#
+#   Full list: https://jpswalsh.github.io/academicons/
 social:
 - icon: envelope
   icon_pack: fas
@@ -54,6 +67,9 @@ social:
 - icon: twitter
   icon_pack: fab
   link: https://twitter.com/tkarap
+- icon: linkedin-in
+  icon_pack: fab
+  link: https://www.linkedin.com/in/tkarapan
 
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.  

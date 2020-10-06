@@ -28,7 +28,7 @@ date_format = "2006"
   date_end = ""
   description = """
   
-  * Working on a collaborative neuroimaging project funded by the York Maastricht Partnership."
+  * Working on a collaborative neuroimaging project funded by the York Maastricht Partnership
   """
   
 [[experience]]
@@ -40,7 +40,7 @@ date_format = "2006"
   date_end = "2020-09-30"
   description = """
   
-  * Working on the ERC funded project titled "Not all minds that wander are lost: A neurocognitive test of mind-wandering state’s contribution to human cognition."
+  * Working on the ERC funded project titled "Not all minds that wander are lost: A neurocognitive test of mind-wandering state’s contribution to human cognition
   """
   
 [[experience]]

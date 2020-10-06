@@ -21,11 +21,23 @@ date_format = "2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 [[experience]]
   title = "Research associate"
+  company = "York Maastricht Partnership"
+  company_url = ""
+  location = "University of York, UK, Maastricht University, Netherlands"
+  date_start = "2020-10-01"
+  date_end = ""
+  description = """
+  
+  * Working on a collaborative neuroimaging project funded by the York Maastricht Partnership."
+  """
+  
+[[experience]]
+  title = "Research associate"
   company = "Prof. Jonathan Smallwood’s lab"
   company_url = ""
   location = "University of York, UK"
   date_start = "2019-03-01"
-  date_end = ""
+  date_end = "2020-09-30"
   description = """
   
   * Working on the ERC funded project titled "Not all minds that wander are lost: A neurocognitive test of mind-wandering state’s contribution to human cognition."

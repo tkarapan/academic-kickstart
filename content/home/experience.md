@@ -40,7 +40,7 @@ date_format = "2006"
   date_end = "2020-09-30"
   description = """
   
-  * Working on the ERC funded project titled "Not all minds that wander are lost: A neurocognitive test of mind-wandering state’s contribution to human cognition
+  * Working on the ERC funded project titled "Not all minds that wander are lost: A neurocognitive test of mind-wandering state’s contribution to human cognition"
   """
   
 [[experience]]

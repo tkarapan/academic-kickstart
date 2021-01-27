@@ -43,17 +43,11 @@ weight = 7
   icon_pack = "fas"
   name = "Source control"
   description = ""
-
+  
 [[feature]]
   icon = ""
   icon_pack = ""
   name = ""
-  description = ""
-  
-[[feature]]
-  icon = "terminal"
-  icon_pack = "fas"
-  name = "Shell scripting"
   description = ""
   
 [[feature]]
@@ -65,13 +59,7 @@ weight = 7
   Siemens Prisma 3T<br/>
   4D Neuroimaging Magnes 3600 MEG
   """
-  
-[[feature]]
-  icon = "chalkboard-teacher "
-  icon_pack = "fas"
-  name = "Teaching"
-  description = "Undergraduate & postgraduate level"
-  
+
 [[feature]]
   icon = "desktop"
   icon_pack = "fas"
@@ -80,5 +68,17 @@ weight = 7
   PsychoPy<br/>
   Unity
   """
+  
+[[feature]]
+  icon = "terminal"
+  icon_pack = "fas"
+  name = "Shell"
+  description = ""
+  
+[[feature]]
+  icon = "chalkboard-teacher "
+  icon_pack = "fas"
+  name = "Teaching"
+  description = "Undergraduate & postgraduate level"
 
 +++

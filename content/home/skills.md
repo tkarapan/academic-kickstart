@@ -38,6 +38,18 @@ weight = 7
   description = ""
   
 [[feature]]
+  icon = "code-branch"
+  icon_pack = "fas"
+  name = "Source control"
+  description = ""
+  
+[[feature]]
+  icon = "terminal"
+  icon_pack = "fas"
+  name = "Shell scripting"
+  description = ""
+  
+[[feature]]
   icon = "brain"
   icon_pack = "fas"
   name = "Scanner operator"

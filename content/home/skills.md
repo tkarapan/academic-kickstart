@@ -28,6 +28,7 @@ weight = 7
   name = "Data analysis"
   description = """
   FSL/FMRIB Software Library<br/>
+  Brainstorm<br/>
   NAF/YNiC Software
   """  
   
@@ -41,6 +42,12 @@ weight = 7
   icon = "code-branch"
   icon_pack = "fas"
   name = "Source control"
+  description = ""
+
+[[feature]]
+  icon = ""
+  icon_pack = ""
+  name = ""
   description = ""
   
 [[feature]]

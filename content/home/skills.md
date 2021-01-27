@@ -51,15 +51,11 @@ weight = 7
   description = ""
   
 [[feature]]
-  icon = "brain"
+  icon = "terminal"
   icon_pack = "fas"
-  name = "Scanner operator"
-  description = """
-  GE 3T Signa Excite HDX<br/>
-  Siemens Prisma 3T<br/>
-  4D Neuroimaging Magnes 3600 MEG
-  """
-
+  name = "Shell"
+  description = ""
+  
 [[feature]]
   icon = "desktop"
   icon_pack = "fas"
@@ -70,10 +66,14 @@ weight = 7
   """
   
 [[feature]]
-  icon = "terminal"
+  icon = "brain"
   icon_pack = "fas"
-  name = "Shell"
-  description = ""
+  name = "Scanner operator"
+  description = """
+  GE 3T Signa Excite HDX<br/>
+  Siemens Prisma 3T<br/>
+  4D Neuroimaging Magnes 3600 MEG
+  """
   
 [[feature]]
   icon = "chalkboard-teacher "

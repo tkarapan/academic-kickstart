@@ -54,10 +54,10 @@ date_format = "2006"
   
 [[item]]
   title = "British Science week 2021"
-  organization = ""
+  organization = "https://www.youtube.com/watch?v=aglCZ2bBzRA"
   certificate_url = ""
   date_start = "2021-03-06"
   date_end = ""
-  description = "A brief description of my job in neuroscience and neuroimaging for primary school students - https://www.youtube.com/watch?v=aglCZ2bBzRA"
+  description = "A brief description of my job in neuroscience and neuroimaging for primary school students"
 
 +++

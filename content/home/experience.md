@@ -68,8 +68,6 @@ date_format = "2006"
   description = """
   
   * Coordinating & running neuroimaging studies at full length, on the neural correlates of spontaneous thoughts:
-  
-  
       * designing an experiment
       * setting up scanning protocols
       * coding behavioural tasks ([PsychoPy](https://www.psychopy.org/))

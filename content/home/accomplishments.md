@@ -58,7 +58,6 @@ date_format = "2006"
   certificate_url = ""
   date_start = "2021-03-06"
   date_end = ""
-  description = "A brief description of my job in neuroscience and neuroimaging for primary school students.
-  https://www.youtube.com/watch?v=aglCZ2bBzRA"
+  description = "https://www.youtube.com/watch?v=aglCZ2bBzRA A brief description of my job in neuroscience and neuroimaging for primary school students"
 
 +++

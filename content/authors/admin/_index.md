@@ -1,6 +1,6 @@
 ---
 # Display name
-name: Theodoros Karapanagiotidis
+title: Theodoros Karapanagiotidis
 
 # Username (this should match the folder name)
 authors:

@@ -2,10 +2,6 @@
 # Display name
 title: Theodoros Karapanagiotidis
 
-# Username (this should match the folder name)
-authors:
-- admin
-
 # Is this the primary user of the site?
 superuser: true
 
@@ -40,22 +36,9 @@ education:
     institution: Aristotle University of Thessaloniki, Greece
 
 # Social/Academic Networking
-#
-# Icon pack "fa" includes the following social network icons:
-#
-#   twitter, weibo, linkedin, github, facebook, pinterest, google-plus,
-#   youtube, instagram, soundcloud
-#
-#   For email icon, use "fa" icon pack, "envelope" icon, and
-#   "mailto:your@email.com" as the link.
-#
-#   Full list: https://fortawesome.github.io/Font-Awesome/icons/
-#
-# Icon pack "ai" includes the following academic network icons:
-#
-#   google-scholar, arxiv, orcid, researchgate, mendeley
-#
-#   Full list: https://jpswalsh.github.io/academicons/
+# For available icons, see: https://wowchemy.com/docs/getting-started/page-builder/#icons
+#   For an email link, use "fas" icon pack, "envelope" icon, and a link in the
+#   form "mailto:your-email@example.com" or "/#contact" for contact widget.
 social:
 - icon: envelope
   icon_pack: fas
@@ -73,23 +56,18 @@ social:
   icon_pack: fab
   link: https://www.linkedin.com/in/tkarapan
 
-# Link to a PDF of your resume/CV from the About widget.
-# To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.  
+# Link to a PDF of your resume/CV.
+# To use: copy your resume to `static/uploads/resume.pdf`, enable `ai` icons in `params.toml`, 
+# and uncomment the lines below.
 # - icon: cv
 #   icon_pack: ai
-#   link: files/cv.pdf
+#   link: uploads/resume.pdf
 
 # Enter email to display Gravatar (if Gravatar enabled in Config)
 email: ""
 
 # Highlight the author in author lists? (true/false)
 highlight_name: true
-  
-# Organizational groups that you belong to (for People widget)
-#   Set this to `[]` or comment out if you are not using People widget.  
-#user_groups:
-#- Researchers
-#- Visitors
 ---
 
 I am a postdoctoral research associate at the University of York, UK, working on a collaborative neuroimaging project funded by the [York Maastricht Partnership](https://www.york.ac.uk/maastricht), with Profs [Antony Morland](https://www.york.ac.uk/psychology/staff/academicstaff/arm501) and [Alex Wade](https://www.york.ac.uk/psychology/staff/academicstaff/alex-wade) ([YNiC](https://www.ynic.york.ac.uk/)), and Profs [Elia Formisano](https://www.maastrichtuniversity.nl/e.formisano) and [Rainer Goebel](https://www.maastrichtuniversity.nl/r.goebel) ([M-BIC](https://www.maastrichtuniversity.nl/research/maastricht-brain-imaging-centre)). I have a PhD in cognitive neuroscience and neuroimaging and I am interested in the functional hierarchy of the human brain, information flow, neural trait-state interactions, as well as their associations with behaviour and ongoing experience.

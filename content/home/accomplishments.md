@@ -51,5 +51,13 @@ date_format = "2006"
   date_start = "2016-10-01"
   date_end = "2018-10-01"
   description = ""
+  
+[[item]]
+  title = "A brief description of my job in neuroscience and neuroimaging for primary school students. #BSW21"
+  organization = ""
+  certificate_url = ""
+  date_start = "2021-03-06"
+  date_end = ""
+  description = "https://www.youtube.com/watch?v=aglCZ2bBzRA"
 
 +++

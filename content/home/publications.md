@@ -7,15 +7,15 @@ headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
 weight = 20  # Order that this section will appear.
 
-title = "Publications"
-subtitle = "[Search](/publication/)"
+title = "Recent Publications"
+subtitle = "[All Publications](/publication/)"
 
 [content]
   # Page type to display. E.g. post, talk, or publication.
   page_type = "publication"
   
   # Choose how much pages you would like to display (0 = all pages)
-  count = 30
+  count = 15
   
   # Choose how many pages you would like to offset by
   offset = 0

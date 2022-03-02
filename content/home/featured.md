@@ -9,7 +9,7 @@ active = true  # Activate this widget? true/false
 weight = 10  # Order that this section will appear.
 
 title = "Featured Publications"
-subtitle = "[All publications](#publications)"
+subtitle = "[Recent Publications](#publications)"
 
 [content]
   # Page type to display. E.g. post, talk, or publication.

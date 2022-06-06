@@ -19,6 +19,7 @@ organizations:
 bio: My research interests include brain connectivity, functional hierarchy, and neural dynamics.
 
 interests:
+- Ongoing thought
 - Brain Connectivity
 - Functional Hierarchy and Information Flow
 - Neural Dynamics

@@ -6,7 +6,7 @@ title: Theodoros Karapanagiotidis
 superuser: true
 
 # Role/position
-role: Postdoctoral Research Associate
+role: Lecturer
 
 # Organizations/Affiliations
 organizations:

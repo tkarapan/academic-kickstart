@@ -30,10 +30,10 @@ date_format = "2006"
   
 [[item]]
   title = "Organization for Human Brain Mapping - Annual meeting"
-  organization = "Vancouver, Canada | Singapore | Rome, Italy"
+  organization = "Vancouver, Canada | Singapore | Rome, Italy | Glasgow, UK"
   certificate_url = ""
   date_start = "2017-07-01"
-  date_end = "2019-07-01"
+  date_end = "2022-07-01"
   description = "Poster presentation"
 
 [[item]]

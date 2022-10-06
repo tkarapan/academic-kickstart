@@ -20,12 +20,24 @@ date_format = "2006"
 #   Leave `date_end` empty if it's your current employer.
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 [[experience]]
+  title = "Lecturer"
+  company = "School of Psychology"
+  company_url = ""
+  location = "University of Sussex, UK"
+  date_start = "2022-10-01"
+  date_end = ""
+  description = """
+  
+  * Investigating and teaching about the functional hierarchy of the human brain, information flow, neural trait-state interactions, as well as their associations with behaviour and ongoing experience.
+  """
+
+[[experience]]
   title = "Research associate"
   company = "York Maastricht Partnership"
   company_url = ""
   location = "University of York, UK, Maastricht University, Netherlands"
   date_start = "2020-10-01"
-  date_end = ""
+  date_end = "2022-09-30"
   description = """
   
   * Working on a collaborative neuroimaging project funded by the York Maastricht Partnership

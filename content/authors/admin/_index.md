@@ -44,7 +44,7 @@ social:
   link: mailto:t.karapanagiotidis@sussex.ac.uk  # For a direct email link, use "mailto:test@example.org".
 - icon: google-scholar
   icon_pack: ai
-  link: https://scholar.google.com/citations?user=4rSKys4AAAAJ&hl
+  link: https://scholar.google.com/citations?user=-96i0ikAAAAJ
 - icon: orcid
   icon_pack: ai
   link: https://orcid.org/0000-0002-0813-1019

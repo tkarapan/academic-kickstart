@@ -27,5 +27,5 @@ doi = "10.1038/s41598-020-77336-z"
 
 
 <div style="width: 100px; display: inline-block;" data-badge-popover="right" data-badge-type="donut" data-doi="10.1038/s41598-020-77336-z" data-hide-no-mentions="true" class="altmetric-embed"></div>
-<div style="width: 120px; display: inline-block;" class="__dimensions_badge_embed__" data-doi="10.1038/s41598-020-77336-z" data-hide-zero-citations="true" data-style="small_circle" ></div>
+<div style="width: 120px; display: inline-block; position: relative; overflow: visible;" class="__dimensions_badge_embed__" data-doi="10.1038/s41598-020-77336-z" data-hide-zero-citations="true" data-style="small_circle" ></div>
 

@@ -22,6 +22,13 @@ doi = "10.1016/j.cobeha.2025.101546"
   focal_point = "Center"
 +++
 
+<style>
+/* The first Wowchemy container that adds overflow:hidden is .article-container */
+.article-container { overflow: visible !important; }
+/* Belt-and-braces: also unblock its own child .article-style */
+.article-style     { overflow: visible !important; }
+</style>
+
 <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
 <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
 

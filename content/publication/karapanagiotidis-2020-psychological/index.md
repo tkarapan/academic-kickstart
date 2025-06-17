@@ -26,6 +26,24 @@ doi = "10.1038/s41598-020-77336-z"
 <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
 
 
-<div style="width: 100px; display: inline-block;" data-badge-popover="right" data-badge-type="donut" data-doi="10.1038/s41598-020-77336-z" data-hide-no-mentions="true" class="altmetric-embed"></div>
-<div style="width: 180px; display: inline-block; margin-bottom: 4em; margin-right: 40em;" class="__dimensions_badge_embed__" data-doi="10.1038/s41598-020-77336-z" data-hide-zero-citations="true" data-style="small_circle" ></div>
+<!-- Wrap both badges in a "no-wrap" span so they stay on one line -->
+<span style="white-space:nowrap;">
 
+  <!-- Altmetric badge (unchanged, 100 px wide) -->
+  <span style="display:inline-block;width:100px;vertical-align:top;">
+    <span class="altmetric-embed"
+          data-badge-popover="right"
+          data-badge-type="donut"
+          data-doi="10.1038/s41598-020-77336-z"
+          data-hide-no-mentions="true"></span>
+  </span>
+
+  <!-- Dimensions badge: just wide enough (160 px) so its tooltip fits -->
+  <span style="display:inline-block;width:160px;vertical-align:top;">
+    <span class="__dimensions_badge_embed__"
+          data-doi="10.1038/s41598-020-77336-z"
+          data-hide-zero-citations="true"
+          data-style="small_circle"></span>
+  </span>
+
+</span>

@@ -25,7 +25,9 @@ doi = "10.1038/s41598-020-77336-z"
 <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
 <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
 
-<div style="display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; position: relative; overflow: visible; z-index: 2;">
+
+<!-- Flex wrapper for both badges -->
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; z-index: 1;">
 
   <!-- Altmetric badge -->
   <div style="width: 100px; flex-shrink: 0;">
@@ -37,15 +39,15 @@ doi = "10.1038/s41598-020-77336-z"
     </div>
   </div>
 
-  <!-- Dimensions badge (nudged up slightly to align with Altmetric) -->
-  <div style="width: 120px; flex-shrink: 0; margin-top: -4px; position: relative; overflow: visible;">
-    <div class="__dimensions_badge_embed__"
-         data-doi="10.1038/s41598-020-77336-z"
-         data-hide-zero-citations="true"
-         data-style="small_circle">
+  <!-- Dimensions badge floated absolutely -->
+  <div style="width: 120px; height: 1px; position: relative; flex-shrink: 0;">
+    <div style="position: absolute; top: -2px; left: 0; z-index: 99;">
+      <div class="__dimensions_badge_embed__"
+           data-doi="10.1038/s41598-020-77336-z"
+           data-hide-zero-citations="true"
+           data-style="small_circle">
+      </div>
     </div>
   </div>
 
 </div>
-
-

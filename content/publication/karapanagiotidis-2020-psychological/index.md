@@ -25,7 +25,26 @@ doi = "10.1038/s41598-020-77336-z"
 <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
 <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
 
+<div style="display: flex; gap: 1.5rem; align-items: center; position: relative; z-index: 1; flex-wrap: wrap;">
 
-<div style="width: 100px; display: inline-block;" data-badge-popover="right" data-badge-type="donut" data-doi="10.1038/s41598-020-77336-z" data-hide-no-mentions="true" class="altmetric-embed"></div>
-<div style="width: 120px; display: inline-block; margin-bottom: 4em; position: relative; z-index: 10;" class="__dimensions_badge_embed__" data-doi="10.1038/s41598-020-77336-z" data-hide-zero-citations="true" data-style="small_circle" ></div>
-<div style="height: 4em;"></div>
+  <!-- Altmetric badge -->
+  <div style="width: 100px; flex-shrink: 0;">
+    <div class="altmetric-embed"
+         data-badge-popover="right"
+         data-badge-type="donut"
+         data-doi="10.1038/s41598-020-77336-z"
+         data-hide-no-mentions="true">
+    </div>
+  </div>
+
+  <!-- Dimensions badge -->
+  <div style="width: 120px; flex-shrink: 0; position: relative; z-index: 2;">
+    <div class="__dimensions_badge_embed__"
+         data-doi="10.1038/s41598-020-77336-z"
+         data-hide-zero-citations="true"
+         data-style="small_circle">
+    </div>
+  </div>
+
+</div>
+

@@ -21,6 +21,9 @@
     {{- $img := .Resize "1200x webp q80" }}
     <figure class="pub-figure">
       <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="Figure from the publication">
+      {{- with $.Params.figure_credit }}
+      <figcaption>{{ . }}</figcaption>
+      {{- end }}
     </figure>
     {{- end }}
 

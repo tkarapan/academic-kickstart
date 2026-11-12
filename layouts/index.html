@@ -5,10 +5,13 @@
 {{- $p1 := $portrait.Resize "320x320 webp q82" -}}
 {{- $p2 := $portrait.Resize "640x640 webp q78" -}}
 
-{{- /* Mosaic: featured papers as large tiles, then eight recent papers. */ -}}
+{{- /* Mosaic: featured papers as large tiles, then eight recent papers,
+       preferring those with a figure among the fourteen most recent. */ -}}
 {{- $featured := where $byDate "Params.featured" true -}}
-{{- $recent := slice -}}
-{{- range $byDate }}{{ if and (lt (len $recent) 8) (not .Params.featured) }}{{ $recent = $recent | append . }}{{ end }}{{ end -}}
+{{- $pool := first 14 (where $byDate "Params.featured" "!=" true) -}}
+{{- $withFig := slice -}}{{- $noFig := slice -}}
+{{- range $pool }}{{ if .Resources.GetMatch "featured.*" }}{{ $withFig = $withFig | append . }}{{ else }}{{ $noFig = $noFig | append . }}{{ end }}{{ end -}}
+{{- $recent := first 8 ($withFig | append $noFig) -}}
 {{- $tiles := slice -}}
 {{- range $featured }}{{ $tiles = $tiles | append . }}{{ end -}}
 {{- range $recent }}{{ $tiles = $tiles | append . }}{{ end -}}

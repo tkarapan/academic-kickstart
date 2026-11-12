@@ -1,0 +1,71 @@
+{
+  "_about": "Canonical spellings of co-author names. Each variant listed under 'aliases' is replaced by its canonical name on publication pages and in citation files. 'surnames' lists family names of more than one word, used when writing citations. 'distinct' lists groups of similar names that belong to different people, so they are not flagged.",
+  "aliases": {
+    "Tirso Gonzalez Alam": [
+      "Tirso Rene del Jesus Gonzalez Alam"
+    ],
+    "Boris C Bernhardt": [
+      "Boris Bernhardt"
+    ],
+    "Irene De Caso": [
+      "Irene de Caso"
+    ],
+    "Nerissa Siu Ping Ho": [
+      "Nerissa Ho"
+    ],
+    "Daniel S Margulies": [
+      "Daniel Margulies"
+    ],
+    "Brontë Mckeown": [
+      "Brontë McKeown"
+    ],
+    "Bridget Mulholland": [
+      "Bridget Mullholland"
+    ],
+    "Giulia L Poerio": [
+      "Giulia L. Poerio",
+      "Giulia Poerio"
+    ],
+    "Nicholas E Souter": [
+      "Nicholas Edward Souter",
+      "Nicholas Souter"
+    ],
+    "Will H Strawson": [
+      "Will Strawson",
+      "William H Strawson"
+    ],
+    "Tamara Vanderwal": [
+      "Tamera Vanderwal",
+      "Tamara Varnderwal"
+    ],
+    "Jeffrey Wammes": [
+      "Jeffery Wammes"
+    ],
+    "Hao-Ting Wang": [
+      "Hao-ting Wang"
+    ]
+  },
+  "surnames": [
+    "Gonzalez Alam",
+    "De Caso"
+  ],
+  "distinct": [
+    [
+      "Andrea Bernasconi",
+      "Neda Bernasconi"
+    ],
+    [
+      "Xiuyi Wang",
+      "Xiaokang Wang",
+      "Hao-Ting Wang"
+    ],
+    [
+      "Daniel H Baker",
+      "Gus Baker"
+    ],
+    [
+      "Ellen J Thompson",
+      "Hannah E Thompson"
+    ]
+  ]
+}

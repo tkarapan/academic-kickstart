@@ -35,7 +35,30 @@ url_pdf = ""                # optional
 
 Optionally add `cite.bib` (offered as the *Cite* download) and `featured.png` (shown on featured cards and the paper's page).
 
-The news strip on the home page is generated from the most recent publications.
+The news ticker on the home page is generated from the most recent publications.
+
+**Figures.** Publications without a `featured.*` image get one automatically when an openly licensed version is in PubMed Central (graphical abstract or Figure 1, credited on the page). To use a different figure, replace `featured.*` in the paper's folder; to have none, add `figure = false` to its `index.md`.
+
+## Citation figures
+
+`data/metrics.json` holds total citations and h-index from Google Scholar. A GitHub Action (`.github/workflows/metrics.yml`) refreshes it on the 1st of each month. Google Scholar sometimes refuses automated requests; the stored figures are then kept, and if they are more than three months old an issue is opened as a reminder. To update by hand, edit the file on GitHub:
+
+```json
+{
+  "citations": 3100,
+  "h_index": 24,
+  "source": "Google Scholar",
+  "updated": "2026-12-01"
+}
+```
+
+## Images
+
+The site only publishes resized copies of images, never the original files. An Action (`.github/workflows/image-metadata.yml`) also removes embedded metadata (camera details, GPS location) from any image pushed to the repository and opens an issue when it does. To clean images before committing:
+
+```bash
+python3 scripts/strip_image_metadata.py
+```
 
 ## Previewing locally
 

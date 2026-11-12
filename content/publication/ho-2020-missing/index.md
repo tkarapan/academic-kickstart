@@ -7,5 +7,6 @@ abstract = ""
 featured = false
 publication = "*Neuroscience of Consciousness*"
 doi = "10.1093/nc/niaa020"
+figure_credit = "Figure 1 from Ho et al. (2020), Neuroscience of Consciousness. CC BY."
 +++
 

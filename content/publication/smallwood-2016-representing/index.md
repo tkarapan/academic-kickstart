@@ -7,5 +7,6 @@ abstract = ""
 featured = false
 publication = "*PloS one*"
 doi = "10.1371/journal.pone.0152272"
+figure_credit = "Figure 2 from Smallwood et al. (2016), PloS one. CC BY."
 +++
 

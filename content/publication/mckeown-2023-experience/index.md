@@ -7,5 +7,6 @@ abstract = ""
 featured = false
 publication = "*Scientific reports*"
 doi = "10.1038/s41598-023-48857-0"
+figure_credit = "Figure 1 from Mckeown et al. (2023), Scientific reports. CC BY."
 +++
 

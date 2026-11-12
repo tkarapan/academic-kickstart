@@ -7,5 +7,6 @@ abstract = ""
 featured = false
 publication = "*NeuroImage*"
 doi = "10.1016/j.neuroimage.2020.117072"
+figure_credit = "Figure 1 from Mckeown et al. (2020), NeuroImage. CC BY-NC-ND."
 +++
 

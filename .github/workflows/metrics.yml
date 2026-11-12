@@ -32,7 +32,7 @@ jobs:
       - name: Commit if changed
         working-directory: repo
         run: |
-          if git diff --quiet -- data/metrics.json; then
+          if [ -z "$(git status --porcelain -- data/metrics.json)" ]; then
             echo "No change."
             exit 0
           fi

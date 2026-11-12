@@ -120,16 +120,20 @@ def crossref_record(doi: str) -> dict:
 # Existing site content
 # --------------------------------------------------------------------------
 
-def existing_publications(pub_dir: Path) -> tuple[set[str], set[str], set[str]]:
-    dois, titles, slugs = set(), set(), set()
+def existing_publications(pub_dir: Path) -> tuple[set[str], set[str], set[str], dict[str, str]]:
+    """Return DOIs, titles of published works, folder names, and preprint titles by folder."""
+    dois, titles, slugs, preprints = set(), set(), set(), {}
     for index in pub_dir.glob("*/index.md"):
         slugs.add(index.parent.name)
         text = index.read_text(encoding="utf-8")
         if m := re.search(r'^doi\s*=\s*"([^"]+)"', text, re.M):
             dois.add(normalise_doi(m.group(1)))
         if m := re.search(r'^title\s*=\s*"(.*)"\s*$', text, re.M):
-            titles.add(normalise_title(m.group(1)))
-    return dois, titles, slugs
+            if re.search(r'^publication_types\s*=\s*\["3"\]', text, re.M):
+                preprints[normalise_title(m.group(1))] = index.parent.name
+            else:
+                titles.add(normalise_title(m.group(1)))
+    return dois, titles, slugs, preprints
 
 
 def read_declined(path: Path | None) -> set[str]:
@@ -273,7 +277,7 @@ def main() -> int:
         log("No source could be reached; nothing to do.")
         return 0
 
-    have_dois, have_titles, taken = existing_publications(args.content)
+    have_dois, have_titles, taken, preprints = existing_publications(args.content)
     declined = read_declined(args.declined)
     candidates = sorted(found - have_dois - declined)
 
@@ -296,12 +300,16 @@ def main() -> int:
             log(f"new: {doi}  {(record.get('title') or [''])[0]}")
             continue
         slug, title = write_page(args.content, record, taken, args.owner_name)
-        created.append((doi, slug, title))
+        created.append((doi, slug, title, preprints.get(title_key)))
         log(f"created content/publication/{slug}/")
         time.sleep(1)
 
     if args.summary and created:
-        rows = "\n".join(f"- **{title}** — `content/publication/{slug}/` — DOI `{doi}`" for doi, slug, title in created)
+        rows = "\n".join(
+            f"- **{title}** — `content/publication/{slug}/` — DOI `{doi}`"
+            + (f"\n  - Published version of the preprint in `content/publication/{pre}/`, which can be deleted." if pre else "")
+            for doi, slug, title, pre in created
+        )
         args.summary.write_text(rows + "\n", encoding="utf-8")
     print(len(created))
     return 0

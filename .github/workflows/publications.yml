@@ -42,23 +42,29 @@ jobs:
         run: |
           gh pr list --repo "$GITHUB_REPOSITORY" --state closed --label "$LABEL" --limit 200 \
             --json body,mergedAt --jq '.[] | select(.mergedAt == null) | .body' \
-            | grep -oE '10\.[0-9]{4,9}/[^` ]+' | sort -u > declined.txt || true
-          echo "Declined DOIs: $(wc -l < declined.txt)"
+            > declined-bodies.txt || true
+          grep -oE '10\.[0-9]{4,9}/[^` ]+' declined-bodies.txt | sort -u > declined.txt || true
+          grep -oE 'content/publication/[^/` ]+/featured' declined-bodies.txt | cut -d/ -f3 | sort -u > declined-figures.txt || true
+          echo "Declined DOIs: $(wc -l < declined.txt); declined figures: $(wc -l < declined-figures.txt)"
 
       - name: Look for new publications
         id: check
         working-directory: repo
         run: |
-          count=$(python3 scripts/check_publications.py --declined ../declined.txt --summary ../summary.md)
-          echo "count=${count}" >> "$GITHUB_OUTPUT"
-          echo "New publications: ${count}"
+          pubs=$(python3 scripts/check_publications.py --declined ../declined.txt --summary ../summary.md)
+          figs=$(python3 scripts/fetch_figures.py --declined ../declined-figures.txt --summary ../figures.md || echo 0)
+          if [ "$figs" != "0" ]; then
+            { echo; echo "Figures added from open-access versions (credited on each paper's page):"; echo; cat ../figures.md; } >> ../summary.md
+          fi
+          echo "count=$((pubs + figs))" >> "$GITHUB_OUTPUT"
+          echo "New publications: ${pubs}; new figures: ${figs}"
 
       - name: Open or update pull request
         if: steps.check.outputs.count != '0'
         working-directory: repo
         run: |
           git add content/publication
-          git commit -m "Add new publications from ORCID and Crossref"
+          git commit -m "Add new publications and figures"
           if [ -n "$OPEN_PR" ]; then
             git push origin "$BRANCH"
           else
@@ -66,7 +72,7 @@ jobs:
           fi
 
           {
-            echo "New publications were found on ORCID and Crossref and drafted as pages:"
+            echo "New publications or figures were found and drafted:"
             echo
             cat ../summary.md
             echo
@@ -74,7 +80,7 @@ jobs:
             echo
             echo "**To change a page first**, open *Files changed*, choose *Edit file* from the ⋯ menu on a file, and commit the change to this branch. For example, set \`featured = true\` to highlight a paper or add \`url_pdf = \"...\"\` for a PDF link."
             echo
-            echo "**To skip these papers**, close this pull request without merging. They will not be proposed again."
+            echo "**To skip everything here**, close this pull request without merging. These papers and figures will not be proposed again."
           } > ../body.md
 
           gh label create "$LABEL" --repo "$GITHUB_REPOSITORY" --color 0d6b6e \

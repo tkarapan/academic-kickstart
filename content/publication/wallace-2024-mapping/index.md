@@ -7,5 +7,6 @@ abstract = ""
 featured = false
 publication = "*eLife*"
 doi = "10.7554/eLife.97731"
+figure_credit = "Figure 1 from Wallace et al. (2024), eLife. CC BY."
 +++
 

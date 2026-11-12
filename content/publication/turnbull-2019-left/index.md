@@ -7,5 +7,6 @@ abstract = ""
 featured = false
 publication = "*Nature Communications*"
 doi = "10.1038/s41467-019-11764-y"
+figure_credit = "Figure 1 from Turnbull et al. (2019), Nature Communications. CC BY."
 +++
 

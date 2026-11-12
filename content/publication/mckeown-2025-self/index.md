@@ -7,4 +7,5 @@ abstract = ""
 featured = false
 publication = "*Communications Psychology*"
 doi = "10.1038/s44271-025-00184-y"
+figure_credit = "Figure 1 from Mckeown et al. (2025), Communications Psychology. CC BY-NC-ND."
 +++

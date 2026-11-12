@@ -7,5 +7,6 @@ abstract = ""
 featured = false
 publication = "*Proceedings of the National Academy of Sciences*"
 doi = "10.1073/pnas.2400743122"
+figure_credit = "Figure 1 from Harrington et al. (2025), Proceedings of the National Academy of Sciences. CC BY."
 +++
 

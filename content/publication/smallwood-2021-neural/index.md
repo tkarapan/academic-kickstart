@@ -7,5 +7,6 @@ abstract = ""
 featured = false
 publication = "*iScience*"
 doi = "10.1016/j.isci.2021.102132"
+figure_credit = "Figure 1 from Smallwood et al. (2021), iScience. CC BY-NC-ND."
 +++
 

@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: metrics
@@ -28,6 +29,15 @@ jobs:
       - name: Update metrics
         working-directory: repo
         run: python3 scripts/update_metrics.py
+
+      - name: Remind if figures are stale
+        working-directory: repo
+        run: |
+          stale=$(python3 -c "import json,datetime,pathlib;p=pathlib.Path('data/metrics.json');d=json.loads(p.read_text()) if p.exists() else {};u=d.get('updated');print('yes' if not u or (datetime.date.today()-datetime.date.fromisoformat(u)).days>90 else 'no')")
+          if [ "$stale" = "yes" ] && [ -z "$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search 'in:title Citation figures need updating' --json number --jq '.[].number')" ]; then
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "Citation figures need updating" \
+              --body "Google Scholar could not be read automatically for the last three months. Update \`data/metrics.json\` by hand with the current citation count and h-index from https://scholar.google.com/citations?user=-96i0ikAAAAJ (see README), or close this issue to try again next month."
+          fi
 
       - name: Commit if changed
         working-directory: repo

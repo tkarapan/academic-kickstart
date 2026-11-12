@@ -14,7 +14,7 @@
 <meta property="og:description" content="{{ $desc }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:site_name" content="{{ site.Title }}">
-{{- $og := ((resources.Get "img/avatar.png").Crop "1000x1000 Top").Resize "600x600 jpg q85 #cfe6e2" }}
+{{- $og := (resources.Get "img/portrait.webp").Fill "600x600 Center jpg q85" }}
 {{- with .Resources.GetMatch "featured.*" }}{{ $og = .Resize "1200x webp q80" }}{{ end }}
 <meta property="og:image" content="{{ $og.Permalink }}">
 <meta name="twitter:card" content="summary">

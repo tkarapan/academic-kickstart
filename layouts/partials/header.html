@@ -7,7 +7,7 @@
     <nav class="site-nav" aria-label="Main">
       <ul>
         {{- range site.Menus.main }}
-        <li><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
+        <li{{ with .Params.compact }} class="nav-optional"{{ end }}><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
         {{- end }}
       </ul>
     </nav>

@@ -1,6 +1,13 @@
 {{- /* Brand icons: Simple Icons (CC0 1.0), except LinkedIn and email (drawn for this site). */ -}}
 {{- $i := . -}}
-{{- if eq $i "email" -}}
+{{- if eq $i "sussex" -}}
+{{- with resources.GetMatch "img/sussex-icon.*" -}}
+{{- $r := cond (eq .MediaType.SubType "svg") . (.Resize "64x64 png") -}}
+<img class="icon icon-img" src="{{ $r.RelPermalink }}" width="20" height="20" alt="">
+{{- else -}}
+<svg class="icon icon-stroke" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M3 9.5 12 4l9 5.5"/><path d="M5 10v8M9.7 10v8M14.3 10v8M19 10v8"/><path d="M3 20h18"/></svg>
+{{- end -}}
+{{- else if eq $i "email" -}}
 <svg class="icon icon-stroke" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
 {{- else if eq $i "scholar" -}}
 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>

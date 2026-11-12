@@ -47,6 +47,10 @@ timeZone = "Europe/London"
 
   # Links shown as icons in the header and contact section.
   [[params.social]]
+    name = "University of Sussex profile"
+    icon = "sussex"
+    url = "https://profiles.sussex.ac.uk/p329186-theodoros-karapanagiotidis"
+  [[params.social]]
     name = "Email"
     icon = "email"
     url = "mailto:t.karapanagiotidis@sussex.ac.uk"

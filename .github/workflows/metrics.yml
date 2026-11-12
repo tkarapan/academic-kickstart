@@ -1,0 +1,41 @@
+name: Update citation metrics
+
+on:
+  schedule:
+    - cron: "23 5 1 * *" # 1st of each month, 05:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: metrics
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out repository
+        run: |
+          git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          git -C repo config user.name "github-actions[bot]"
+          git -C repo config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Update metrics
+        working-directory: repo
+        run: python3 scripts/update_metrics.py
+
+      - name: Commit if changed
+        working-directory: repo
+        run: |
+          if git diff --quiet -- data/metrics.json; then
+            echo "No change."
+            exit 0
+          fi
+          git add data/metrics.json
+          git commit -m "Update citation metrics"
+          git push origin HEAD

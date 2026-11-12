@@ -8,7 +8,9 @@ cannot be parsed, the existing file is left unchanged. Values are also
 left unchanged if they would drop sharply, which usually indicates a
 parsing problem rather than a real change.
 
-The figures can be edited by hand in data/metrics.json at any time.
+The "updated" date records the last successful check, so the file is
+rewritten on every successful run. The figures can be edited by hand in
+data/metrics.json at any time.
 """
 
 from __future__ import annotations
@@ -54,11 +56,7 @@ def main() -> int:
         print("Citations dropped by more than 10%; metrics not updated.", file=sys.stderr)
         return 0
 
-    metrics = {"citations": citations, "h_index": h_index, "source": "Google Scholar"}
-    if {k: previous.get(k) for k in metrics} == metrics:
-        print("Metrics unchanged.", file=sys.stderr)
-        return 0
-    metrics["updated"] = date.today().isoformat()
+    metrics = {"citations": citations, "h_index": h_index, "source": "Google Scholar", "updated": date.today().isoformat()}
     out.write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
     print(f"Updated: {metrics}", file=sys.stderr)
     return 0

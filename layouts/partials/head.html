@@ -20,8 +20,9 @@
 <meta property="og:image" content="{{ $og.Permalink }}">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@tkarap">
-<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
-<link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+{{- $icon := resources.Get "img/icon.png" }}
+<link rel="icon" href="{{ ($icon.Resize "48x48 png").RelPermalink }}" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="{{ ($icon.Resize "180x180 png #ffffff").RelPermalink }}">
 <link rel="preload" href="{{ "fonts/plex-sans-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{{ "fonts/fraunces-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 {{- with .OutputFormats.Get "rss" }}

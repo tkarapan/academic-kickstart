@@ -24,7 +24,7 @@ timeZone = "Europe/London"
   short_name = "Theo Karapanagiotidis"
   role = "Assistant Professor"
   description = "Theodoros Karapanagiotidis is an Assistant Professor in the School of Psychology at the University of Sussex, studying how large-scale brain dynamics support ongoing thought."
-  tagline = "I study how large-scale brain dynamics give rise to the ongoing stream of thought."
+  tagline = "I study the dynamics of the human brain and ongoing experience, seeking to understand how they unfold, interact and shape our mental lives."
   email = "t.karapanagiotidis@sussex.ac.uk"
   # Google Analytics tag (also forwards to the connected GA4 property).
   google_analytics = "UA-9731977-2"

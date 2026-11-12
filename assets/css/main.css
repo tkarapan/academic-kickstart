@@ -106,10 +106,7 @@ p { margin: 0 0 1em; }
 }
 .header-inner { display: flex; align-items: center; gap: 20px; height: 64px; }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 500; }
-.brand-mark {
-  display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
-  background: var(--accent); color: var(--bg); font: 600 .8rem/1 var(--sans); letter-spacing: .04em;
-}
+.brand-mark { width: 34px; height: 34px; border-radius: 50%; background: #fff; border: 1px solid var(--line); padding: 3px; }
 .brand-name { white-space: nowrap; }
 .site-nav { margin-left: auto; overflow-x: auto; scrollbar-width: none; }
 .site-nav::-webkit-scrollbar { display: none; }
@@ -136,7 +133,7 @@ p { margin: 0 0 1em; }
 .hero-inner { position: relative; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 64px); align-items: center; }
 .eyebrow { font-size: .9rem; letter-spacing: .02em; color: var(--muted); margin-bottom: 1.1em; }
 .eyebrow a { color: inherit; }
-.lede { font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.5rem); line-height: 1.4; font-weight: 300; color: var(--text); max-width: 34ch; font-variation-settings: "opsz" 36; }
+.lede { font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.45; font-weight: 300; color: var(--text); max-width: 40ch; font-variation-settings: "opsz" 36; }
 .hero-portrait { justify-self: center; position: relative; width: min(100%, 380px); aspect-ratio: 1; }
 .hero-portrait img {
   width: 100%; height: 100%; object-fit: cover; border-radius: 50%;

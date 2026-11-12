@@ -1,6 +1,7 @@
 {{- $person := dict
   "@type" "Person"
   "name" site.Params.name
+  "honorificPrefix" "Dr"
   "jobTitle" site.Params.role
   "email" (printf "mailto:%s" site.Params.email)
   "url" site.BaseURL

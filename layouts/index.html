@@ -1,0 +1,174 @@
+{{ define "main" }}
+{{- $pubs := where site.RegularPages "Section" "publication" -}}
+{{- $byDate := $pubs.ByDate.Reverse -}}
+{{- $portrait := (resources.Get "img/portrait.webp").Fill "1000x1000 Center" -}}
+{{- $p1 := $portrait.Resize "320x320 webp q82" -}}
+{{- $p2 := $portrait.Resize "640x640 webp q78" -}}
+
+{{- /* Mosaic: featured papers as large tiles, then eight recent papers,
+       preferring those with a figure among the fourteen most recent. */ -}}
+{{- $featured := where $byDate "Params.featured" true -}}
+{{- $pool := first 14 (where $byDate "Params.featured" "!=" true) -}}
+{{- $withFig := slice -}}{{- $noFig := slice -}}
+{{- range $pool }}{{ if .Resources.GetMatch "featured.*" }}{{ $withFig = $withFig | append . }}{{ else }}{{ $noFig = $noFig | append . }}{{ end }}{{ end -}}
+{{- $recent := first 8 ($withFig | append $noFig) -}}
+{{- $tiles := slice -}}
+{{- range $featured }}{{ $tiles = $tiles | append . }}{{ end -}}
+{{- range $recent }}{{ $tiles = $tiles | append . }}{{ end -}}
+
+{{- $coauthors := slice -}}
+{{- range $pubs }}{{ range .Params.authors }}{{ if ne . "admin" }}{{ $coauthors = $coauthors | append . }}{{ end }}{{ end }}{{ end -}}
+{{- $metrics := hugo.Data.metrics -}}
+
+<section class="hero">
+  <canvas class="hero-field" aria-hidden="true"></canvas>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-text">
+      <p class="chip"><span class="pulse" aria-hidden="true"></span>{{ site.Params.role }} · {{ site.Params.organization.name }}</p>
+      <h1><span>Theodoros</span> <span class="grad">Karapanagiotidis</span></h1>
+      <p class="lede">{{ site.Params.tagline }}</p>
+      <p class="hero-actions">
+        <a class="button" href="#research">Explore research</a>
+        <a class="button button-ghost" href="#contact">Get in touch</a>
+      </p>
+      {{ partial "social.html" (dict "class" "social") }}
+    </div>
+    <div class="hero-portrait">
+      <div class="ring" aria-hidden="true"></div>
+      <img src="{{ $p1.RelPermalink }}" srcset="{{ $p1.RelPermalink }} 1x, {{ $p2.RelPermalink }} 2x" width="320" height="320" alt="Portrait of {{ site.Params.name }}" fetchpriority="high">
+    </div>
+  </div>
+  <a class="scroll-cue" href="#news" aria-label="Scroll to news"><span></span></a>
+</section>
+
+<section id="news" class="ticker" aria-label="News">
+  <p class="ticker-label">News</p>
+  <div class="ticker-viewport">
+    {{- $items := first 6 $byDate }}
+    <div class="ticker-track">
+      {{- range $copy := slice 1 2 }}
+      <ul class="ticker-list"{{ if eq $copy 2 }} aria-hidden="true"{{ end }}>
+        {{- range $items }}
+        {{- $type := partial "pub-type.html" . }}
+        <li>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
+          <span class="ticker-kind">{{ if eq $type "Preprint" }}New preprint{{ else }}New paper{{ with .Params.publication }} in {{ . | markdownify }}{{ end }}{{ end }}</span>
+          <a href="{{ .RelPermalink }}"{{ if eq $copy 2 }} tabindex="-1"{{ end }}>{{ .Title }}</a>
+        </li>
+        {{- end }}
+      </ul>
+      {{- end }}
+    </div>
+  </div>
+</section>
+
+<section id="research" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="label">Research</p>
+        <h2 class="section-title">Selected and recent work</h2>
+      </div>
+      <a class="more" href="{{ "publication/" | relURL }}">All {{ len $pubs }} publications →</a>
+    </div>
+    <ul class="stats" aria-label="At a glance">
+      <li><strong>{{ len $pubs }}</strong> publications</li>
+      {{- with $metrics }}
+      <li><strong>{{ lang.FormatNumber 0 .citations }}</strong> citations</li>
+      <li><strong>{{ .h_index }}</strong> h-index</li>
+      {{- end }}
+      <li><strong>{{ len ($coauthors | uniq) }}</strong> co-authors</li>
+    </ul>
+    <div class="mosaic">
+      {{- range $i, $p := $tiles }}
+      {{- $img := $p.Resources.GetMatch "featured.*" }}
+      <a class="tile{{ if $p.Params.featured }} tile-hero{{ end }}{{ if $img }} tile-figure{{ end }}" href="{{ $p.RelPermalink }}">
+        <div class="tile-art">
+          {{- with $img }}
+          {{- $r := .Resize "900x webp q80" }}
+          <img src="{{ $r.RelPermalink }}" width="{{ $r.Width }}" height="{{ $r.Height }}" alt="" loading="lazy">
+          {{- else }}
+          <canvas data-seed="{{ $p.Title }}" aria-hidden="true"></canvas>
+          {{- end }}
+        </div>
+        <div class="tile-text">
+          <p class="tile-meta">{{ with $p.Params.publication }}{{ . | markdownify | plainify }} · {{ end }}{{ $p.Date.Format "2006" }}{{ if $p.Params.featured }} · <span class="star">Featured</span>{{ end }}</p>
+          <h3>{{ $p.Title }}</h3>
+        </div>
+      </a>
+      {{- end }}
+    </div>
+    {{- with $metrics }}<p class="stats-note">Citation figures from {{ .source }}, updated monthly.</p>{{ end }}
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="wrap about">
+    <div class="about-bio">
+      <h2 class="section-title">About</h2>
+      <div class="prose">{{ .Content }}</div>
+    </div>
+    <aside class="glass about-side">
+      <h3>Research interests</h3>
+      <ul class="chips">
+        {{- range hugo.Data.profile.interests }}<li>{{ . }}</li>{{ end }}
+      </ul>
+      <h3>Education</h3>
+      <ul class="edu">
+        {{- range hugo.Data.profile.education }}
+        <li><strong>{{ .degree }}</strong><span>{{ .institution }}{{ with .year }} · {{ . }}{{ end }}</span></li>
+        {{- end }}
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<section id="experience" class="section">
+  <div class="wrap">
+    <p class="label">Career</p>
+    <h2 class="section-title">Experience</h2>
+    <ol class="timeline">
+      {{- range hugo.Data.experience }}
+      <li>
+        <p class="when">{{ .start }}{{ if ne (string .end) (string .start) }} – {{ .end | default "present" }}{{ end }}</p>
+        <div>
+          <h3>{{ .title }}</h3>
+          <p class="where">{{ with .organisation }}{{ . }} · {{ end }}{{ .location }}</p>
+          {{ with .summary }}<p class="what">{{ . }}</p>{{ end }}
+        </div>
+      </li>
+      {{- end }}
+    </ol>
+  </div>
+</section>
+
+<section id="contact" class="section contact">
+  <div class="wrap contact-grid">
+    <div>
+      <p class="label">Work with us</p>
+      <h2 class="big">Let’s <span class="grad">work together.</span></h2>
+      <p class="contact-text">We are always keen to hear from people interested in working with us — prospective PhD students, postdoctoral researchers and collaborators alike.</p>
+      <a class="button" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+    </div>
+    <div class="glass contact-card">
+      <h3>Find me</h3>
+      <address>
+        {{ site.Params.address.street }}<br>
+        {{ site.Params.address.city }}, {{ site.Params.address.postcode }}<br>
+        {{ site.Params.address.country }}
+      </address>
+      {{- with site.Params.coordinates }}
+      {{- $lat := float .latitude }}{{ $lon := float .longitude }}
+      {{- $bbox := printf "%.4f,%.4f,%.4f,%.4f" (sub $lon 0.012) (sub $lat 0.006) (add $lon 0.012) (add $lat 0.006) }}
+      {{- $src := printf "https://www.openstreetmap.org/export/embed.html?bbox=%s&layer=mapnik&marker=%v,%v" $bbox .latitude .longitude }}
+      <div class="map">
+        <iframe title="Map showing the School of Psychology, University of Sussex" src="{{ $src | safeURL }}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+      </div>
+      <p class="map-link"><a href="https://www.openstreetmap.org/?mlat={{ .latitude }}&amp;mlon={{ .longitude }}#map=16/{{ .latitude }}/{{ .longitude }}" rel="noopener" target="_blank">Open larger map ↗</a></p>
+      {{- end }}
+      {{ partial "social.html" (dict "class" "social") }}
+    </div>
+  </div>
+</section>
+{{ end }}

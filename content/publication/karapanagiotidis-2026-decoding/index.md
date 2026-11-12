@@ -10,5 +10,6 @@ publication = "*eNeuro*"
 url_pdf = "https://www.eneuro.org/content/eneuro/13/10/ENEURO.0191-26.2026.full.pdf"
 
 doi = "10.1523/ENEURO.0191-26.2026"
+figure_credit = "Figure 1 from Karapanagiotidis et al. (2026), eNeuro. CC BY."
 +++
 

@@ -6,5 +6,7 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Experimental brain research*"
+doi = "10.1007/s00221-016-4729-y"
+figure_credit = "Figure 1 from Medea et al. (2018), Experimental brain research. CC BY."
 +++
 

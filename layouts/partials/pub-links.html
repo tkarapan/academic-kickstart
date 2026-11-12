@@ -1,0 +1,6 @@
+<ul class="pub-links">
+  {{- with .Params.url_pdf }}<li><a href="{{ . }}" rel="noopener" target="_blank">PDF</a></li>{{ end }}
+  {{- with .Params.doi }}<li><a href="https://doi.org/{{ . }}" rel="noopener" target="_blank">DOI</a></li>{{ end }}
+  {{- with .Resources.GetMatch "cite.bib" }}<li><a href="{{ .RelPermalink }}" download>Cite</a></li>{{ end }}
+  {{- range .Params.links }}<li><a href="{{ .url }}" rel="noopener" target="_blank">{{ .name }}</a></li>{{ end }}
+</ul>

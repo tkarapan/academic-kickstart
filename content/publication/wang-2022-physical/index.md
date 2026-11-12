@@ -6,5 +6,7 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Cerebral Cortex*"
+doi = "10.1093/cercor/bhac344"
+figure_credit = "Figure 1 from Wang et al. (2022), Cerebral Cortex. CC BY-NC."
 +++
 

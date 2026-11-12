@@ -1,0 +1,95 @@
+name: Check for new publications
+
+on:
+  schedule:
+    - cron: "17 6 * * 1" # Mondays, 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: publications
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BRANCH: automated/new-publications
+      LABEL: new-publications
+    steps:
+      - name: Check out repository
+        run: |
+          git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          git -C repo config user.name "github-actions[bot]"
+          git -C repo config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Continue an open pull request (keeping any edits made to it); otherwise start fresh.
+          open_pr=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$BRANCH" --state open --json number --jq '.[].number')
+          if [ -n "$open_pr" ]; then
+            git -C repo fetch --depth 1 origin "$BRANCH"
+            git -C repo checkout -b "$BRANCH" FETCH_HEAD
+          else
+            git -C repo checkout -b "$BRANCH"
+          fi
+          echo "OPEN_PR=${open_pr}" >> "$GITHUB_ENV"
+
+      - name: Collect DOIs from declined pull requests
+        run: |
+          gh pr list --repo "$GITHUB_REPOSITORY" --state closed --label "$LABEL" --limit 200 \
+            --json body,mergedAt --jq '.[] | select(.mergedAt == null) | .body' \
+            > declined-bodies.txt || true
+          grep -oE '10\.[0-9]{4,9}/[^` ]+' declined-bodies.txt | sort -u > declined.txt || true
+          grep -oE 'content/publication/[^/` ]+/featured' declined-bodies.txt | cut -d/ -f3 | sort -u > declined-figures.txt || true
+          echo "Declined DOIs: $(wc -l < declined.txt); declined figures: $(wc -l < declined-figures.txt)"
+
+      - name: Look for new publications
+        id: check
+        working-directory: repo
+        run: |
+          pubs=$(python3 scripts/check_publications.py --declined ../declined.txt --summary ../summary.md)
+          figs=$(python3 scripts/fetch_figures.py --declined ../declined-figures.txt --summary ../figures.md || echo 0)
+          if [ "$figs" != "0" ]; then
+            { echo; echo "Figures added from open-access versions (credited on each paper's page):"; echo; cat ../figures.md; } >> ../summary.md
+          fi
+          echo "count=$((pubs + figs))" >> "$GITHUB_OUTPUT"
+          echo "New publications: ${pubs}; new figures: ${figs}"
+
+      - name: Open or update pull request
+        if: steps.check.outputs.count != '0'
+        working-directory: repo
+        run: |
+          git add content/publication
+          git commit -m "Add new publications and figures"
+          if [ -n "$OPEN_PR" ]; then
+            git push origin "$BRANCH"
+          else
+            git push --force origin "$BRANCH"
+          fi
+
+          {
+            echo "New publications or figures were found and drafted:"
+            echo
+            cat ../summary.md
+            echo
+            echo "**To publish**, merge this pull request. Netlify posts a preview link below once it has built."
+            echo
+            echo "**To change a page first**, open *Files changed*, choose *Edit file* from the ⋯ menu on a file, and commit the change to this branch. For example, set \`featured = true\` to highlight a paper or add \`url_pdf = \"...\"\` for a PDF link."
+            echo
+            echo "**To skip everything here**, close this pull request without merging. These papers and figures will not be proposed again."
+          } > ../body.md
+
+          gh label create "$LABEL" --repo "$GITHUB_REPOSITORY" --color 0d6b6e \
+            --description "Publications found by the weekly check" --force
+
+          if [ -n "$OPEN_PR" ]; then
+            gh pr comment "$OPEN_PR" --repo "$GITHUB_REPOSITORY" --body-file ../body.md
+          elif ! gh pr create --repo "$GITHUB_REPOSITORY" --base "${{ github.event.repository.default_branch }}" \
+                 --head "$BRANCH" --title "New publications" --body-file ../body.md --label "$LABEL"; then
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "New publications ready for review" \
+              --body "New publication pages are on the \`${BRANCH}\` branch, but a pull request could not be opened automatically. Open one from https://github.com/${GITHUB_REPOSITORY}/compare/${BRANCH}?expand=1 to review and merge them."
+          fi

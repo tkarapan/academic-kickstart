@@ -6,5 +6,7 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Scientific reports*"
+doi = "10.1038/s41598-020-66698-z"
+figure_credit = "Figure 1 from Turnbull et al. (2020), Scientific reports. CC BY."
 +++
 

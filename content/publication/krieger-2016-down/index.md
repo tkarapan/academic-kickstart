@@ -6,5 +6,7 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*NeuroImage*"
+doi = "10.1016/j.neuroimage.2016.07.060"
+figure_credit = "Figure 1 from Krieger-Redwood et al. (2016), NeuroImage. CC BY."
 +++
 

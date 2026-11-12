@@ -1,27 +1,100 @@
 [build]
   command = "hugo --gc --minify -b $URL"
   publish = "public"
-  
-[build.environment]
-  HUGO_VERSION = "0.91.2"
-  HUGO_ENABLEGITINFO = "true"
 
-[context.production.environment]
+[build.environment]
+  HUGO_VERSION = "0.163.3"
   HUGO_ENV = "production"
+  TZ = "Europe/London"
 
 [context.deploy-preview]
-  command = "hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
+  command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
 
 [context.branch-deploy]
   command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
 
-[[plugins]]
-  package = "netlify-plugin-hugo-cache-resources"
-  [plugins.inputs]
-    debug = true
-	
+# Legacy Netlify domain.
 [[redirects]]
   from = "https://tkarap.netlify.com/*"
   to = "https://www.tkarap.com/:splat"
   status = 301
   force = true
+
+# Pages from the previous site template that no longer exist.
+[[redirects]]
+  from = "/publication-type/*"
+  to = "/publication/"
+  status = 301
+[[redirects]]
+  from = "/publication_types/*"
+  to = "/publication/"
+  status = 301
+[[redirects]]
+  from = "/author/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/authors/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/tag/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/tags/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/category/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/categories/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/post/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/talk/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/project/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/slides/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/courses/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/admin/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/privacy/*"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/index.xml"
+  to = "/publication/index.xml"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

@@ -6,5 +6,6 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*PloS one*"
+doi = "10.1371/journal.pone.0152272"
 +++
 

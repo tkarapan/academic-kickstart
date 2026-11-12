@@ -6,5 +6,6 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Network Neuroscience*"
+doi = "10.1162/netn_a_00137"
 +++
 

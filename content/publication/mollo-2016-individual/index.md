@@ -6,5 +6,6 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Brain and cognition*"
+doi = "10.1016/j.bandc.2016.07.003"
 +++
 

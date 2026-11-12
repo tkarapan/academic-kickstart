@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Update data/metrics.json with citation totals from Crossref.
+"""Update data/metrics.json with citation figures from Google Scholar.
 
-Sums Crossref's "is-referenced-by-count" over every publication on the
-site that has a DOI, and derives an h-index from the same counts.
-Crossref counts citations between works it indexes, so totals are lower
-than Google Scholar's.
+Reads the public Google Scholar profile once and extracts total citations
+and h-index from the profile's summary table. Google Scholar has no API
+and sometimes refuses automated requests; in that case, or if the page
+cannot be parsed, the existing file is left unchanged. Values are also
+left unchanged if they would drop sharply, which usually indicates a
+parsing problem rather than a real change.
 
-The file is only rewritten when a value changes. If Crossref cannot be
-reached for every publication, the existing file is left untouched so
-that totals never drop because of a failed lookup.
+The figures can be edited by hand in data/metrics.json at any time.
 """
 
 from __future__ import annotations
@@ -16,44 +16,45 @@ from __future__ import annotations
 import json
 import re
 import sys
-import time
-import urllib.parse
+import urllib.request
 from datetime import date
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from check_publications import get_json  # noqa: E402
+PROFILE = "https://scholar.google.com/citations?user=-96i0ikAAAAJ&hl=en"
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36",
+    "Accept-Language": "en-GB,en;q=0.9",
+}
+
+
+def fetch_profile() -> tuple[int, int]:
+    request = urllib.request.Request(PROFILE, headers=HEADERS)
+    with urllib.request.urlopen(request, timeout=60) as response:
+        page = response.read().decode("utf-8", "replace")
+    # Summary table cells, in order: citations (all, recent), h-index (all, recent), i10 (all, recent).
+    cells = re.findall(r'class="gsc_rsb_std">(\d+)<', page)
+    if len(cells) < 4:
+        raise ValueError("citation table not found (request may have been blocked)")
+    return int(cells[0]), int(cells[2])
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parent.parent
-    out = root / "data" / "metrics.json"
-    dois = []
-    for index in sorted((root / "content" / "publication").glob("*/index.md")):
-        if m := re.search(r'^doi\s*=\s*"([^"]+)"', index.read_text(encoding="utf-8"), re.M):
-            dois.append(m.group(1))
-
-    counts, failed = [], 0
-    for doi in dois:
-        try:
-            record = get_json(f"https://api.crossref.org/works/{urllib.parse.quote(doi, safe='/')}")["message"]
-            counts.append(int(record.get("is-referenced-by-count", 0)))
-        except Exception as error:  # noqa: BLE001
-            print(f"{doi}: skipped ({error})", file=sys.stderr)
-            failed += 1
-        time.sleep(2)
-
-    if not dois or failed:
-        print("Some lookups failed; metrics not updated.", file=sys.stderr)
+    out = Path(__file__).resolve().parent.parent / "data" / "metrics.json"
+    previous = json.loads(out.read_text()) if out.exists() else {}
+    try:
+        citations, h_index = fetch_profile()
+    except Exception as error:  # noqa: BLE001
+        print(f"Google Scholar unavailable ({error}); metrics not updated.", file=sys.stderr)
         return 0
 
-    ranked = sorted(counts, reverse=True)
-    metrics = {
-        "citations": sum(ranked),
-        "h_index": sum(1 for i, c in enumerate(ranked) if c >= i + 1),
-        "source": "Crossref",
-    }
-    previous = json.loads(out.read_text()) if out.exists() else {}
+    if not (0 < h_index < 300 and citations >= h_index):
+        print(f"Implausible values ({citations}, {h_index}); metrics not updated.", file=sys.stderr)
+        return 0
+    if previous.get("citations") and citations < 0.9 * previous["citations"]:
+        print("Citations dropped by more than 10%; metrics not updated.", file=sys.stderr)
+        return 0
+
+    metrics = {"citations": citations, "h_index": h_index, "source": "Google Scholar"}
     if {k: previous.get(k) for k in metrics} == metrics:
         print("Metrics unchanged.", file=sys.stderr)
         return 0

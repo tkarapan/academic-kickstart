@@ -250,3 +250,33 @@
   document.addEventListener("themechange", drawAll);
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll);
 })();
+
+(function cookieConsent() {
+  // Analytics cookies are only set after the visitor accepts.
+  const banner = document.querySelector(".consent");
+  if (!banner) return;
+  const KEY = "analytics-consent";
+  let choice = null;
+  try { choice = localStorage.getItem(KEY); } catch (e) { /* storage unavailable */ }
+
+  function clearAnalyticsCookies() {
+    const host = location.hostname;
+    const domains = ["", host, "." + host, "." + host.replace(/^www\./, "")];
+    document.cookie.split(";").map((c) => c.split("=")[0].trim())
+      .filter((name) => /^_ga|^_gid|^_gat/.test(name))
+      .forEach((name) => domains.forEach((d) => {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${d ? "; domain=" + d : ""}`;
+      }));
+  }
+
+  function save(value) {
+    try { localStorage.setItem(KEY, value); } catch (e) { /* storage unavailable */ }
+    banner.hidden = true;
+    if (value === "granted" && window.loadAnalytics) window.loadAnalytics();
+    if (value === "denied") clearAnalyticsCookies();
+  }
+
+  banner.querySelectorAll("[data-consent]").forEach((b) => b.addEventListener("click", () => save(b.dataset.consent)));
+  document.querySelectorAll("[data-consent-open]").forEach((b) => b.addEventListener("click", () => { banner.hidden = false; }));
+  if (choice !== "granted" && choice !== "denied") banner.hidden = false;
+})();

@@ -1,10 +1,21 @@
+{{- /* Google Analytics loads only after the visitor accepts analytics cookies. */ -}}
 {{- with site.Params.google_analytics }}
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
-  gtag("js", new Date());
-  gtag("set", { cookie_flags: "SameSite=None;Secure" });
-  gtag("config", "{{ . }}", { anonymize_ip: true });
+  window.loadAnalytics = function () {
+    if (window.analyticsLoaded) return;
+    window.analyticsLoaded = true;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id={{ . }}";
+    document.head.appendChild(s);
+    gtag("js", new Date());
+    gtag("set", { cookie_flags: "SameSite=None;Secure" });
+    gtag("config", "{{ . }}", { anonymize_ip: true });
+  };
+  try {
+    if (localStorage.getItem("analytics-consent") === "granted") window.loadAnalytics();
+  } catch (e) {}
 </script>
 {{- end }}

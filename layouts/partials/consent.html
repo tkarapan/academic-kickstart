@@ -1,0 +1,9 @@
+{{- if site.Params.google_analytics }}
+<div class="consent" role="dialog" aria-live="polite" aria-label="Cookie consent" hidden>
+  <p>This site uses Google Analytics cookies to understand how it is used. They are only set if you accept. <a href="{{ "privacy/" | relURL }}">Privacy</a></p>
+  <div class="consent-actions">
+    <button type="button" class="button button-ghost" data-consent="denied">Decline</button>
+    <button type="button" class="button" data-consent="granted">Accept</button>
+  </div>
+</div>
+{{- end }}

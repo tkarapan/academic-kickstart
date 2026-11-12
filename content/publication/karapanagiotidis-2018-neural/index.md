@@ -10,14 +10,4 @@ publication = "*bioRxiv*"
 url_pdf = "https://www.biorxiv.org/content/biorxiv/early/2018/10/26/454371.full-text.pdf"
 
 doi = "10.1101/454371"
-
-# Featured image
-# To use, add an image named `featured.jpg/png` to your page's folder. 
-[image]
-  # Caption (optional)
-  caption = ""
-
-  # Focal point (optional)
-  # Options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
-  focal_point = "Left"
 +++

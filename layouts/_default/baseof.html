@@ -10,6 +10,7 @@
 {{ block "main" . }}{{ end }}
 </main>
 {{ partial "footer.html" . }}
+{{ partial "consent.html" . }}
 {{ $js := resources.Get "js/site.js" | js.Build (dict "minify" true) | fingerprint }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 </body>

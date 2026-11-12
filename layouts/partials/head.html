@@ -13,6 +13,9 @@
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $desc }}">
 <link rel="canonical" href="{{ .Permalink }}">
+{{- with site.Params.google_site_verification }}
+<meta name="google-site-verification" content="{{ . }}">
+{{- end }}
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#08070a">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">

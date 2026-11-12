@@ -25,6 +25,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from check_publications import USER_AGENT, get_json  # noqa: E402
+from strip_image_metadata import strip  # noqa: E402
 
 import urllib.request  # noqa: E402
 
@@ -109,7 +110,7 @@ def process(folder: Path) -> str | None:
         return None
     data = fetch(f"{BUCKET}/{version}/{urllib.parse.quote(image)}")
     ext = {"png": ".png", "webp": ".webp"}.get(image.lower().rsplit(".", 1)[-1], ".jpg")
-    (folder / f"featured{ext}").write_bytes(data)
+    (folder / f"featured{ext}").write_bytes(strip(data))
     credit = f"{label} from {short_citation(text)}. {licence}."
     text = re.sub(r'^(doi\s*=\s*".*"\n)', lambda m: m.group(1) + f"figure_credit = {json.dumps(credit, ensure_ascii=False)}\n", text, count=1, flags=re.M)
     index.write_text(text, encoding="utf-8")

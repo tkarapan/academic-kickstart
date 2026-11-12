@@ -1,0 +1,49 @@
+# Positions, most recent first. Leave `end` empty for a current position.
+- title: Assistant Professor
+  organisation: School of Psychology, University of Sussex
+  location: Brighton, UK
+  start: 2022
+  end: ""
+  summary: Research and teaching on the functional hierarchy of the human brain, information flow and neural trait–state interactions, and their links with behaviour and ongoing experience.
+
+- title: Research Associate
+  organisation: York–Maastricht Partnership
+  location: University of York, UK, and Maastricht University, Netherlands
+  start: 2020
+  end: 2022
+  summary: Collaborative neuroimaging project funded by the York–Maastricht Partnership.
+
+- title: Research Associate
+  organisation: Prof. Jonathan Smallwood’s lab, University of York
+  location: York, UK
+  start: 2019
+  end: 2020
+  summary: 'ERC-funded project “Not all minds that wander are lost: A neurocognitive test of mind-wandering state’s contribution to human cognition”.'
+
+- title: Research Assistant
+  organisation: Prof. Alex Wade’s lab, University of York
+  location: York, UK
+  start: 2016
+  end: 2017
+  summary: fMRI and MEG experiments on experiencing virtual and augmented reality; 3D task development in Unity; fMRI analysis; contributions to the NeuroImaging Analysis Framework (NAF).
+
+- title: Research Assistant
+  organisation: Prof. Jonathan Smallwood’s lab, University of York
+  location: York, UK
+  start: 2014
+  end: 2015
+  summary: Neuroimaging studies of the neural correlates of spontaneous thought, from experimental design and scanning protocols to behavioural task programming (PsychoPy), data acquisition and analysis (fMRI, DWI, MEG), and Python analysis pipelines.
+
+- title: Research Collaborator
+  organisation: York Neuroimaging Centre
+  location: York, UK
+  start: 2014
+  end: 2015
+  summary: fMRI and MEG analysis for a clinical study on epilepsy.
+
+- title: Physics Tutor
+  organisation: ""
+  location: Thessaloniki, Greece
+  start: 2007
+  end: 2013
+  summary: ""

@@ -1,0 +1,5 @@
+{{- /* Author list. The entry "admin" refers to the site owner and is highlighted. */ -}}
+{{- $n := len . -}}
+{{- range $i, $a := . -}}
+{{- if eq $a "admin" }}<span class="me">{{ site.Params.name }}</span>{{ else }}{{ $a }}{{ end }}{{ if lt (add $i 1) $n }}, {{ end }}
+{{- end -}}

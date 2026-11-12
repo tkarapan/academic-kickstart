@@ -1,0 +1,9 @@
+<ul class="{{ .class }}">
+  {{- range site.Params.social }}
+  <li>
+    <a href="{{ .url }}" {{ if not (hasPrefix .url "mailto:") }}rel="me noopener" target="_blank"{{ end }} aria-label="{{ .name }}" title="{{ .name }}">
+      {{ partial "icon.html" .icon }}
+    </a>
+  </li>
+  {{- end }}
+</ul>

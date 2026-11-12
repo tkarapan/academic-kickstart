@@ -1,0 +1,33 @@
+{{ define "main" }}
+{{- $pubs := .RegularPages.ByDate.Reverse -}}
+<section class="section page-head">
+  <div class="wrap">
+    <h1>Publications</h1>
+    <p class="lede">{{ len $pubs }} journal articles, preprints and theses. Also on <a href="https://scholar.google.com/citations?user=-96i0ikAAAAJ" rel="noopener" target="_blank">Google Scholar</a> and <a href="https://orcid.org/0000-0002-0813-1019" rel="noopener" target="_blank">ORCID</a>.</p>
+    <div class="pub-filter" hidden>
+      <label class="visually-hidden" for="pub-search">Search publications</label>
+      <input id="pub-search" type="search" placeholder="Search by title, author, journal or year" autocomplete="off">
+      <div class="filter-chips" role="group" aria-label="Filter publications">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="featured" aria-pressed="false">Featured</button>
+        <button type="button" data-filter="journal-article" aria-pressed="false">Journal articles</button>
+        <button type="button" data-filter="preprint" aria-pressed="false">Preprints</button>
+      </div>
+      <p class="filter-count" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+<section class="section section-tight">
+  <div class="wrap">
+    {{- range $pubs.GroupByDate "2006" }}
+    <div class="pub-year-group">
+      <h2 class="pub-year">{{ .Key }}</h2>
+      <div class="pub-list">
+        {{- range .Pages }}{{ partial "pub-item.html" . }}{{ end }}
+      </div>
+    </div>
+    {{- end }}
+    <p class="no-results" hidden>No publications match your search.</p>
+  </div>
+</section>
+{{ end }}

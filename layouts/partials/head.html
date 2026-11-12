@@ -1,0 +1,42 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- $title := cond .IsHome (printf "%s · %s, %s" site.Title site.Params.role site.Params.organization.name) (printf "%s · %s" .Title site.Title) }}
+{{- $desc := site.Params.description }}
+{{- with .Description }}{{ $desc = . }}{{ end }}
+{{- if and (eq .Section "publication") .IsPage }}{{ with .Params.abstract }}{{ $desc = . | plainify | truncate 200 }}{{ end }}{{ end }}
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111417" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+{{- $og := ((resources.Get "img/avatar.png").Crop "1000x1000 Top").Resize "600x600 jpg q85 #cfe6e2" }}
+{{- with .Resources.GetMatch "featured.*" }}{{ $og = .Resize "1200x webp q80" }}{{ end }}
+<meta property="og:image" content="{{ $og.Permalink }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@tkarap">
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+<link rel="preload" href="{{ "fonts/plex-sans-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/fraunces-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ site.Title }} · Publications">
+{{- end }}
+{{ $css := resources.Get "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+{{ partial "structured-data.html" . }}
+{{ if and (eq .Section "publication") .IsPage }}{{ partial "scholar-meta.html" . }}{{ end }}
+{{ if hugo.IsProduction }}{{ partial "analytics.html" . }}{{ end }}

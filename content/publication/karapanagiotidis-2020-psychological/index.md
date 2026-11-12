@@ -10,14 +10,4 @@ publication = "*Scientific reports*"
 url_pdf = "https://www.nature.com/articles/s41598-020-77336-z.pdf"
 
 doi = "10.1038/s41598-020-77336-z"
-
-# Featured image
-# To use, add an image named `featured.jpg/png` to your page's folder. 
-[image]
-  # Caption (optional)
-  caption = ""
-
-  # Focal point (optional)
-  # Options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
-  focal_point = "Center"
 +++

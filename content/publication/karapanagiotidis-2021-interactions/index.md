@@ -10,14 +10,4 @@ publication = "*Philosophical Transactions of the Royal Society B: Biological Sc
 url_pdf = "https://royalsocietypublishing.org/doi/pdf/10.1098/rstb.2019.0691"
 
 doi = "10.1098/rstb.2019.0691"
-
-# Featured image
-# To use, add an image named `featured.jpg/png` to your page's folder. 
-[image]
-  # Caption (optional)
-  caption = ""
-
-  # Focal point (optional)
-  # Options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
-  focal_point = "Center"
 +++

@@ -10,14 +10,4 @@ publication = "*Current Opinion in Behavioral Sciences*"
 url_pdf = "https://www.sciencedirect.com/science/article/pii/S2352154625000658/pdfft?md5=219d20ebb33c5f8fd0cf831fc8afbd3e&pid=1-s2.0-S2352154625000658-main.pdf"
 
 doi = "10.1016/j.cobeha.2025.101546"
-
-# Featured image
-# To use, add an image named `featured.jpg/png` to your page's folder. 
-[image]
-  # Caption (optional)
-  caption = ""
-
-  # Focal point (optional)
-  # Options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
-  focal_point = "Center"
 +++

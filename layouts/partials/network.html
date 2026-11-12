@@ -1,0 +1,33 @@
+{{- /* Co-author network: data for the script, plus a text list for search engines and screen readers. */ -}}
+{{- $pubs := where site.RegularPages "Section" "publication" -}}
+{{- $data := slice -}}
+{{- range $pubs.ByDate }}
+{{- $data = $data | append (dict "t" .Title "u" .RelPermalink "y" .Date.Year "a" (.Params.authors | default slice)) -}}
+{{- end -}}
+{{- $counts := dict -}}
+{{- range $pubs }}{{ range .Params.authors }}{{ if ne . "admin" }}{{ $counts = merge $counts (dict . (add (index $counts . | default 0) 1)) }}{{ end }}{{ end }}{{ end -}}
+<section id="network" class="section">
+  <div class="wrap">
+    <p class="label">Collaborators</p>
+    <h2 class="section-title">Co-author network</h2>
+    <p class="network-intro">Everyone I have published with. Closer to the centre means more papers together; position around the circle shows when we first worked together. Select a name to see our papers.</p>
+    <div class="network">
+      <div class="network-canvas">
+        {{- $me := (resources.Get "img/portrait.webp").Fill "200x200 Center webp q80" }}
+        <svg class="network-svg" data-centre="{{ $me.RelPermalink }}" viewBox="-520 -520 1040 1040" role="img" aria-label="Network of co-authors arranged around Theodoros Karapanagiotidis"></svg>
+      </div>
+      <aside class="network-panel glass" aria-live="polite">
+        <p class="network-hint">Select a collaborator to see our joint papers.</p>
+      </aside>
+    </div>
+    <details class="network-list">
+      <summary>All {{ len $counts }} co-authors</summary>
+      <ul>
+        {{- range $name, $n := $counts }}
+        <li>{{ $name }} <span>({{ $n }})</span></li>
+        {{- end }}
+      </ul>
+    </details>
+  </div>
+  <script type="application/json" id="network-data">{{ $data | jsonify | safeJS }}</script>
+</section>

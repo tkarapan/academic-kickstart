@@ -280,3 +280,149 @@
   document.querySelectorAll("[data-consent-open]").forEach((b) => b.addEventListener("click", () => { banner.hidden = false; }));
   if (choice !== "granted" && choice !== "denied") banner.hidden = false;
 })();
+
+(function coauthorNetwork() {
+  // Radial co-author map: the site owner at the centre, collaborators around.
+  // Distance from the centre shrinks with the number of joint papers; angle
+  // follows the year of the first joint paper (clockwise from the top).
+  const svg = document.querySelector(".network-svg");
+  const source = document.getElementById("network-data");
+  if (!svg || !source) return;
+  const panel = document.querySelector(".network-panel");
+  const NS = "http://www.w3.org/2000/svg";
+  const pubs = JSON.parse(source.textContent);
+
+  const people = new Map();
+  pubs.forEach((p, i) => {
+    p.a.forEach((name) => {
+      if (name === "admin") return;
+      if (!people.has(name)) people.set(name, { name, papers: [], first: p.y });
+      const person = people.get(name);
+      person.papers.push(i);
+      person.first = Math.min(person.first, p.y);
+    });
+  });
+  // Order by year of first collaboration. Within a year, spread frequent
+  // collaborators apart (van der Corput order) so their labels do not collide.
+  const byYear = new Map();
+  [...people.values()].forEach((p) => { if (!byYear.has(p.first)) byYear.set(p.first, []); byYear.get(p.first).push(p); });
+  const spread = (m) => {
+    const order = [];
+    for (let k = 0; order.length < m; k++) {
+      let x = 0, f = 0.5, i = k;
+      while (i) { if (i & 1) x += f; i >>= 1; f /= 2; }
+      const slot = Math.floor(x * m);
+      if (!order.includes(slot)) order.push(slot);
+    }
+    return order;
+  };
+  const list = [];
+  [...byYear.keys()].sort((a, b) => a - b).forEach((year) => {
+    const group = byYear.get(year).sort((a, b) => b.papers.length - a.papers.length || a.name.localeCompare(b.name));
+    const slots = new Array(group.length);
+    spread(group.length).forEach((slot, k) => { slots[slot] = group[k]; });
+    list.push(...slots);
+  });
+  const max = Math.max(...list.map((p) => p.papers.length));
+  const R = 430, inner = 120;
+
+  list.forEach((p, i) => {
+    const n = p.papers.length;
+    p.angle = (i / list.length) * Math.PI * 2 - Math.PI / 2;
+    const closeness = Math.log(n) / Math.log(max); // 0 for one paper, 1 for the most
+    p.radius = inner + (R - inner) * (1 - closeness) * (n === 1 ? 1 : 0.92) - (n === 1 ? (i % 3) * 14 : 0);
+    p.x = Math.cos(p.angle) * p.radius;
+    p.y = Math.sin(p.angle) * p.radius;
+    p.size = 3 + Math.sqrt(n) * 2.1;
+  });
+
+  const el = (tag, attrs, parent) => {
+    const node = document.createElementNS(NS, tag);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (parent) parent.appendChild(node);
+    return node;
+  };
+
+  // Year markers around the edge, at the first collaborator of each year.
+  const years = el("g", { class: "net-years" }, svg);
+  let lastYear = null;
+  list.forEach((p) => {
+    if (p.first === lastYear) return;
+    lastYear = p.first;
+    const x1 = Math.cos(p.angle) * (R + 22), y1 = Math.sin(p.angle) * (R + 22);
+    const x2 = Math.cos(p.angle) * (R + 34), y2 = Math.sin(p.angle) * (R + 34);
+    el("line", { x1, y1, x2, y2 }, years);
+    const t = el("text", { x: Math.cos(p.angle) * (R + 52), y: Math.sin(p.angle) * (R + 52), "text-anchor": "middle", "dominant-baseline": "middle" }, years);
+    t.textContent = p.first;
+  });
+  el("circle", { cx: 0, cy: 0, r: R + 22, class: "net-orbit" }, svg);
+
+  const links = el("g", { class: "net-links" }, svg);
+  const extra = el("g", { class: "net-extra" }, svg);
+  const spokes = el("g", { class: "net-spokes" }, svg);
+  const nodes = el("g", { class: "net-nodes" }, svg);
+  const labels = el("g", { class: "net-labels" }, svg);
+
+  list.forEach((p) => {
+    const n = p.papers.length;
+    p.spoke = el("line", { x1: 0, y1: 0, x2: p.x, y2: p.y, "stroke-width": 0.6 + Math.log2(n) * 0.9, "stroke-opacity": Math.min(0.85, 0.16 + n / max) }, spokes);
+    const g = el("g", { class: "net-node", tabindex: 0, role: "button", "aria-label": `${p.name}, ${n} joint paper${n > 1 ? "s" : ""}` }, nodes);
+    el("circle", { cx: p.x, cy: p.y, r: p.size + 6, class: "net-hit" }, g);
+    p.dot = el("circle", { cx: p.x, cy: p.y, r: p.size }, g);
+    p.group = g;
+    if (n >= 4) {
+      const deg = (p.angle * 180) / Math.PI;
+      const flip = deg > 90 && deg < 270;
+      const off = p.size + 6;
+      const t = el("text", {
+        x: p.x + Math.cos(p.angle) * off, y: p.y + Math.sin(p.angle) * off,
+        transform: `rotate(${flip ? deg - 180 : deg} ${p.x + Math.cos(p.angle) * off} ${p.y + Math.sin(p.angle) * off})`,
+        "text-anchor": flip ? "end" : "start", "dominant-baseline": "middle",
+      }, labels);
+      t.textContent = p.name.replace(/\s[A-Z]\s/, " ");
+      p.label = t;
+    }
+    g.addEventListener("mouseenter", () => select(p, false));
+    g.addEventListener("focus", () => select(p, false));
+    g.addEventListener("click", () => select(p, true));
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(p, true); } });
+  });
+
+  // Centre: portrait.
+  const clip = el("clipPath", { id: "net-centre-clip" }, el("defs", {}, svg));
+  el("circle", { cx: 0, cy: 0, r: 46 }, clip);
+  el("circle", { cx: 0, cy: 0, r: 52, class: "net-centre-ring" }, svg);
+  el("image", { href: svg.dataset.centre, x: -46, y: -46, width: 92, height: 92, "clip-path": "url(#net-centre-clip)", preserveAspectRatio: "xMidYMid slice" }, svg);
+
+  let locked = null;
+  function select(p, lock) {
+    if (locked && !lock) return;
+    if (lock) locked = locked === p ? null : p;
+    const active = lock ? locked : p;
+    svg.classList.toggle("has-active", !!active);
+    list.forEach((q) => {
+      const on = active && (q === active);
+      q.group.classList.toggle("is-active", !!on);
+      q.spoke.classList.toggle("is-active", !!on);
+      if (q.label) q.label.classList.toggle("is-active", !!on);
+    });
+    extra.replaceChildren();
+    list.forEach((q) => q.group.classList.remove("is-related"));
+    if (!active) { panel.innerHTML = '<p class="network-hint">Select a collaborator to see our joint papers.</p>'; return; }
+    // Faint links to others on the same papers.
+    const shared = new Set();
+    active.papers.forEach((i) => pubs[i].a.forEach((name) => { if (name !== "admin" && name !== active.name) shared.add(name); }));
+    shared.forEach((name) => {
+      const q = people.get(name);
+      el("line", { x1: active.x, y1: active.y, x2: q.x, y2: q.y }, extra);
+      q.group.classList.add("is-related");
+    });
+    const n = active.papers.length;
+    const items = active.papers.slice().sort((a, b) => pubs[b].y - pubs[a].y)
+      .map((i) => `<li><a href="${pubs[i].u}">${escapeHtml(pubs[i].t)}</a> <span>${pubs[i].y}</span></li>`).join("");
+    panel.innerHTML = `<h3>${escapeHtml(active.name)}</h3><p class="network-meta">${n} joint paper${n > 1 ? "s" : ""} · since ${active.first}</p><ul>${items}</ul>`;
+  }
+  function escapeHtml(s) { return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  svg.addEventListener("mouseleave", () => { if (!locked) select(null, false); });
+  svg.addEventListener("click", (e) => { if (e.target === svg && locked) { locked = null; select(null, false); } });
+})();

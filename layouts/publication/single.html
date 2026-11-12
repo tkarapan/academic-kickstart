@@ -6,7 +6,7 @@
     <h1>{{ .Title }}</h1>
     <p class="pub-authors">{{ partial "pub-authors.html" .Params.authors }}</p>
     <p class="pub-meta">
-      {{- with .Params.publication }}<span class="venue">{{ . | markdownify }}</span> · {{ end -}}
+      {{- with .Params.publication }}{{ if $.Params.doi }}<a class="venue venue-link" href="https://doi.org/{{ $.Params.doi }}" rel="noopener" target="_blank" title="View at the journal">{{ . | markdownify }}<span aria-hidden="true"> ↗</span></a>{{ else }}<span class="venue">{{ . | markdownify }}</span>{{ end }} · {{ end -}}
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
     </p>
     {{ partial "pub-links.html" . }}

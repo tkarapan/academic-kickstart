@@ -82,7 +82,7 @@
     wells = wide
       ? [{ x: w * 0.68, y: h * 0.42, r: s * 0.26, spin: 1 }, { x: w * 0.9, y: h * 0.72, r: s * 0.2, spin: -1 }, { x: w * 0.38, y: h * 0.82, r: s * 0.16, spin: 1 }]
       : [{ x: w * 0.7, y: h * 0.22, r: s * 0.3, spin: 1 }, { x: w * 0.3, y: h * 0.78, r: s * 0.26, spin: -1 }];
-    const n = Math.round(Math.min(420, Math.max(140, (w * h) / 3200)));
+    const n = Math.round(Math.min(520, Math.max(180, (w * h) / 2600)));
     particles = Array.from({ length: n }, spawn);
     ctx.clearRect(0, 0, w, h);
   }
@@ -109,10 +109,10 @@
 
   function step() {
     ctx.globalCompositeOperation = "destination-out";
-    ctx.fillStyle = "rgba(0, 0, 0, 0.055)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.045)";
     ctx.fillRect(0, 0, w, h);
     ctx.globalCompositeOperation = mode;
-    ctx.lineWidth = 1.1;
+    ctx.lineWidth = 1.35;
     for (let c = 0; c < palette.length; c++) {
       ctx.strokeStyle = `rgba(${palette[c]}, ${alpha})`;
       ctx.beginPath();

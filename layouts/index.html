@@ -35,12 +35,7 @@
       {{ partial "social.html" (dict "class" "social") }}
     </div>
     <div class="hero-portrait">
-      <div class="orbit" aria-hidden="true">
-        <div class="ring-glow"><div class="ring"></div></div>
-        <div class="ring-track"></div>
-        <div class="ring"></div>
-        <div class="ring-dash"></div>
-      </div>
+      <div class="ring" aria-hidden="true"></div>
       <img src="{{ $p1.RelPermalink }}" srcset="{{ $p1.RelPermalink }} 1x, {{ $p2.RelPermalink }} 2x" width="320" height="320" alt="Portrait of {{ site.Params.name }}" fetchpriority="high">
     </div>
   </div>

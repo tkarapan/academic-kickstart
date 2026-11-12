@@ -70,7 +70,7 @@
         <p class="label">Research</p>
         <h2 class="section-title">Selected and recent work</h2>
       </div>
-      <a class="more" href="{{ "publication/" | relURL }}">All {{ len $pubs }} publications →</a>
+      <a class="more" href="{{ "publication/" | relURL }}">All publications →</a>
     </div>
     <ul class="stats" aria-label="At a glance">
       <li><strong>{{ len $pubs }}</strong> publications</li>
@@ -135,7 +135,6 @@
         <div>
           <h3>{{ .title }}</h3>
           <p class="where">{{ with .organisation }}{{ . }} · {{ end }}{{ .location }}</p>
-          {{ with .summary }}<p class="what">{{ . }}</p>{{ end }}
         </div>
       </li>
       {{- end }}

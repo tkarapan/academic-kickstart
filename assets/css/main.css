@@ -221,10 +221,11 @@ main { display: block; }
 
 /* Experience */
 .timeline { list-style: none; margin: 0; padding: 0 0 0 28px; position: relative; }
-.timeline::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(var(--c1), var(--c2)); }
+/* Connector drawn between consecutive dots, so the line ends at the last entry. */
+.timeline li:not(:last-child)::after { content: ""; position: absolute; left: -23px; top: 17px; bottom: -6px; width: 1px; background: linear-gradient(var(--c1), var(--c2)); }
 .timeline li { position: relative; padding: 0 0 26px; display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; }
 .timeline li:last-child { padding-bottom: 0; }
-.timeline li::before { content: ""; position: absolute; left: -28px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--c1); box-shadow: 0 0 14px rgba(var(--c1-rgb), .6); }
+.timeline li::before { content: ""; position: absolute; z-index: 1; left: -28px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--c1); box-shadow: 0 0 14px rgba(var(--c1-rgb), .6); }
 .timeline li:first-child::before { background: var(--c1); }
 .timeline .when { margin: .25em 0 0; font: 600 .78rem/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--c1); }
 .timeline h3 { margin: 0 0 .15em; font-size: 1.2rem; }

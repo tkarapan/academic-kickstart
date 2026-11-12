@@ -81,6 +81,8 @@ p { margin: 0 0 1em; }
 
 /* ---------- Intro ---------- */
 .intro { padding: clamp(48px, 8vw, 104px) 0 clamp(32px, 5vw, 56px); }
+.intro-main { container-type: inline-size; min-width: 0; }
+.intro h1 { font-size: clamp(2rem, 6vw, 6.4rem); font-size: min(12.4cqi, 6.4rem); }
 .intro-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(28px, 5vw, 72px); align-items: end; }
 .kicker { font-size: .85rem; font-weight: 500; color: var(--muted); margin-bottom: 1.4em; display: inline-flex; align-items: center; gap: 10px; }
 .kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }

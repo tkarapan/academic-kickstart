@@ -8,14 +8,4 @@ featured = false
 publication = "*NeuroImage*"
 
 doi = "10.1016/j.neuroimage.2016.12.031"
-
-# Featured image
-# To use, add an image named `featured.jpg/png` to your page's folder. 
-[image]
-  # Caption (optional)
-  caption = ""
-
-  # Focal point (optional)
-  # Options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
-  focal_point = "Center"
 +++

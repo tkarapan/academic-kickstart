@@ -3,10 +3,19 @@
 {{- $title := cond .IsHome (printf "%s · %s, %s" site.Title site.Params.role site.Params.organization.name) (printf "%s · %s" .Title site.Title) }}
 {{- $desc := site.Params.description }}
 {{- with .Description }}{{ $desc = . }}{{ end }}
-{{- if and (eq .Section "publication") .IsPage }}{{ with .Params.abstract }}{{ $desc = . | plainify | truncate 200 }}{{ end }}{{ end }}
+{{- if and (eq .Section "publication") .IsPage }}
+{{- with .Params.abstract }}{{ $desc = . | plainify | truncate 200 }}
+{{- else }}
+{{- $names := slice }}{{ range first 3 (.Params.authors | default slice) }}{{ $names = $names | append (cond (eq . "admin") site.Params.name .) }}{{ end }}
+{{- $desc = printf "%s. %s%s. %s, %s." .Title (delimit $names ", ") (cond (gt (len (.Params.authors | default slice)) 3) " et al" "") ((.Params.publication | default "") | markdownify | plainify) (.Date.Format "2006") }}
+{{- end }}
+{{- end }}
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $desc }}">
 <link rel="canonical" href="{{ .Permalink }}">
+{{- with site.Params.google_site_verification }}
+<meta name="google-site-verification" content="{{ . }}">
+{{- end }}
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#08070a">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">

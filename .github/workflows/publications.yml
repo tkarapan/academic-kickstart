@@ -52,19 +52,23 @@ jobs:
         working-directory: repo
         run: |
           pubs=$(python3 scripts/check_publications.py --declined ../declined.txt --summary ../summary.md)
+          abstracts=$(python3 scripts/fill_abstracts.py || echo 0)
+          if [ "$abstracts" != "0" ]; then
+            { echo; echo "Abstracts added from Europe PMC or Crossref: ${abstracts}"; } >> ../summary.md
+          fi
           figs=$(python3 scripts/fetch_figures.py --declined ../declined-figures.txt --summary ../figures.md || echo 0)
           if [ "$figs" != "0" ]; then
             { echo; echo "Figures added from open-access versions (credited on each paper's page):"; echo; cat ../figures.md; } >> ../summary.md
           fi
-          echo "count=$((pubs + figs))" >> "$GITHUB_OUTPUT"
-          echo "New publications: ${pubs}; new figures: ${figs}"
+          echo "count=$((pubs + abstracts + figs))" >> "$GITHUB_OUTPUT"
+          echo "New publications: ${pubs}; abstracts: ${abstracts}; new figures: ${figs}"
 
       - name: Open or update pull request
         if: steps.check.outputs.count != '0'
         working-directory: repo
         run: |
           git add content/publication
-          git commit -m "Add new publications and figures"
+          git commit -m "Add new publications, abstracts and figures"
           if [ -n "$OPEN_PR" ]; then
             git push origin "$BRANCH"
           else
@@ -72,7 +76,7 @@ jobs:
           fi
 
           {
-            echo "New publications or figures were found and drafted:"
+            echo "New publications, abstracts or figures were found and drafted:"
             echo
             cat ../summary.md
             echo

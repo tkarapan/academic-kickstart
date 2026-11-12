@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{- $pubs := where site.RegularPages "Section" "publication" -}}
 {{- $byDate := $pubs.ByDate.Reverse -}}
-{{- $portrait := (resources.Get "img/avatar.png").Crop "1000x1000 Top" -}}
+{{- $portrait := (resources.Get "img/portrait.webp").Fill "1000x1000 Center" -}}
 {{- $p1 := $portrait.Resize "320x320 webp q82" -}}
 {{- $p2 := $portrait.Resize "640x640 webp q78" -}}
 

@@ -11,7 +11,7 @@ Source for [www.tkarap.com](https://www.tkarap.com/), built with [Hugo](https://
 | Research interests and education | `data/profile.yaml` |
 | Experience | `data/experience.yaml` |
 | Publications | `content/publication/<name>/index.md` (+ optional `cite.bib`, `featured.png`) |
-| Portrait | `assets/img/avatar.png` |
+| Portrait | `assets/img/portrait.webp` (square; any format works if the templates are updated) |
 
 ## Publications
 

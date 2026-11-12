@@ -105,10 +105,10 @@ def process(folder: Path) -> str | None:
         return None
     stem, label = choice
     image = next((f for f in files if f == stem or f.rsplit(".", 1)[0] == stem.rsplit(".", 1)[0]), None)
-    if not image or not image.lower().endswith((".jpg", ".jpeg", ".png")):
+    if not image or not image.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
         return None
     data = fetch(f"{BUCKET}/{version}/{urllib.parse.quote(image)}")
-    ext = ".png" if image.lower().endswith(".png") else ".jpg"
+    ext = {"png": ".png", "webp": ".webp"}.get(image.lower().rsplit(".", 1)[-1], ".jpg")
     (folder / f"featured{ext}").write_bytes(data)
     credit = f"{label} from {short_citation(text)}. {licence}."
     text = re.sub(r'^(doi\s*=\s*".*"\n)', lambda m: m.group(1) + f"figure_credit = {json.dumps(credit, ensure_ascii=False)}\n", text, count=1, flags=re.M)

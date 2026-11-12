@@ -7,5 +7,6 @@ abstract = ""
 featured = false
 publication = "*Human Brain Mapping*"
 doi = "10.1002/hbm.70640"
+figure_credit = "Graphical abstract from Patchitt et al. (2026), Human Brain Mapping. CC BY."
 +++
 

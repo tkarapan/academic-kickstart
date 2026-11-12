@@ -6,4 +6,5 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*International Journal of Hospitality Management*"
+doi = "10.1016/j.ijhm.2025.104197"
 +++

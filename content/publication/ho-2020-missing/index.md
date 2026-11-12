@@ -6,5 +6,6 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Neuroscience of Consciousness*"
+doi = "10.1093/nc/niaa020"
 +++
 

@@ -6,5 +6,6 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Electronic Imaging*"
+doi = "10.2352/issn.2470-1173.2018.03.ervr-435"
 +++
 

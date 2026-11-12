@@ -6,5 +6,6 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*NeuroImage*"
+doi = "10.1016/j.neuroimage.2017.02.071"
 +++
 

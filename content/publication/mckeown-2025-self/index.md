@@ -6,4 +6,5 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Communications Psychology*"
+doi = "10.1038/s44271-025-00184-y"
 +++

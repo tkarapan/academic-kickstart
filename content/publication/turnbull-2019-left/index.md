@@ -6,5 +6,6 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Nature Communications*"
+doi = "10.1038/s41467-019-11764-y"
 +++
 

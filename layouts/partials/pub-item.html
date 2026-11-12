@@ -1,0 +1,21 @@
+{{- $type := partial "pub-type.html" . -}}
+{{- $search := printf "%s %s %s %s" .Title (delimit (.Params.authors | default slice) " ") (.Params.publication | default "") (.Date.Format "2006") | plainify | lower -}}
+<article class="pub" data-type="{{ $type | urlize }}" data-featured="{{ if .Params.featured }}true{{ else }}false{{ end }}" data-search="{{ replace $search "admin" (lower site.Params.name) }}">
+  <h3 class="pub-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+  <p class="pub-authors">{{ partial "pub-authors.html" .Params.authors }}</p>
+  <p class="pub-meta">
+    {{- with .Params.publication }}<span class="venue">{{ . | markdownify }}</span> · {{ end -}}
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
+    {{- if ne $type "Journal article" }} <span class="tag">{{ $type }}</span>{{ end }}
+    {{- if .Params.featured }} <span class="tag tag-accent">Featured</span>{{ end }}
+  </p>
+  <div class="pub-actions">
+    {{ partial "pub-links.html" . }}
+    {{- with .Params.abstract }}
+    <details class="pub-abstract">
+      <summary>Abstract</summary>
+      <p>{{ . | markdownify }}</p>
+    </details>
+    {{- end }}
+  </div>
+</article>

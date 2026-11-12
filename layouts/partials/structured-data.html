@@ -1,0 +1,22 @@
+{{- $person := dict
+  "@type" "Person"
+  "name" site.Params.name
+  "jobTitle" site.Params.role
+  "email" (printf "mailto:%s" site.Params.email)
+  "url" site.BaseURL
+  "worksFor" (dict "@type" "CollegeOrUniversity" "name" site.Params.organization.name "department" site.Params.organization.department)
+  "address" (dict "@type" "PostalAddress" "streetAddress" site.Params.address.street "addressLocality" site.Params.address.city "postalCode" site.Params.address.postcode "addressCountry" site.Params.address.country_code)
+  "workLocation" (dict "@type" "Place" "geo" (dict "@type" "GeoCoordinates" "latitude" site.Params.coordinates.latitude "longitude" site.Params.coordinates.longitude))
+  "sameAs" (slice "https://scholar.google.com/citations?user=-96i0ikAAAAJ" "https://orcid.org/0000-0002-0813-1019" "https://x.com/tkarap" "https://www.linkedin.com/in/tkarapan")
+-}}
+{{- if .IsHome }}
+<script type="application/ld+json">{{ merge (dict "@context" "https://schema.org") $person | jsonify | safeJS }}</script>
+{{- else if and (eq .Section "publication") .IsPage }}
+{{- $authors := slice }}
+{{- range .Params.authors }}{{ $authors = $authors | append (dict "@type" "Person" "name" (cond (eq . "admin") site.Params.name .)) }}{{ end }}
+{{- $article := dict "@context" "https://schema.org" "@type" "ScholarlyArticle" "headline" .Title "name" .Title "author" $authors "datePublished" (.Date.Format "2006-01-02") "url" .Permalink }}
+{{- with .Params.doi }}{{ $article = merge $article (dict "sameAs" (printf "https://doi.org/%s" .)) }}{{ end }}
+{{- with .Params.publication }}{{ $article = merge $article (dict "isPartOf" (dict "@type" "Periodical" "name" (. | markdownify | plainify))) }}{{ end }}
+{{- with .Params.abstract }}{{ $article = merge $article (dict "abstract" .) }}{{ end }}
+<script type="application/ld+json">{{ $article | jsonify | safeJS }}</script>
+{{- end }}

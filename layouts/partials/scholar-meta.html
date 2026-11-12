@@ -1,0 +1,17 @@
+{{- /* Bibliographic metadata read by Google Scholar and reference managers. */ -}}
+<meta name="citation_title" content="{{ .Title }}">
+{{- range .Params.authors }}
+<meta name="citation_author" content="{{ if eq . "admin" }}{{ site.Params.name }}{{ else }}{{ . }}{{ end }}">
+{{- end }}
+<meta name="citation_publication_date" content="{{ .Date.Format "2006/01/02" }}">
+{{- with .Params.publication }}
+{{- $venue := . | markdownify | plainify }}
+{{- if eq (partial "pub-type.html" $) "Thesis" }}
+{{- with $.Params.institution }}<meta name="citation_dissertation_institution" content="{{ . }}">{{ end }}
+{{- else }}
+<meta name="citation_journal_title" content="{{ $venue }}">
+{{- end }}
+{{- end }}
+{{- with .Params.doi }}<meta name="citation_doi" content="{{ . }}">{{ end }}
+{{- with .Params.url_pdf }}<meta name="citation_pdf_url" content="{{ . }}">{{ end }}
+<meta name="citation_abstract_html_url" content="{{ .Permalink }}">

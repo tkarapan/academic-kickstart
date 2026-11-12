@@ -1,0 +1,51 @@
+name: Update citation metrics
+
+on:
+  schedule:
+    - cron: "23 5 1 * *" # 1st of each month, 05:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: metrics
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out repository
+        run: |
+          git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          git -C repo config user.name "github-actions[bot]"
+          git -C repo config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Update metrics
+        working-directory: repo
+        run: python3 scripts/update_metrics.py
+
+      - name: Remind if figures are stale
+        working-directory: repo
+        run: |
+          stale=$(python3 -c "import json,datetime,pathlib;p=pathlib.Path('data/metrics.json');d=json.loads(p.read_text()) if p.exists() else {};u=d.get('updated');print('yes' if not u or (datetime.date.today()-datetime.date.fromisoformat(u)).days>90 else 'no')")
+          if [ "$stale" = "yes" ] && [ -z "$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search 'in:title Citation figures need updating' --json number --jq '.[].number')" ]; then
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "Citation figures need updating" \
+              --body "Google Scholar could not be read automatically for the last three months. Update \`data/metrics.json\` by hand with the current citation count and h-index from https://scholar.google.com/citations?user=-96i0ikAAAAJ (see README), or close this issue to try again next month."
+          fi
+
+      - name: Commit if changed
+        working-directory: repo
+        run: |
+          if [ -z "$(git status --porcelain -- data/metrics.json)" ]; then
+            echo "No change."
+            exit 0
+          fi
+          git add data/metrics.json
+          git commit -m "Update citation metrics"
+          git push origin HEAD

@@ -6,5 +6,7 @@ publication_types = ["2"]
 abstract = ""
 featured = false
 publication = "*Cerebral Cortex*"
+doi = "10.1093/cercor/bhag088"
+figure_credit = "Figure 1 from Sliwinska et al. (2026), Cerebral Cortex. CC BY."
 +++
 

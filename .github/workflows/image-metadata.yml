@@ -1,0 +1,63 @@
+name: Remove image metadata
+
+on:
+  push:
+    paths:
+      - "**.png"
+      - "**.PNG"
+      - "**.jpg"
+      - "**.JPG"
+      - "**.jpeg"
+      - "**.JPEG"
+      - "**.webp"
+      - "**.WEBP"
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: image-metadata-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  strip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BRANCH: ${{ github.ref_name }}
+    steps:
+      - name: Check out branch
+        run: |
+          git clone --depth 1 --branch "$BRANCH" "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          git -C repo config user.name "github-actions[bot]"
+          git -C repo config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Remove metadata
+        id: strip
+        working-directory: repo
+        run: |
+          python3 scripts/strip_image_metadata.py > ../cleaned.txt
+          echo "count=$(wc -l < ../cleaned.txt)" >> "$GITHUB_OUTPUT"
+          cat ../cleaned.txt
+
+      - name: Commit cleaned images
+        if: steps.strip.outputs.count != '0'
+        working-directory: repo
+        run: |
+          git add -A
+          git commit -m "Remove metadata from images"
+          git push origin "HEAD:${BRANCH}"
+
+      - name: Report
+        if: steps.strip.outputs.count != '0' && github.ref_name == github.event.repository.default_branch
+        run: |
+          {
+            echo "Embedded metadata (such as camera details or GPS location) was found in these images and has been removed:"
+            echo
+            sed 's/^/- `/; s/$/`/' cleaned.txt
+            echo
+            echo "The website never publishes original images, but the original files remain in this repository's history. If any contained a location, the history can be cleaned."
+          } > body.md
+          gh issue create --repo "$GITHUB_REPOSITORY" --title "Image metadata removed" --body-file body.md

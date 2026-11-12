@@ -1,0 +1,14 @@
+{{- /* Generated automatically from the most recent publications. */ -}}
+{{- $pubs := where site.RegularPages "Section" "publication" -}}
+<ol class="news">
+  {{- range first 4 $pubs.ByDate.Reverse }}
+  {{- $type := partial "pub-type.html" . }}
+  <li>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
+    <p>
+      {{- if eq $type "Preprint" }}New preprint{{ else if eq $type "Thesis" }}Thesis published{{ else }}New paper{{ with .Params.publication }} in {{ . | markdownify }}{{ end }}{{ end }}:
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    </p>
+  </li>
+  {{- end }}
+</ol>

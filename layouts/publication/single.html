@@ -1,0 +1,42 @@
+{{ define "main" }}
+{{- $type := partial "pub-type.html" . -}}
+<article class="section pub-page">
+  <div class="wrap wrap-narrow">
+    <p class="eyebrow"><a href="{{ "publication/" | relURL }}">Publications</a> · {{ $type }}</p>
+    <h1>{{ .Title }}</h1>
+    <p class="pub-authors">{{ partial "pub-authors.html" .Params.authors }}</p>
+    <p class="pub-meta">
+      {{- with .Params.publication }}{{ if $.Params.doi }}<a class="venue venue-link" href="https://doi.org/{{ $.Params.doi }}" rel="noopener" target="_blank" title="View at the journal">{{ . | markdownify }}<span aria-hidden="true"> ↗</span></a>{{ else }}<span class="venue">{{ . | markdownify }}</span>{{ end }} · {{ end -}}
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+    </p>
+    {{ partial "pub-links.html" . }}
+
+    {{- with .Params.abstract }}
+    <h2>Abstract</h2>
+    <div class="prose"><p>{{ . | markdownify }}</p></div>
+    {{- end }}
+
+
+    {{- with .Resources.GetMatch "featured.*" }}
+    {{- $img := .Resize "1200x webp q80" }}
+    <figure class="pub-figure">
+      <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="Figure from the publication">
+      {{- with $.Params.figure_credit }}
+      <figcaption>{{ . }}</figcaption>
+      {{- end }}
+    </figure>
+    {{- end }}
+
+    {{- with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+
+    {{- with .Params.doi }}
+    <div class="badges">
+      <div class="altmetric-embed" data-badge-type="donut" data-badge-popover="right" data-doi="{{ . }}" data-hide-no-mentions="true"></div>
+      <span class="__dimensions_badge_embed__" data-doi="{{ . }}" data-hide-zero-citations="true" data-style="small_circle"></span>
+    </div>
+    <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+    <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+    {{- end }}
+  </div>
+</article>
+{{ end }}

@@ -1,0 +1,100 @@
+baseURL = "https://www.tkarap.com/"
+locale = "en-GB"
+title = "Theodoros Karapanagiotidis"
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term"]
+timeZone = "Europe/London"
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML", "RSS"]
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[imaging]
+  quality = 82
+  resampleFilter = "lanczos"
+
+[sitemap]
+  changeFreq = "monthly"
+
+[params]
+  name = "Theodoros Karapanagiotidis"
+  short_name = "Theodoros Karapanagiotidis"
+  role = "Assistant Professor"
+  description = "Theodoros Karapanagiotidis is an Assistant Professor in the School of Psychology at the University of Sussex, studying how large-scale brain dynamics support ongoing thought."
+  tagline = "I study the dynamics of the human brain and ongoing experience, seeking to understand how they unfold, interact and shape our mental lives."
+  email = "t.karapanagiotidis@sussex.ac.uk"
+  # Google Analytics tag (also forwards to the connected GA4 property).
+  google_analytics = "UA-9731977-2"
+
+  [params.organization]
+    name = "University of Sussex"
+    department = "School of Psychology"
+    url = "https://www.sussex.ac.uk/schools/psychology/"
+
+  [params.address]
+    street = "School of Psychology, University of Sussex"
+    city = "Falmer"
+    postcode = "BN1 9QH"
+    country = "United Kingdom"
+    country_code = "GB"
+
+  [params.coordinates]
+    latitude = "50.8662"
+    longitude = "-0.0878"
+
+  # Links shown as icons in the header and contact section.
+  [[params.social]]
+    name = "University of Sussex profile"
+    icon = "sussex"
+    url = "https://profiles.sussex.ac.uk/p329186-theodoros-karapanagiotidis"
+  [[params.social]]
+    name = "Email"
+    icon = "email"
+    url = "mailto:t.karapanagiotidis@sussex.ac.uk"
+  [[params.social]]
+    name = "Google Scholar"
+    icon = "scholar"
+    url = "https://scholar.google.com/citations?user=-96i0ikAAAAJ"
+  [[params.social]]
+    name = "ORCID"
+    icon = "orcid"
+    url = "https://orcid.org/0000-0002-0813-1019"
+  [[params.social]]
+    name = "X"
+    icon = "x"
+    url = "https://x.com/tkarap"
+  [[params.social]]
+    name = "LinkedIn"
+    icon = "linkedin"
+    url = "https://www.linkedin.com/in/tkarapan"
+  [[params.social]]
+    name = "Kapoerio Lab on Instagram"
+    icon = "instagram"
+    url = "https://www.instagram.com/kapoeriolab/"
+
+[menus]
+  [[menus.main]]
+    name = "About"
+    params = { compact = true }
+    url = "/#about"
+    weight = 1
+  [[menus.main]]
+    name = "News"
+    url = "/#news"
+    weight = 2
+  [[menus.main]]
+    name = "Publications"
+    url = "/publication/"
+    weight = 3
+  [[menus.main]]
+    name = "Experience"
+    params = { compact = true }
+    url = "/#experience"
+    weight = 4
+  [[menus.main]]
+    name = "Contact"
+    url = "/#contact"
+    weight = 5

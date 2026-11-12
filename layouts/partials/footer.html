@@ -1,6 +1,6 @@
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p>© {{ now.Year }} {{ site.Params.name }}</p>
+    <p>© {{ now.Year }} {{ site.Params.name }} · <a href="{{ "privacy/" | relURL }}">Privacy</a>{{ if site.Params.google_analytics }} · <button type="button" class="link-button" data-consent-open>Cookie settings</button>{{ end }}</p>
     {{ partial "social.html" (dict "class" "social social-small") }}
   </div>
 </footer>

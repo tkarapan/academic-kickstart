@@ -78,10 +78,6 @@
   to = "/"
   status = 301
 [[redirects]]
-  from = "/privacy/*"
-  to = "/"
-  status = 301
-[[redirects]]
   from = "/index.xml"
   to = "/publication/index.xml"
   status = 301

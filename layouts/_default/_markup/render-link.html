@@ -1,0 +1,5 @@
+{{- /* Links in Markdown content: external links open in a new tab. */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $external := and (in (slice "http" "https") $u.Scheme) (not (strings.Contains $u.Host "tkarap.com")) -}}
+<a href="{{ .Destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $external }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- /* */ -}}

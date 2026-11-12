@@ -106,7 +106,10 @@ p { margin: 0 0 1em; }
 }
 .header-inner { display: flex; align-items: center; gap: 20px; height: 64px; }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 500; }
-.brand-mark { width: 34px; height: 34px; border-radius: 50%; background: #fff; border: 1px solid var(--line); padding: 3px; }
+.brand-mark {
+  display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--accent); color: var(--bg); font: 600 .8rem/1 var(--sans); letter-spacing: .04em;
+}
 .brand-name { white-space: nowrap; }
 .site-nav { margin-left: auto; overflow-x: auto; scrollbar-width: none; }
 .site-nav::-webkit-scrollbar { display: none; }

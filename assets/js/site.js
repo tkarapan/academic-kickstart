@@ -160,3 +160,88 @@
   }
   document.addEventListener("visibilitychange", () => (document.hidden || !visible ? stop() : start()));
 })();
+
+(function tileArt() {
+  // Deterministic line drawings for publication tiles without a figure.
+  // Each title seeds a smooth vector field; lines trace trajectories through it.
+  const canvases = document.querySelectorAll(".tile-art canvas[data-seed]");
+  if (!canvases.length) return;
+
+  function hash(str) {
+    let h = 2166136261;
+    for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function draw(canvas) {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const w = rect.width, h = rect.height;
+    const styles = getComputedStyle(document.documentElement);
+    const a = styles.getPropertyValue("--tile-a").trim() || "255, 79, 26";
+    const b = styles.getPropertyValue("--tile-b").trim() || "18, 18, 18";
+    const rand = rng(hash(canvas.dataset.seed || "paper"));
+
+    // Field: a few random rotational centres plus a gentle drift.
+    const centres = Array.from({ length: 2 + Math.floor(rand() * 3) }, () => ({
+      x: w * (0.15 + rand() * 0.7), y: h * (0.15 + rand() * 0.7),
+      s: (rand() < 0.5 ? -1 : 1) * (0.6 + rand()), r: Math.min(w, h) * (0.25 + rand() * 0.35),
+    }));
+    const drift = rand() * Math.PI * 2;
+    function field(x, y) {
+      let vx = Math.cos(drift) * 0.25, vy = Math.sin(drift) * 0.25;
+      for (const c of centres) {
+        const dx = x - c.x, dy = y - c.y, d2 = dx * dx + dy * dy;
+        const g = Math.exp(-d2 / (2 * c.r * c.r));
+        vx += -dy / c.r * c.s * g; vy += dx / c.r * c.s * g;
+      }
+      const m = Math.hypot(vx, vy) || 1;
+      return [vx / m, vy / m];
+    }
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.lineCap = "round";
+    const lines = 70;
+    for (let i = 0; i < lines; i++) {
+      let x = rand() * w, y = rand() * h;
+      const accent = rand() < 0.28;
+      ctx.strokeStyle = accent ? `rgba(${a}, ${0.55 + rand() * 0.35})` : `rgba(${b}, ${0.12 + rand() * 0.18})`;
+      ctx.lineWidth = accent ? 1.6 : 1;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      for (let s = 0; s < 90; s++) {
+        const [vx, vy] = field(x, y);
+        x += vx * 3; y += vy * 3;
+        ctx.lineTo(x, y);
+        if (x < -10 || y < -10 || x > w + 10 || y > h + 10) break;
+      }
+      ctx.stroke();
+    }
+    for (const c of centres) {
+      ctx.fillStyle = `rgb(${a})`;
+      ctx.beginPath(); ctx.arc(c.x, c.y, 3.5, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = `rgba(${a}, 0.35)`;
+      ctx.beginPath(); ctx.arc(c.x, c.y, 9, 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+
+  const drawAll = () => canvases.forEach(draw);
+  drawAll();
+  let timer;
+  window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(drawAll, 150); });
+  document.addEventListener("themechange", drawAll);
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll);
+})();

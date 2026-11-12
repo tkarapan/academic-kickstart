@@ -1,101 +1,119 @@
 {{ define "main" }}
 {{- $pubs := where site.RegularPages "Section" "publication" -}}
+{{- $byDate := $pubs.ByDate.Reverse -}}
 {{- $portrait := (resources.Get "img/avatar.png").Crop "1000x1000 Top" -}}
-{{- $p1 := $portrait.Resize "440x440 webp q82" -}}
-{{- $p2 := $portrait.Resize "880x880 webp q78" -}}
+{{- $p1 := $portrait.Resize "240x240 webp q82" -}}
+{{- $p2 := $portrait.Resize "480x480 webp q78" -}}
 
-<section class="hero">
-  <canvas class="hero-field" aria-hidden="true"></canvas>
-  <div class="wrap hero-inner">
-    <div class="hero-text">
-      <p class="eyebrow">{{ site.Params.role }} · <a href="{{ site.Params.organization.url }}">{{ site.Params.organization.department }}, {{ site.Params.organization.name }}</a></p>
+{{- /* Mosaic: featured papers first, then the most recent ones. */ -}}
+{{- $tiles := slice -}}
+{{- range (where $byDate "Params.featured" true) }}{{ $tiles = $tiles | append . }}{{ end -}}
+{{- range $byDate }}{{ if and (lt (len $tiles) 8) (not (in $tiles .)) }}{{ $tiles = $tiles | append . }}{{ end }}{{ end -}}
+
+{{- /* Figures computed from the publication list. */ -}}
+{{- $coauthors := slice -}}
+{{- range $pubs }}{{ range .Params.authors }}{{ if ne . "admin" }}{{ $coauthors = $coauthors | append . }}{{ end }}{{ end }}{{ end -}}
+{{- $first := index $pubs.ByDate 0 -}}
+{{- $venues := slice -}}
+{{- range $pubs }}{{ with .Params.publication }}{{ $venues = $venues | append (lower (. | markdownify | plainify)) }}{{ end }}{{ end -}}
+
+<section class="intro">
+  <div class="wrap intro-grid">
+    <div class="intro-main">
+      <p class="kicker">{{ site.Params.role }} · {{ site.Params.organization.department }}, {{ site.Params.organization.name }}</p>
       <h1>{{ site.Params.name }}</h1>
       <p class="lede">{{ site.Params.tagline }}</p>
+    </div>
+    <div class="intro-side">
+      <img class="intro-photo" src="{{ $p1.RelPermalink }}" srcset="{{ $p1.RelPermalink }} 1x, {{ $p2.RelPermalink }} 2x" width="240" height="240" alt="Portrait of {{ site.Params.name }}" fetchpriority="high">
       {{ partial "social.html" (dict "class" "social") }}
-      <p class="hero-actions">
-        <a class="button" href="{{ "publication/" | relURL }}">Publications</a>
-        <a class="button button-ghost" href="#contact">Get in touch</a>
-      </p>
+      <a class="button" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
     </div>
-    <div class="hero-portrait">
-      <img src="{{ $p1.RelPermalink }}" srcset="{{ $p1.RelPermalink }} 1x, {{ $p2.RelPermalink }} 2x" width="440" height="440" alt="Portrait of {{ site.Params.name }}" fetchpriority="high">
+  </div>
+</section>
+
+<section class="mosaic-section" aria-labelledby="work-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="work-title" class="section-title"><span class="num">01</span>Research</h2>
+      <a class="more" href="{{ "publication/" | relURL }}">All {{ len $pubs }} publications <span aria-hidden="true">→</span></a>
     </div>
+    <div class="mosaic">
+      {{- range $i, $p := $tiles }}
+      {{- $img := $p.Resources.GetMatch "featured.*" }}
+      <a class="tile{{ if eq $i 0 }} tile-hero{{ end }}{{ if $img }} tile-figure{{ end }}" href="{{ $p.RelPermalink }}">
+        <div class="tile-art">
+          {{- with $img }}
+          {{- $r := .Resize "900x webp q80" }}
+          <img src="{{ $r.RelPermalink }}" width="{{ $r.Width }}" height="{{ $r.Height }}" alt="" loading="lazy">
+          {{- else }}
+          <canvas data-seed="{{ $p.Title }}" aria-hidden="true"></canvas>
+          {{- end }}
+        </div>
+        <div class="tile-text">
+          <p class="tile-meta">{{ with $p.Params.publication }}{{ . | markdownify | plainify }} · {{ end }}{{ $p.Date.Format "2006" }}{{ if $p.Params.featured }} · <span class="star">Featured</span>{{ end }}</p>
+          <h3>{{ $p.Title }}</h3>
+        </div>
+      </a>
+      {{- end }}
+    </div>
+  </div>
+</section>
+
+<section class="stats" aria-label="At a glance">
+  <div class="wrap stats-grid">
+    <div><strong>{{ len $pubs }}</strong><span>publications</span></div>
+    <div><strong>{{ len ($coauthors | uniq) }}</strong><span>co-authors</span></div>
+    <div><strong>{{ len ($venues | uniq) }}</strong><span>journals &amp; venues</span></div>
+    <div><strong>{{ $first.Date.Format "2006" }}</strong><span>first paper</span></div>
   </div>
 </section>
 
 <section id="about" class="section">
   <div class="wrap about">
-    <div class="about-bio prose">
-      <h2 class="section-title">About</h2>
-      {{ .Content }}
-    </div>
+    <h2 class="section-title"><span class="num">02</span>About</h2>
+    <div class="about-bio prose">{{ .Content }}</div>
     <aside class="about-side">
       <h3>Research interests</h3>
-      <ul class="chips">
+      <ul class="arrow-list">
         {{- range hugo.Data.profile.interests }}<li>{{ . }}</li>{{ end }}
       </ul>
       <h3>Education</h3>
       <ul class="edu">
         {{- range hugo.Data.profile.education }}
-        <li><strong>{{ .degree }}</strong>{{ with .year }}, {{ . }}{{ end }}<span>{{ .institution }}</span></li>
+        <li><strong>{{ .degree }}</strong><span>{{ .institution }}{{ with .year }} · {{ . }}{{ end }}</span></li>
         {{- end }}
       </ul>
     </aside>
   </div>
 </section>
 
-<section id="news" class="section section-tint">
+<section id="news" class="section section-line">
   <div class="wrap">
-    <h2 class="section-title">News</h2>
+    <h2 class="section-title"><span class="num">03</span>News</h2>
     {{ partial "news.html" . }}
   </div>
 </section>
 
-{{- $featured := where $pubs "Params.featured" true }}
-{{- with $featured }}
-<section id="featured" class="section">
-  <div class="wrap">
-    <h2 class="section-title">Featured publications</h2>
-    <div class="cards">
-      {{- range .ByDate.Reverse }}
-      <article class="card">
-        {{- with .Resources.GetMatch "featured.*" }}
-        {{- $img := .Resize "720x webp q80" }}
-        <a class="card-media" href="{{ $.RelPermalink }}" tabindex="-1" aria-hidden="true">
-          <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="" loading="lazy">
-        </a>
-        {{- end }}
-        <div class="card-body">
-          <p class="pub-meta">{{ with .Params.publication }}<span class="venue">{{ . | markdownify }}</span> · {{ end }}{{ .Date.Format "2006" }}</p>
-          <h3 class="pub-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-          <p class="pub-authors">{{ partial "pub-authors.html" .Params.authors }}</p>
-        </div>
-      </article>
-      {{- end }}
-    </div>
-  </div>
-</section>
-{{- end }}
-
-<section id="publications" class="section">
+<section id="publications" class="section section-line">
   <div class="wrap">
     <div class="section-head">
-      <h2 class="section-title">Recent publications</h2>
-      <a class="more" href="{{ "publication/" | relURL }}">All {{ len $pubs }} publications →</a>
+      <h2 class="section-title"><span class="num">04</span>Recent publications</h2>
+      <a class="more" href="{{ "publication/" | relURL }}">Search all <span aria-hidden="true">→</span></a>
     </div>
     <div class="pub-list">
-      {{- range first 6 $pubs.ByDate.Reverse }}{{ partial "pub-item.html" . }}{{ end }}
+      {{- range first 5 $byDate }}{{ partial "pub-item.html" . }}{{ end }}
     </div>
   </div>
 </section>
 
-<section id="experience" class="section section-tint">
+<section id="experience" class="section section-line">
   <div class="wrap">
-    <h2 class="section-title">Experience</h2>
+    <h2 class="section-title"><span class="num">05</span>Experience</h2>
     <ol class="timeline">
       {{- range hugo.Data.experience }}
       <li>
-        <p class="when">{{ .start }}{{ if ne (string .end) (string .start) }} – {{ .end | default "present" }}{{ end }}</p>
+        <p class="when">{{ .start }}{{ if ne (string .end) (string .start) }}–{{ .end | default "now" }}{{ end }}</p>
         <div>
           <h3>{{ .title }}</h3>
           <p class="where">{{ with .organisation }}{{ . }} · {{ end }}{{ .location }}</p>
@@ -107,21 +125,20 @@
   </div>
 </section>
 
-<section id="contact" class="section">
-  <div class="wrap contact">
-    <div class="join">
-      <h2 class="section-title">Work with us</h2>
-      <p>We are always keen to hear from people interested in working with us — prospective PhD students, postdoctoral researchers and collaborators alike. Get in touch by <a href="mailto:{{ site.Params.email }}">email</a>.</p>
+<section id="contact" class="cta">
+  <div class="wrap cta-grid">
+    <div>
+      <h2>Work with us</h2>
+      <p>We are always keen to hear from people interested in working with us — prospective PhD students, postdoctoral researchers and collaborators alike.</p>
+      <a class="cta-mail" href="mailto:{{ site.Params.email }}">{{ site.Params.email }} <span aria-hidden="true">↗</span></a>
     </div>
-    <div class="contact-card">
-      <h2 class="section-title">Contact</h2>
-      <p><a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></p>
+    <div class="cta-side">
       <address>
         {{ site.Params.address.street }}<br>
         {{ site.Params.address.city }}, {{ site.Params.address.postcode }}<br>
         {{ site.Params.address.country }}
       </address>
-      {{ partial "social.html" (dict "class" "social") }}
+      {{ partial "social.html" (dict "class" "social social-invert") }}
     </div>
   </div>
 </section>

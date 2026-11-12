@@ -74,21 +74,21 @@
     w = rect.width; h = rect.height;
     canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const wide = w > 860;
+    const wide = w > 900;
     const s = Math.min(w, h);
     wells = wide
-      ? [{ x: w * 0.62, y: h * 0.38, r: s * 0.22, spin: 1 }, { x: w * 0.86, y: h * 0.66, r: s * 0.18, spin: -1 }]
-      : [{ x: w * 0.3, y: h * 0.2, r: s * 0.28, spin: 1 }, { x: w * 0.78, y: h * 0.75, r: s * 0.22, spin: -1 }];
-    const n = Math.round(Math.min(220, Math.max(90, (w * h) / 5200)));
+      ? [{ x: w * 0.68, y: h * 0.42, r: s * 0.26, spin: 1 }, { x: w * 0.9, y: h * 0.72, r: s * 0.2, spin: -1 }, { x: w * 0.38, y: h * 0.82, r: s * 0.16, spin: 1 }]
+      : [{ x: w * 0.7, y: h * 0.22, r: s * 0.3, spin: 1 }, { x: w * 0.3, y: h * 0.78, r: s * 0.26, spin: -1 }];
+    const n = Math.round(Math.min(420, Math.max(140, (w * h) / 3200)));
     particles = Array.from({ length: n }, spawn);
     ctx.clearRect(0, 0, w, h);
   }
 
   function spawn() {
-    const wl = wells[Math.random() < 0.55 ? 0 : 1];
+    const wl = wells[Math.floor(Math.random() * wells.length)];
     const a = Math.random() * Math.PI * 2;
     const d = wl.r * (0.5 + Math.random() * 0.9);
-    return { x: wl.x + Math.cos(a) * d, y: wl.y + Math.sin(a) * d, age: Math.random() * 400 };
+    return { x: wl.x + Math.cos(a) * d, y: wl.y + Math.sin(a) * d, age: Math.random() * 400, c: Math.random() < 0.55 ? 0 : 1 };
   }
 
   function velocity(p) {
@@ -104,24 +104,30 @@
     return [vx + (Math.random() - 0.5) * 0.35, vy + (Math.random() - 0.5) * 0.35];
   }
 
+  const palette = ["94, 234, 212", "167, 139, 250"];
+
   function step() {
     ctx.globalCompositeOperation = "destination-out";
-    ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.055)";
     ctx.fillRect(0, 0, w, h);
-    ctx.globalCompositeOperation = "source-over";
-    ctx.strokeStyle = `rgba(${colour}, 0.42)`;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      const [vx, vy] = velocity(p);
-      const nx = p.x + vx * 1.4, ny = p.y + vy * 1.4;
-      ctx.moveTo(p.x, p.y);
-      ctx.lineTo(nx, ny);
-      p.x = nx; p.y = ny; p.age++;
-      if (p.age > 500 || nx < -20 || ny < -20 || nx > w + 20 || ny > h + 20) particles[i] = spawn();
+    ctx.globalCompositeOperation = "lighter";
+    ctx.lineWidth = 1.1;
+    for (let c = 0; c < palette.length; c++) {
+      ctx.strokeStyle = `rgba(${palette[c]}, 0.5)`;
+      ctx.beginPath();
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        if (p.c !== c) continue;
+        const [vx, vy] = velocity(p);
+        const nx = p.x + vx * 1.5, ny = p.y + vy * 1.5;
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(nx, ny);
+        p.x = nx; p.y = ny; p.age++;
+        if (p.age > 520 || nx < -20 || ny < -20 || nx > w + 20 || ny > h + 20) particles[i] = spawn();
+      }
+      ctx.stroke();
     }
-    ctx.stroke();
+    ctx.globalCompositeOperation = "source-over";
   }
 
   function loop() {

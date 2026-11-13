@@ -1,14 +1,20 @@
-{{- /* Generated automatically from the most recent publications. */ -}}
+{{- /* News items generated from publications, newest first, grouped by year. */ -}}
 {{- $pubs := where site.RegularPages "Section" "publication" -}}
-<ol class="news">
-  {{- range first 4 $pubs.ByDate.Reverse }}
-  {{- $type := partial "pub-type.html" . }}
-  <li>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
-    <p>
-      {{- if eq $type "Preprint" }}New preprint{{ else if eq $type "Thesis" }}Thesis published{{ else }}New paper{{ with .Params.publication }} in {{ . | markdownify }}{{ end }}{{ end }}:
-      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-    </p>
-  </li>
-  {{- end }}
-</ol>
+{{- range $pubs.ByDate.Reverse.GroupByDate "2006" }}
+<div class="news-year">
+  <h2>{{ .Key }}</h2>
+  <ol class="news-list">
+    {{- range .Pages }}
+    {{- $type := partial "pub-type.html" . }}
+    <li>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan" }}</time>
+      <div>
+        <p class="news-kind">{{ if eq $type "Preprint" }}New preprint{{ else if eq $type "Thesis" }}Thesis{{ else }}New paper{{ with .Params.publication }} in {{ . | markdownify }}{{ end }}{{ end }}</p>
+        <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        <p class="pub-authors">{{ partial "pub-authors.html" .Params.authors }}</p>
+      </div>
+    </li>
+    {{- end }}
+  </ol>
+</div>
+{{- end }}

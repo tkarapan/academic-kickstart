@@ -474,8 +474,16 @@
     tipText.textContent = p.name;
     const w = tipText.getComputedTextLength() + 24, h = 34;
     const right = Math.cos(p.angle) >= 0;
-    const x = right ? p.x + p.size + 8 : p.x - p.size - 8 - w;
-    const y = Math.max(-500, Math.min(500 - h, p.y - h / 2));
+    // Prefer the side away from the centre, but keep the label inside the
+    // drawing so it is never cut off at the screen edge.
+    const limit = 515;
+    let x = right ? p.x + p.size + 8 : p.x - p.size - 8 - w;
+    let y = p.y - h / 2;
+    if (x < -limit || x + w > limit) {
+      x = Math.max(-limit, Math.min(limit - w, p.x - w / 2));
+      y = p.y < 0 ? p.y + p.size + 8 : p.y - p.size - 8 - h;
+    }
+    y = Math.max(-limit, Math.min(limit - h, y));
     tipBox.setAttribute("x", x); tipBox.setAttribute("y", y);
     tipBox.setAttribute("width", w); tipBox.setAttribute("height", h);
     tipText.setAttribute("x", x + 12); tipText.setAttribute("y", y + h / 2 + 1);

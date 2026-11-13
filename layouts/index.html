@@ -78,7 +78,7 @@
       <li><strong>{{ lang.FormatNumber 0 .citations }}</strong> citations</li>
       <li><strong>{{ .h_index }}</strong> h-index</li>
       {{- end }}
-      <li><strong>{{ len ($coauthors | uniq) }}</strong> co-authors</li>
+      <li><a href="{{ "collaborators/" | relURL }}"><strong>{{ len ($coauthors | uniq) }}</strong> co-authors</a></li>
     </ul>
     <div class="mosaic">
       {{- range $i, $p := $tiles }}
@@ -102,8 +102,6 @@
     {{- with $metrics }}<p class="stats-note">Citation figures from {{ .source }}, updated monthly.</p>{{ end }}
   </div>
 </section>
-
-{{ partial "network.html" . }}
 
 <section id="about" class="section">
   <div class="wrap about">

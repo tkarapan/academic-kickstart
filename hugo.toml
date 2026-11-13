@@ -92,11 +92,16 @@ timeZone = "Europe/London"
     url = "/publication/"
     weight = 3
   [[menus.main]]
+    name = "Collaborators"
+    params = { compact = true }
+    url = "/collaborators/"
+    weight = 4
+  [[menus.main]]
     name = "Experience"
     params = { compact = true }
     url = "/#experience"
-    weight = 4
+    weight = 5
   [[menus.main]]
     name = "Contact"
     url = "/#contact"
-    weight = 5
+    weight = 6

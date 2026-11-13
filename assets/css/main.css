@@ -23,6 +23,7 @@
   --field-alpha: .68;
   --tile-a: 255, 138, 76;
   --tile-b: 245, 241, 236;
+  --net-groups: #ffb84d, #ff5e62, #4fd1c5, #9f8cff, #63b3ed, #f687b3, #7ed491, #f6e05e, #ff8a4c, #b794f4;
   --display: "Sora", "Helvetica Neue", Arial, sans-serif;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --radius: 22px;
@@ -48,6 +49,7 @@
   --field-alpha: .55;
   --tile-a: 240, 100, 47;
   --tile-b: 27, 19, 14;
+  --net-groups: #d97706, #dc2626, #0d9488, #7c3aed, #2563eb, #db2777, #16a34a, #a16207, #ea580c, #9333ea;
   color-scheme: light;
 }
 
@@ -275,6 +277,8 @@ main { display: block; }
 /* ---------- Research stats and mosaic ---------- */
 .stats { display: flex; flex-wrap: wrap; gap: 6px 0; list-style: none; margin: -.4em 0 1.4em; padding: 0; color: var(--muted); font-size: .9rem; }
 .stats li + li::before { content: "·"; margin: 0 12px; color: var(--c1); }
+.stats a { color: inherit; text-decoration: underline; text-decoration-color: rgba(var(--c1-rgb), .5); text-underline-offset: .25em; }
+.stats a:hover { color: var(--c1); }
 .stats strong { color: var(--text); font-weight: 650; font-variant-numeric: tabular-nums; }
 .stats-note { margin: 14px 0 0; font-size: .78rem; color: var(--muted); }
 .mosaic { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 230px; grid-auto-flow: dense; gap: 14px; }
@@ -302,16 +306,15 @@ main { display: block; }
 }
 
 /* Co-author network */
-.network-intro { color: var(--body); max-width: 70ch; margin-top: -.4em; }
+.network-page h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); margin-bottom: .3em; }
+.network-intro { color: var(--body); max-width: 70ch; margin-bottom: 1.6em; }
 .network { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 24px; align-items: start; }
 .network-canvas { aspect-ratio: 1; max-width: 760px; width: 100%; }
 .network-svg { width: 100%; height: 100%; overflow: visible; font-family: var(--sans); }
-.net-orbit { fill: none; stroke: var(--line); stroke-dasharray: 2 6; }
-.net-years line { stroke: var(--muted); stroke-opacity: .5; }
-.net-years text { fill: var(--muted); font-size: 15px; font-weight: 600; letter-spacing: .04em; }
-.net-spokes line { stroke: var(--c1); transition: stroke-opacity .2s; }
-.net-extra line { stroke: var(--c2); stroke-opacity: .35; stroke-width: 1; }
-.net-node circle:not(.net-hit) { fill: var(--c1); stroke: var(--bg); stroke-width: 1.5; transition: opacity .2s; }
+.net-arcs path { fill: none; stroke-width: 5; stroke-linecap: round; opacity: .85; }
+.net-spokes line { transition: stroke-opacity .2s; }
+.net-extra line { stroke-opacity: .45; stroke-width: 1; }
+.net-node circle:not(.net-hit) { stroke: var(--bg); stroke-width: 1.5; transition: opacity .2s; }
 .net-hit { fill: transparent; cursor: pointer; }
 .net-node { outline: none; cursor: pointer; }
 .net-node:focus-visible circle:not(.net-hit) { stroke: var(--text); stroke-width: 3; }
@@ -320,8 +323,8 @@ main { display: block; }
 .network-svg.has-active .net-spokes line:not(.is-active) { stroke-opacity: .06; }
 .network-svg.has-active .net-node:not(.is-active):not(.is-related) circle:not(.net-hit) { opacity: .25; }
 .network-svg.has-active .net-labels text:not(.is-active) { opacity: .3; }
-.net-spokes line.is-active { stroke-opacity: 1; stroke: var(--c2); }
-.net-node.is-active circle:not(.net-hit) { fill: var(--c2); }
+.net-spokes line.is-active { stroke-opacity: 1; stroke-width: 3; }
+.net-node.is-active circle:not(.net-hit) { stroke: var(--text); stroke-width: 2.5; }
 .net-labels text.is-active { opacity: 1; font-weight: 700; }
 .network-panel { padding: 22px 24px; position: sticky; top: 100px; max-height: 70vh; overflow: auto; }
 .network-panel h3 { margin: 0 0 .2em; font-size: 1.3rem; }

@@ -150,7 +150,12 @@
   if (reduced) drawStatic();
 
   let resizeTimer;
+  // Mobile browsers fire resize when the address bar shows or hides while
+  // scrolling; only redraw when the width actually changes.
+  let lastWidth = window.innerWidth;
   window.addEventListener("resize", () => {
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => { layout(); if (reduced) drawStatic(); }, 150);
   });
@@ -246,7 +251,13 @@
   const drawAll = () => canvases.forEach(draw);
   drawAll();
   let timer;
-  window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(drawAll, 150); });
+  let lastWidth = window.innerWidth;
+  window.addEventListener("resize", () => {
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
+    clearTimeout(timer);
+    timer = setTimeout(drawAll, 150);
+  });
   document.addEventListener("themechange", drawAll);
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll);
 })();

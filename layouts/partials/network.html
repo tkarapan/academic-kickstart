@@ -23,7 +23,7 @@
     <div class="network-list">
       <h2>All {{ len $counts }} co-authors</h2>
       <input class="network-filter" type="search" placeholder="Find a name" aria-label="Find a co-author" hidden>
-      <ul class="network-names">
+      <ul class="network-names" data-surnames="{{ hugo.Data.authors.surnames | jsonify }}">
         <noscript>{{ range $name, $n := $counts }}<li>{{ $name }} ({{ $n }})</li>{{ end }}</noscript>
       </ul>
     </div>

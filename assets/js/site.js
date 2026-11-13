@@ -475,12 +475,18 @@
   const listEl = document.querySelector(".network-names");
   const buttons = new Map();
   if (listEl) {
-    const surname = (n) => n.split(" ").slice(-1)[0].toLowerCase();
-    [...people.values()].sort((a, b) => surname(a.name).localeCompare(surname(b.name)) || a.name.localeCompare(b.name)).forEach((p) => {
+    const multi = JSON.parse(listEl.dataset.surnames || "[]");
+    const split = (n) => {
+      const m = multi.find((s) => n.endsWith(" " + s));
+      const last = m || n.split(" ").slice(-1)[0];
+      return [last, n.slice(0, n.length - last.length).trim()];
+    };
+    const key = (n) => split(n).join(" ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    [...people.values()].sort((a, b) => key(a.name).localeCompare(key(b.name))).forEach((p) => {
       const li = document.createElement("li");
       const b = document.createElement("button");
       b.type = "button";
-      b.innerHTML = `<span class="dot" style="background:${p.colour}"></span>${escapeHtml(p.name)} <span class="n">${p.papers.length}</span>`;
+      b.innerHTML = `<span class="dot" style="background:${p.colour}"></span>${escapeHtml(split(p.name)[0])}${split(p.name)[1] ? ", " + escapeHtml(split(p.name)[1]) : ""} <span class="n">${p.papers.length}</span>`;
       b.addEventListener("click", () => {
         if (locked !== p) select(p, true);
         svg.scrollIntoView({ behavior: "smooth", block: "center" });

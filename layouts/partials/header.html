@@ -6,8 +6,8 @@
     </a>
     <nav class="site-nav" aria-label="Main">
       <ul>
-        {{- range site.Menus.main }}
-        <li{{ with .Params.compact }} class="nav-optional"{{ end }}><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
+        {{- range $item := site.Menus.main }}
+        <li{{ with .Params.compact }} class="nav-optional"{{ end }}><a href="{{ .URL | relURL }}">{{ with $item.Params.short }}<span class="nav-long">{{ $item.Name }}</span><span class="nav-short">{{ . }}</span>{{ else }}{{ $item.Name }}{{ end }}</a></li>
         {{- end }}
       </ul>
     </nav>

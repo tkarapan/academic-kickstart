@@ -85,6 +85,7 @@ timeZone = "Europe/London"
     weight = 1
   [[menus.main]]
     name = "News"
+    params = { compact = true }
     url = "/#news"
     weight = 2
   [[menus.main]]
@@ -93,7 +94,7 @@ timeZone = "Europe/London"
     weight = 3
   [[menus.main]]
     name = "Collaborators"
-    params = { compact = true }
+    params = { short = "Network" }
     url = "/collaborators/"
     weight = 4
   [[menus.main]]

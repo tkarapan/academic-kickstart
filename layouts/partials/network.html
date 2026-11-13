@@ -10,7 +10,7 @@
   <div class="wrap">
     <p class="label">Collaborators</p>
     <h1>Co-author network</h1>
-    <p class="network-intro">Everyone I have published with. People who often publish together are grouped and share a colour; the closer someone is to the centre, the more papers we have written together. Select a name to see our joint papers.</p>
+    <p class="network-intro">Everyone I have published with. The closer someone is to the centre, the more papers we have written together. Colours group people who often publish together, worked out automatically from the author lists. Hover over a dot to see a name, or pick someone from the list below to see our joint papers.</p>
     <div class="network">
       <div class="network-canvas">
         {{- $me := (resources.Get "img/portrait.webp").Fill "200x200 Center webp q80" }}
@@ -20,14 +20,13 @@
         <p class="network-hint">Select a collaborator to see our joint papers.</p>
       </aside>
     </div>
-    <details class="network-list">
-      <summary>All {{ len $counts }} co-authors</summary>
-      <ul>
-        {{- range $name, $n := $counts }}
-        <li>{{ $name }} <span>({{ $n }})</span></li>
-        {{- end }}
+    <div class="network-list">
+      <h2>All {{ len $counts }} co-authors</h2>
+      <input class="network-filter" type="search" placeholder="Find a name" aria-label="Find a co-author" hidden>
+      <ul class="network-names">
+        <noscript>{{ range $name, $n := $counts }}<li>{{ $name }} ({{ $n }})</li>{{ end }}</noscript>
       </ul>
-    </details>
+    </div>
   </div>
   <script type="application/json" id="network-data">{{ $data | jsonify | safeJS }}</script>
 </section>

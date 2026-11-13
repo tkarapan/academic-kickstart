@@ -440,7 +440,6 @@
   const extra = el("g", { class: "net-extra" }, svg);
   const spokes = el("g", { class: "net-spokes" }, svg);
   const nodes = el("g", { class: "net-nodes" }, svg);
-  const labels = el("g", { class: "net-labels" }, svg);
 
   list.forEach((p) => {
     const n = p.papers.length;
@@ -449,21 +448,56 @@
     el("circle", { cx: p.x, cy: p.y, r: p.size + 6, class: "net-hit" }, g);
     p.dot = el("circle", { cx: p.x, cy: p.y, r: p.size, fill: p.colour }, g);
     p.group = g;
-    if (n >= 4) {
-      const deg = (p.angle * 180) / Math.PI;
-      const norm = ((deg % 360) + 360) % 360;
-      const flip = norm > 90 && norm < 270;
-      const off = p.size + 6;
-      const lx = p.x + Math.cos(p.angle) * off, ly = p.y + Math.sin(p.angle) * off;
-      const t = el("text", { x: lx, y: ly, transform: `rotate(${flip ? deg - 180 : deg} ${lx} ${ly})`, "text-anchor": flip ? "end" : "start", "dominant-baseline": "middle" }, labels);
-      t.textContent = p.name.replace(/\s[A-Z]\.?\s/, " ");
-      p.label = t;
-    }
     g.addEventListener("mouseenter", () => select(p, false));
     g.addEventListener("focus", () => select(p, false));
     g.addEventListener("click", () => select(p, true));
     g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(p, true); } });
   });
+
+  // Name tooltip, shown for the hovered or selected person.
+  const tip = el("g", { class: "net-tip", visibility: "hidden" }, svg);
+  const tipBox = el("rect", { rx: 8, ry: 8 }, tip);
+  const tipText = el("text", { "dominant-baseline": "middle" }, tip);
+  function showTip(p) {
+    if (!p) { tip.setAttribute("visibility", "hidden"); return; }
+    tipText.textContent = p.name;
+    const w = tipText.getComputedTextLength() + 24, h = 34;
+    const right = Math.cos(p.angle) >= 0;
+    const x = right ? p.x + p.size + 8 : p.x - p.size - 8 - w;
+    const y = Math.max(-500, Math.min(500 - h, p.y - h / 2));
+    tipBox.setAttribute("x", x); tipBox.setAttribute("y", y);
+    tipBox.setAttribute("width", w); tipBox.setAttribute("height", h);
+    tipText.setAttribute("x", x + 12); tipText.setAttribute("y", y + h / 2 + 1);
+    tip.setAttribute("visibility", "visible");
+  }
+
+  // Clickable list of all co-authors, sorted by surname.
+  const listEl = document.querySelector(".network-names");
+  const buttons = new Map();
+  if (listEl) {
+    const surname = (n) => n.split(" ").slice(-1)[0].toLowerCase();
+    [...people.values()].sort((a, b) => surname(a.name).localeCompare(surname(b.name)) || a.name.localeCompare(b.name)).forEach((p) => {
+      const li = document.createElement("li");
+      const b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = `<span class="dot" style="background:${p.colour}"></span>${escapeHtml(p.name)} <span class="n">${p.papers.length}</span>`;
+      b.addEventListener("click", () => {
+        if (locked !== p) select(p, true);
+        svg.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+      b.addEventListener("mouseenter", () => select(p, false));
+      b.addEventListener("mouseleave", () => { if (!locked) select(null, false); });
+      li.appendChild(b); listEl.appendChild(li); buttons.set(p.name, b);
+    });
+    const filter = document.querySelector(".network-filter");
+    if (filter) {
+      filter.hidden = false;
+      filter.addEventListener("input", () => {
+        const q = filter.value.toLowerCase().trim();
+        buttons.forEach((b, name) => { b.parentElement.hidden = q && !name.toLowerCase().includes(q); });
+      });
+    }
+  }
 
   // Centre: portrait.
   const clip = el("clipPath", { id: "net-centre-clip" }, el("defs", {}, svg));
@@ -478,12 +512,14 @@
     const active = lock ? locked : p;
     svg.classList.toggle("has-active", !!active);
     extra.replaceChildren();
+    showTip(active);
     list.forEach((q) => {
       const on = !!active && q === active;
       q.group.classList.toggle("is-active", on);
       q.group.classList.remove("is-related");
       q.spoke.classList.toggle("is-active", on);
-      if (q.label) q.label.classList.toggle("is-active", on);
+      const b = buttons.get(q.name);
+      if (b) b.classList.toggle("is-active", on);
     });
     if (!active) { panel.innerHTML = '<p class="network-hint">Select a collaborator to see our joint papers.</p>'; return; }
     const shared = new Set();

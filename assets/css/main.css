@@ -318,14 +318,11 @@ main { display: block; }
 .net-hit { fill: transparent; cursor: pointer; }
 .net-node { outline: none; cursor: pointer; }
 .net-node:focus-visible circle:not(.net-hit) { stroke: var(--text); stroke-width: 3; }
-.net-labels text { fill: var(--text); font-size: 15px; font-weight: 500; pointer-events: none; transition: opacity .2s; }
 .net-centre-ring { fill: var(--bg-2); stroke: var(--c1); stroke-width: 2; }
 .network-svg.has-active .net-spokes line:not(.is-active) { stroke-opacity: .06; }
 .network-svg.has-active .net-node:not(.is-active):not(.is-related) circle:not(.net-hit) { opacity: .25; }
-.network-svg.has-active .net-labels text:not(.is-active) { opacity: .3; }
 .net-spokes line.is-active { stroke-opacity: 1; stroke-width: 3; }
 .net-node.is-active circle:not(.net-hit) { stroke: var(--text); stroke-width: 2.5; }
-.net-labels text.is-active { opacity: 1; font-weight: 700; }
 .network-panel { padding: 22px 24px; position: sticky; top: 100px; max-height: 70vh; overflow: auto; }
 .network-panel h3 { margin: 0 0 .2em; font-size: 1.3rem; }
 .network-meta { color: var(--c1); font-size: .85rem; font-weight: 600; margin-bottom: 1em; }
@@ -335,15 +332,23 @@ main { display: block; }
 .network-panel li a:hover { color: var(--c1); }
 .network-panel li span { color: var(--muted); font-size: .8rem; margin-left: 4px; }
 .network-hint { color: var(--muted); margin: 0; }
-.network-list { margin-top: 18px; color: var(--muted); font-size: .9rem; }
-.network-list summary { cursor: pointer; color: var(--text); font-weight: 600; }
-.network-list ul { columns: 3 220px; list-style: none; padding: 0; margin: 12px 0 0; }
-.network-list li { padding: 2px 0; break-inside: avoid; color: var(--body); }
-.network-list li span { color: var(--muted); }
+.network-list { margin-top: 28px; }
+.network-list h2 { font-size: 1.3rem; margin-bottom: .6em; }
+.network-filter { width: 100%; max-width: 360px; padding: 10px 16px; margin-bottom: 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--glass); color: var(--text); font: inherit; }
+.network-names { columns: 4 200px; column-gap: 20px; list-style: none; padding: 0; margin: 0; }
+.network-names li { break-inside: avoid; }
+.network-names button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 4px 6px; border: 0; border-radius: 6px; background: none; color: var(--body); font: inherit; font-size: .9rem; text-align: left; cursor: pointer; }
+.network-names button:hover, .network-names button.is-active { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); }
+.network-names button.is-active { font-weight: 600; }
+.network-names .dot { flex: none; width: 8px; height: 8px; border-radius: 50%; }
+.network-names .n { margin-left: auto; color: var(--muted); font-size: .78rem; }
+.net-tip rect { fill: var(--bg-2); stroke: var(--line); }
+.net-tip text { fill: var(--text); font-size: 17px; font-weight: 600; pointer-events: none; }
+.net-tip { pointer-events: none; }
 @media (max-width: 900px) {
   .network { grid-template-columns: minmax(0, 1fr); }
   .network-panel { position: static; max-height: 380px; }
-  .net-labels text { font-size: 19px; }
+  .net-tip text { font-size: 24px; }
 }
 
 /* Map */

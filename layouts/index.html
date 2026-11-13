@@ -45,7 +45,7 @@
 <section id="news" class="ticker" aria-label="News">
   <a class="ticker-label" href="{{ "news/" | relURL }}">News <span aria-hidden="true">→</span></a>
   <div class="ticker-viewport">
-    {{- $items := first 6 $byDate }}
+    {{- $items := first (site.Params.news_count | default 6) $byDate }}
     <div class="ticker-track">
       {{- range $copy := slice 1 2 }}
       <ul class="ticker-list"{{ if eq $copy 2 }} aria-hidden="true"{{ end }}>

@@ -54,6 +54,27 @@
   );
 })();
 
+(function newsTicker() {
+  // Loop the ticker by exactly one copy of its list at a constant speed, so
+  // the wrap-around is seamless whatever the number or length of items.
+  const track = document.querySelector(".ticker-track");
+  const list = track && track.querySelector(".ticker-list");
+  if (!list) return;
+  const SPEED = 98; // pixels per second
+  let width = 0;
+  function measure() {
+    const w = list.getBoundingClientRect().width;
+    if (!w || Math.abs(w - width) < 0.01) return;
+    width = w;
+    track.style.setProperty("--ticker-shift", `-${w}px`);
+    track.style.setProperty("--ticker-duration", `${(w / SPEED).toFixed(3)}s`);
+  }
+  measure();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  let last = window.innerWidth;
+  window.addEventListener("resize", () => { if (window.innerWidth !== last) { last = window.innerWidth; measure(); } });
+})();
+
 (function heroField() {
   // Particles drifting around two attractor basins, drawn as fading trails.
   const canvas = document.querySelector(".hero-field");
@@ -131,9 +152,12 @@
     ctx.globalCompositeOperation = "source-over";
   }
 
-  function loop() {
+  // Draw at most ~60 times a second: on 120 Hz screens every other frame is
+  // skipped, which halves the work without changing the animation's speed.
+  let lastStep = 0;
+  function loop(t) {
     if (!running) return;
-    step();
+    if (!lastStep || t - lastStep >= 15) { step(); lastStep = t; }
     frame = requestAnimationFrame(loop);
   }
 

@@ -1,5 +1,5 @@
 ---
 title: "News"
-description: "Latest papers and preprints by Theodoros Karapanagiotidis."
+description: "Recent news from Theodoros Karapanagiotidis."
 layout: "news"
 ---

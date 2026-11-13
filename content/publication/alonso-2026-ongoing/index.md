@@ -7,4 +7,5 @@ abstract = "Ongoing thought varies continuously, yet previous research has shown
 featured = false
 publication = "*PsyArXiv*"
 doi = "10.31234/osf.io/hmve6_v1"
+figure_credit = "Figure 1 from Alonso et al. (2026), PsyArXiv."
 +++

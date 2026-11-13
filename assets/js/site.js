@@ -54,6 +54,27 @@
   );
 })();
 
+(function newsTicker() {
+  // Loop the ticker by exactly one copy of its list at a constant speed, so
+  // the wrap-around is seamless whatever the number or length of items.
+  const track = document.querySelector(".ticker-track");
+  const list = track && track.querySelector(".ticker-list");
+  if (!list) return;
+  const SPEED = 98; // pixels per second
+  let width = 0;
+  function measure() {
+    const w = list.getBoundingClientRect().width;
+    if (!w || Math.abs(w - width) < 0.01) return;
+    width = w;
+    track.style.setProperty("--ticker-shift", `-${w}px`);
+    track.style.setProperty("--ticker-duration", `${(w / SPEED).toFixed(3)}s`);
+  }
+  measure();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  let last = window.innerWidth;
+  window.addEventListener("resize", () => { if (window.innerWidth !== last) { last = window.innerWidth; measure(); } });
+})();
+
 (function heroField() {
   // Particles drifting around two attractor basins, drawn as fading trails.
   const canvas = document.querySelector(".hero-field");
@@ -131,9 +152,12 @@
     ctx.globalCompositeOperation = "source-over";
   }
 
-  function loop() {
+  // Draw at most ~60 times a second: on 120 Hz screens every other frame is
+  // skipped, which halves the work without changing the animation's speed.
+  let lastStep = 0;
+  function loop(t) {
     if (!running) return;
-    step();
+    if (!lastStep || t - lastStep >= 15) { step(); lastStep = t; }
     frame = requestAnimationFrame(loop);
   }
 
@@ -474,8 +498,16 @@
     tipText.textContent = p.name;
     const w = tipText.getComputedTextLength() + 24, h = 34;
     const right = Math.cos(p.angle) >= 0;
-    const x = right ? p.x + p.size + 8 : p.x - p.size - 8 - w;
-    const y = Math.max(-500, Math.min(500 - h, p.y - h / 2));
+    // Prefer the side away from the centre, but keep the label inside the
+    // drawing so it is never cut off at the screen edge.
+    const limit = 515;
+    let x = right ? p.x + p.size + 8 : p.x - p.size - 8 - w;
+    let y = p.y - h / 2;
+    if (x < -limit || x + w > limit) {
+      x = Math.max(-limit, Math.min(limit - w, p.x - w / 2));
+      y = p.y < 0 ? p.y + p.size + 8 : p.y - p.size - 8 - h;
+    }
+    y = Math.max(-limit, Math.min(limit - h, y));
     tipBox.setAttribute("x", x); tipBox.setAttribute("y", y);
     tipBox.setAttribute("width", w); tipBox.setAttribute("height", h);
     tipText.setAttribute("x", x + 12); tipText.setAttribute("y", y + h / 2 + 1);

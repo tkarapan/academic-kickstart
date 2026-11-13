@@ -52,6 +52,7 @@ jobs:
         working-directory: repo
         run: |
           pubs=$(python3 scripts/check_publications.py --declined ../declined.txt --summary ../summary.md)
+          python3 scripts/authors.py > /dev/null || true
           abstracts=$(python3 scripts/fill_abstracts.py || echo 0)
           if [ "$abstracts" != "0" ]; then
             { echo; echo "Abstracts added from Europe PMC or Crossref: ${abstracts}"; } >> ../summary.md
@@ -59,6 +60,10 @@ jobs:
           figs=$(python3 scripts/fetch_figures.py --declined ../declined-figures.txt --summary ../figures.md || echo 0)
           if [ "$figs" != "0" ]; then
             { echo; echo "Figures added from open-access versions (credited on each paper's page):"; echo; cat ../figures.md; } >> ../summary.md
+          fi
+          python3 scripts/authors.py --similar > ../similar.txt || true
+          if [ "$((pubs + abstracts + figs))" != "0" ] && [ -s ../similar.txt ]; then
+            { echo; echo "**Please check these names.** They look alike and may be the same person. If so, add the variant under \"aliases\" in \`data/authors.json\`; if not, add them under \"distinct\"."; echo; sed 's/^/- /' ../similar.txt; } >> ../summary.md
           fi
           echo "count=$((pubs + abstracts + figs))" >> "$GITHUB_OUTPUT"
           echo "New publications: ${pubs}; abstracts: ${abstracts}; new figures: ${figs}"

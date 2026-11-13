@@ -280,3 +280,267 @@
   document.querySelectorAll("[data-consent-open]").forEach((b) => b.addEventListener("click", () => { banner.hidden = false; }));
   if (choice !== "granted" && choice !== "denied") banner.hidden = false;
 })();
+
+(function coauthorNetwork() {
+  // Radial co-author map. The site owner is at the centre. Collaborators are
+  // grouped by who they publish with (Louvain community detection on the
+  // co-authorship graph), each group taking its own slice of the circle and
+  // colour. Distance from the centre shrinks with the number of joint papers.
+  const svg = document.querySelector(".network-svg");
+  const source = document.getElementById("network-data");
+  if (!svg || !source) return;
+  const panel = document.querySelector(".network-panel");
+  const NS = "http://www.w3.org/2000/svg";
+  const pubs = JSON.parse(source.textContent);
+
+  // People and co-authorship weights (large author lists count for less).
+  const people = new Map();
+  const W = new Map();
+  const link = (a, b, w) => {
+    if (!W.has(a)) W.set(a, new Map());
+    W.get(a).set(b, (W.get(a).get(b) || 0) + w);
+  };
+  pubs.forEach((p, i) => {
+    const names = p.a.filter((n) => n !== "admin");
+    names.forEach((name) => {
+      if (!people.has(name)) people.set(name, { name, papers: [], first: p.y });
+      const person = people.get(name);
+      person.papers.push(i);
+      person.first = Math.min(person.first, p.y);
+      if (!W.has(name)) W.set(name, new Map());
+    });
+    for (let x = 0; x < names.length; x++)
+      for (let y = x + 1; y < names.length; y++) {
+        link(names[x], names[y], 1 / (names.length - 1));
+        link(names[y], names[x], 1 / (names.length - 1));
+      }
+  });
+  const order = [...people.values()].sort((a, b) => b.papers.length - a.papers.length || (a.name < b.name ? -1 : 1)).map((p) => p.name);
+
+  function louvain(nodes, graph, gamma) {
+    const mapping = new Map(nodes.map((n) => [n, n]));
+    let level = nodes.slice();
+    let G = new Map(nodes.map((n) => [n, new Map(graph.get(n))]));
+    for (;;) {
+      const deg = new Map(level.map((n) => [n, [...G.get(n).values()].reduce((s, w) => s + w, 0)]));
+      const m2 = [...deg.values()].reduce((s, w) => s + w, 0) || 1;
+      const c = new Map(level.map((n) => [n, n]));
+      const tot = new Map(deg);
+      let improved = true, movedAny = false;
+      while (improved) {
+        improved = false;
+        for (const n of level) {
+          const cur = c.get(n);
+          tot.set(cur, tot.get(cur) - deg.get(n));
+          const links = new Map();
+          for (const [m, w] of G.get(n)) if (m !== n) links.set(c.get(m), (links.get(c.get(m)) || 0) + w);
+          let best = cur, bestGain = (links.get(cur) || 0) - (gamma * tot.get(cur) * deg.get(n)) / m2;
+          for (const cc of [...links.keys()].sort()) {
+            const gain = links.get(cc) - (gamma * tot.get(cc) * deg.get(n)) / m2;
+            if (gain > bestGain + 1e-12) { best = cc; bestGain = gain; }
+          }
+          c.set(n, best);
+          tot.set(best, tot.get(best) + deg.get(n));
+          if (best !== cur) { improved = true; movedAny = true; }
+        }
+      }
+      if (!movedAny) break;
+      const next = new Map();
+      for (const n of level) {
+        const cn = c.get(n);
+        if (!next.has(cn)) next.set(cn, new Map());
+        for (const [m, w] of G.get(n)) next.get(cn).set(c.get(m), (next.get(cn).get(c.get(m)) || 0) + w);
+      }
+      for (const [o, cur] of mapping) mapping.set(o, c.get(cur));
+      level = [...new Set(c.values())].sort();
+      G = new Map(level.map((n) => [n, next.get(n) || new Map()]));
+    }
+    return mapping;
+  }
+
+  const community = louvain(order, W, 1.5);
+  const groupsMap = new Map();
+  order.forEach((name) => {
+    const g = community.get(name);
+    if (!groupsMap.has(g)) groupsMap.set(g, []);
+    groupsMap.get(g).push(people.get(name));
+  });
+  let groups = [...groupsMap.values()];
+  const weightOf = (g) => g.reduce((s, p) => s + p.papers.length, 0);
+  // Order groups so that strongly connected groups sit next to each other.
+  const between = (g, h) => g.reduce((s, p) => s + h.reduce((t, q) => t + (W.get(p.name).get(q.name) || 0), 0), 0);
+  groups.sort((a, b) => weightOf(b) - weightOf(a));
+  const ordered = [groups.shift()];
+  while (groups.length) {
+    const last = ordered[ordered.length - 1];
+    groups.sort((a, b) => between(last, b) - between(last, a) || weightOf(b) - weightOf(a));
+    ordered.push(groups.shift());
+  }
+  const palette = getComputedStyle(document.documentElement).getPropertyValue("--net-groups").split(",").map((c) => c.trim()).filter(Boolean);
+
+  // Angles: each group gets a slice proportional to its size, with gaps between.
+  const total = ordered.reduce((s, g) => s + g.length, 0);
+  const gap = 0.05;
+  const span = Math.PI * 2 - gap * ordered.length;
+  const spread = (m) => {
+    const out = [];
+    for (let k = 0; out.length < m; k++) {
+      let x = 0, f = 0.5, i = k;
+      while (i) { if (i & 1) x += f; i >>= 1; f /= 2; }
+      const slot = Math.floor(x * m);
+      if (!out.includes(slot)) out.push(slot);
+    }
+    return out;
+  };
+  const list = [];
+  const arcs = [];
+  let angle = -Math.PI / 2 + gap / 2;
+  ordered.forEach((group, gi) => {
+    const width = (group.length / total) * span;
+    const colour = gi < palette.length && group.length > 2 ? palette[gi] : "var(--muted)";
+    arcs.push({ start: angle, end: angle + width, colour });
+    const sorted = group.slice().sort((a, b) => b.papers.length - a.papers.length || (a.name < b.name ? -1 : 1));
+    const slots = new Array(sorted.length);
+    spread(sorted.length).forEach((slot, k) => { slots[slot] = sorted[k]; });
+    slots.forEach((p, k) => {
+      p.angle = angle + ((k + 0.5) / sorted.length) * width;
+      p.colour = colour;
+      list.push(p);
+    });
+    angle += width + gap;
+  });
+
+  const max = Math.max(...list.map((p) => p.papers.length));
+  const R = 430, inner = 120;
+  list.forEach((p, i) => {
+    const n = p.papers.length;
+    const closeness = Math.log(n) / Math.log(max);
+    p.radius = inner + (R - inner) * (1 - closeness) * (n === 1 ? 1 : 0.92) - (n === 1 ? (i % 3) * 14 : 0);
+    p.x = Math.cos(p.angle) * p.radius;
+    p.y = Math.sin(p.angle) * p.radius;
+    p.size = 3 + Math.sqrt(n) * 2.1;
+  });
+
+  const el = (tag, attrs, parent) => {
+    const node = document.createElementNS(NS, tag);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (parent) parent.appendChild(node);
+    return node;
+  };
+
+  // Group arcs around the edge.
+  const arcLayer = el("g", { class: "net-arcs" }, svg);
+  const arcR = R + 26;
+  arcs.forEach((a) => {
+    const x1 = Math.cos(a.start) * arcR, y1 = Math.sin(a.start) * arcR;
+    const x2 = Math.cos(a.end) * arcR, y2 = Math.sin(a.end) * arcR;
+    el("path", { d: `M ${x1} ${y1} A ${arcR} ${arcR} 0 ${a.end - a.start > Math.PI ? 1 : 0} 1 ${x2} ${y2}`, stroke: a.colour }, arcLayer);
+  });
+
+  const extra = el("g", { class: "net-extra" }, svg);
+  const spokes = el("g", { class: "net-spokes" }, svg);
+  const nodes = el("g", { class: "net-nodes" }, svg);
+
+  list.forEach((p) => {
+    const n = p.papers.length;
+    p.spoke = el("line", { x1: 0, y1: 0, x2: p.x, y2: p.y, stroke: p.colour, "stroke-width": 0.6 + Math.log2(n) * 0.9, "stroke-opacity": Math.min(0.85, 0.18 + n / max) }, spokes);
+    const g = el("g", { class: "net-node", tabindex: 0, role: "button", "aria-label": `${p.name}, ${n} joint paper${n > 1 ? "s" : ""}` }, nodes);
+    el("circle", { cx: p.x, cy: p.y, r: p.size + 6, class: "net-hit" }, g);
+    p.dot = el("circle", { cx: p.x, cy: p.y, r: p.size, fill: p.colour }, g);
+    p.group = g;
+    g.addEventListener("mouseenter", () => select(p, false));
+    g.addEventListener("focus", () => select(p, false));
+    g.addEventListener("click", () => select(p, true));
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(p, true); } });
+  });
+
+  // Name tooltip, shown for the hovered or selected person.
+  const tip = el("g", { class: "net-tip", visibility: "hidden" }, svg);
+  const tipBox = el("rect", { rx: 8, ry: 8 }, tip);
+  const tipText = el("text", { "dominant-baseline": "middle" }, tip);
+  function showTip(p) {
+    if (!p) { tip.setAttribute("visibility", "hidden"); return; }
+    tipText.textContent = p.name;
+    const w = tipText.getComputedTextLength() + 24, h = 34;
+    const right = Math.cos(p.angle) >= 0;
+    const x = right ? p.x + p.size + 8 : p.x - p.size - 8 - w;
+    const y = Math.max(-500, Math.min(500 - h, p.y - h / 2));
+    tipBox.setAttribute("x", x); tipBox.setAttribute("y", y);
+    tipBox.setAttribute("width", w); tipBox.setAttribute("height", h);
+    tipText.setAttribute("x", x + 12); tipText.setAttribute("y", y + h / 2 + 1);
+    tip.setAttribute("visibility", "visible");
+  }
+
+  // Clickable list of all co-authors, sorted by surname.
+  const listEl = document.querySelector(".network-names");
+  const buttons = new Map();
+  if (listEl) {
+    const multi = JSON.parse(listEl.dataset.surnames || "[]");
+    const split = (n) => {
+      const m = multi.find((s) => n.endsWith(" " + s));
+      const last = m || n.split(" ").slice(-1)[0];
+      return [last, n.slice(0, n.length - last.length).trim()];
+    };
+    const key = (n) => split(n).join(" ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    [...people.values()].sort((a, b) => key(a.name).localeCompare(key(b.name))).forEach((p) => {
+      const li = document.createElement("li");
+      const b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = `<span class="dot" style="background:${p.colour}"></span>${escapeHtml(split(p.name)[0])}${split(p.name)[1] ? ", " + escapeHtml(split(p.name)[1]) : ""} <span class="n">${p.papers.length}</span>`;
+      b.addEventListener("click", () => {
+        if (locked !== p) select(p, true);
+        svg.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+      b.addEventListener("mouseenter", () => select(p, false));
+      b.addEventListener("mouseleave", () => { if (!locked) select(null, false); });
+      li.appendChild(b); listEl.appendChild(li); buttons.set(p.name, b);
+    });
+    const filter = document.querySelector(".network-filter");
+    if (filter) {
+      filter.hidden = false;
+      filter.addEventListener("input", () => {
+        const q = filter.value.toLowerCase().trim();
+        buttons.forEach((b, name) => { b.parentElement.hidden = q && !name.toLowerCase().includes(q); });
+      });
+    }
+  }
+
+  // Centre: portrait.
+  const clip = el("clipPath", { id: "net-centre-clip" }, el("defs", {}, svg));
+  el("circle", { cx: 0, cy: 0, r: 46 }, clip);
+  el("circle", { cx: 0, cy: 0, r: 52, class: "net-centre-ring" }, svg);
+  el("image", { href: svg.dataset.centre, x: -46, y: -46, width: 92, height: 92, "clip-path": "url(#net-centre-clip)", preserveAspectRatio: "xMidYMid slice" }, svg);
+
+  let locked = null;
+  function select(p, lock) {
+    if (locked && !lock) return;
+    if (lock) locked = locked === p ? null : p;
+    const active = lock ? locked : p;
+    svg.classList.toggle("has-active", !!active);
+    extra.replaceChildren();
+    showTip(active);
+    list.forEach((q) => {
+      const on = !!active && q === active;
+      q.group.classList.toggle("is-active", on);
+      q.group.classList.remove("is-related");
+      q.spoke.classList.toggle("is-active", on);
+      const b = buttons.get(q.name);
+      if (b) b.classList.toggle("is-active", on);
+    });
+    if (!active) { panel.innerHTML = '<p class="network-hint">Select a collaborator to see our joint papers.</p>'; return; }
+    const shared = new Set();
+    active.papers.forEach((i) => pubs[i].a.forEach((name) => { if (name !== "admin" && name !== active.name) shared.add(name); }));
+    shared.forEach((name) => {
+      const q = people.get(name);
+      el("line", { x1: active.x, y1: active.y, x2: q.x, y2: q.y, stroke: active.colour }, extra);
+      q.group.classList.add("is-related");
+    });
+    const n = active.papers.length;
+    const items = active.papers.slice().sort((a, b) => pubs[b].y - pubs[a].y)
+      .map((i) => `<li><a href="${pubs[i].u}">${escapeHtml(pubs[i].t)}</a> <span>${pubs[i].y}</span></li>`).join("");
+    panel.innerHTML = `<h3>${escapeHtml(active.name)}</h3><p class="network-meta">${n} joint paper${n > 1 ? "s" : ""} · since ${active.first}</p><ul>${items}</ul>`;
+  }
+  function escapeHtml(s) { return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  svg.addEventListener("mouseleave", () => { if (!locked) select(null, false); });
+  svg.addEventListener("click", (e) => { if (e.target === svg && locked) { locked = null; select(null, false); } });
+})();

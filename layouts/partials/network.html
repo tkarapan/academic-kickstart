@@ -1,0 +1,32 @@
+{{- /* Co-author network: data for the script, plus a text list for search engines and screen readers. */ -}}
+{{- $pubs := where site.RegularPages "Section" "publication" -}}
+{{- $data := slice -}}
+{{- range $pubs.ByDate }}
+{{- $data = $data | append (dict "t" .Title "u" .RelPermalink "y" .Date.Year "a" (.Params.authors | default slice)) -}}
+{{- end -}}
+{{- $counts := dict -}}
+{{- range $pubs }}{{ range .Params.authors }}{{ if ne . "admin" }}{{ $counts = merge $counts (dict . (add (index $counts . | default 0) 1)) }}{{ end }}{{ end }}{{ end -}}
+<section class="section page-plain network-page">
+  <div class="wrap">
+    <p class="label">Collaborators</p>
+    <h1>Co-author network</h1>
+    <p class="network-intro">Everyone I have published with. The closer someone is to the centre, the more papers we have written together. Colours group people who often publish together, worked out automatically from the author lists. Hover over a dot to see a name, or pick someone from the list below to see our joint papers.</p>
+    <div class="network">
+      <div class="network-canvas">
+        {{- $me := (resources.Get "img/portrait.webp").Fill "200x200 Center webp q80" }}
+        <svg class="network-svg" data-centre="{{ $me.RelPermalink }}" viewBox="-520 -520 1040 1040" role="img" aria-label="Network of co-authors arranged around Theodoros Karapanagiotidis"></svg>
+      </div>
+      <aside class="network-panel glass" aria-live="polite">
+        <p class="network-hint">Select a collaborator to see our joint papers.</p>
+      </aside>
+    </div>
+    <div class="network-list">
+      <h2>All {{ len $counts }} co-authors</h2>
+      <input class="network-filter" type="search" placeholder="Find a name" aria-label="Find a co-author" hidden>
+      <ul class="network-names" data-surnames="{{ hugo.Data.authors.surnames | jsonify }}">
+        <noscript>{{ range $name, $n := $counts }}<li>{{ $name }} ({{ $n }})</li>{{ end }}</noscript>
+      </ul>
+    </div>
+  </div>
+  <script type="application/json" id="network-data">{{ $data | jsonify | safeJS }}</script>
+</section>

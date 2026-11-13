@@ -393,11 +393,8 @@ main { display: block; }
   .header-inner { gap: 10px; }
   .site-nav a { padding: 6px 11px; font-size: .86rem; }
 }
-.nav-short { display: none; }
 @media (max-width: 760px) {
-  .nav-long { display: none; }
   .nav-optional { display: none; }
-  .nav-short { display: inline; }
 }
 @media (max-width: 480px) {
   .site-nav ul { padding: 3px; gap: 0; }

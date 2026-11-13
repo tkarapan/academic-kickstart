@@ -83,15 +83,15 @@ p { margin: 0 0 1em; }
 
 /* ---------- Header ---------- */
 .site-header { position: fixed; inset: 0 0 auto; z-index: 50; background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); border-bottom: 1px solid var(--line); }
-.header-inner { display: flex; align-items: center; gap: 20px; height: 72px; }
+.header-inner { --ctl: 40px; display: flex; align-items: center; gap: 20px; height: 72px; }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-family: var(--display); font-weight: 600; letter-spacing: -.01em; }
 .brand:hover { color: var(--text); }
-.brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--grad); color: var(--on-accent); font: 700 .76rem/1 var(--display); box-shadow: 0 0 24px rgba(var(--c1-rgb), .35); }
+.brand-mark { display: grid; place-items: center; flex: none; width: var(--ctl); height: var(--ctl); border-radius: 50%; background: var(--grad); color: var(--on-accent); font: 700 .76rem/1 var(--display); box-shadow: 0 0 24px rgba(var(--c1-rgb), .35); }
 .brand-name { white-space: nowrap; }
-.site-nav { margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.site-nav { margin-left: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
 .site-nav::-webkit-scrollbar { display: none; }
-.site-nav ul { display: flex; gap: 2px; list-style: none; margin: 0; padding: 4px; border-radius: 999px; background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
-.site-nav a { display: block; padding: 7px 15px; border-radius: 999px; color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500; white-space: nowrap; }
+.site-nav ul { display: flex; align-items: center; box-sizing: border-box; height: var(--ctl); gap: 2px; list-style: none; margin: 0; padding: 0 4px; border-radius: 999px; background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.site-nav a { display: block; padding: 0 15px; line-height: calc(var(--ctl) - 10px); border-radius: 999px; color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500; white-space: nowrap; }
 .site-nav a:hover { color: var(--text); background: color-mix(in srgb, var(--text) 8%, transparent); }
 main { display: block; }
 .page-head, .pub-page, .page-plain { padding-top: 140px !important; }
@@ -247,7 +247,7 @@ main { display: block; }
 
 
 /* ---------- Theme toggle ---------- */
-.theme-toggle { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border: 1px solid var(--line); border-radius: 50%; background: var(--glass); color: var(--text); cursor: pointer; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.theme-toggle { display: grid; place-items: center; width: var(--ctl); height: var(--ctl); flex: none; border: 1px solid var(--line); border-radius: 50%; background: var(--glass); color: var(--text); cursor: pointer; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 .theme-toggle:hover { border-color: rgba(var(--c1-rgb), .6); }
 .theme-toggle .icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
 .theme-toggle .icon-moon { fill: currentColor; stroke: none; display: none; }
@@ -380,7 +380,7 @@ main { display: block; }
   .hero-portrait img { inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px); }
   .about-side { position: static; }
   .brand-name { display: none; }
-  .site-nav { margin-left: 0; flex: 1; }
+  .site-nav { margin-left: auto; }
   .pub-year-group { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .scroll-cue { display: none; }
 }
@@ -391,21 +391,19 @@ main { display: block; }
 @media (max-width: 480px) {
   .wrap { padding: 0 16px; }
   .header-inner { gap: 10px; }
-  .site-nav a { padding: 6px 11px; font-size: .86rem; }
+  .site-nav a { padding: 0 11px; font-size: .86rem; }
 }
 @media (max-width: 760px) {
   .nav-optional { display: none; }
 }
 @media (max-width: 480px) {
-  .site-nav ul { padding: 3px; gap: 0; }
-  .site-nav a { padding: 6px 8px; font-size: .82rem; }
-  .header-inner { gap: 8px; }
-  .theme-toggle { width: 36px; height: 36px; }
+  .site-nav ul { padding: 0 3px; gap: 0; }
+  .site-nav a { padding: 0 9px; font-size: .84rem; }
+  .header-inner { --ctl: 36px; gap: 8px; }
 }
 @media (max-width: 350px) {
-  .site-nav a { padding: 6px 6px; font-size: .78rem; }
-  .brand-mark { width: 30px; height: 30px; }
-  .header-inner { gap: 5px; }
+  .site-nav a { padding: 0 7px; font-size: .8rem; }
+  .header-inner { --ctl: 34px; gap: 6px; }
 }
 @media print {
   .site-header, .hero-field, .pub-filter, .badges, .scroll-cue { display: none !important; }

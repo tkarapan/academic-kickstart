@@ -78,7 +78,7 @@
       <li><strong>{{ lang.FormatNumber 0 .citations }}</strong> citations</li>
       <li><strong>{{ .h_index }}</strong> h-index</li>
       {{- end }}
-      <li><a href="{{ "collaborators/" | relURL }}"><strong>{{ len ($coauthors | uniq) }}</strong> co-authors</a></li>
+      <li><strong>{{ len ($coauthors | uniq) }}</strong> co-authors</li>
     </ul>
     <div class="mosaic">
       {{- range $i, $p := $tiles }}

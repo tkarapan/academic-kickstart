@@ -1,5 +1,5 @@
 ---
-title: "Collaborators"
-description: "Co-author network of Theodoros Karapanagiotidis: everyone he has published with, grouped by research collaborations."
+title: "Co-author network"
+description: "Co-author network of Theodoros Karapanagiotidis: everyone he has published with."
 layout: "network"
 ---

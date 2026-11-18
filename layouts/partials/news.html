@@ -1,14 +1,14 @@
-{{- /* The same recent publications shown in the news ticker, newest first. */ -}}
-{{- $pubs := where site.RegularPages "Section" "publication" -}}
+{{- /* The same items as the news ticker, newest first. */ -}}
 <ol class="news-list">
-  {{- range first (site.Params.news_count | default 6) $pubs.ByDate.Reverse }}
-  {{- $type := partial "pub-type.html" . }}
+  {{- range partial "news-items.html" . }}
   <li>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
+    {{ if .label }}<span class="news-label">{{ .label }}</span>{{ else }}<time datetime="{{ .date.Format "2006-01-02" }}">{{ .date.Format "Jan 2006" }}</time>{{ end }}
     <div>
-      <p class="news-kind">{{ if eq $type "Preprint" }}New preprint{{ else if eq $type "Thesis" }}Thesis{{ else }}New paper{{ with .Params.publication }} in {{ . | markdownify }}{{ end }}{{ end }}</p>
-      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-      <p class="pub-authors">{{ partial "pub-authors.html" .Params.authors }}</p>
+      <p class="news-kind">{{ .kind | safeHTML }}</p>
+      <h3><a href="{{ .url | relURL }}"{{ if .external }} target="_blank" rel="noopener"{{ end }}>{{ .title }}</a></h3>
+      {{- with .authors }}
+      <p class="pub-authors">{{ partial "pub-authors.html" . }}</p>
+      {{- end }}
     </div>
   </li>
   {{- end }}

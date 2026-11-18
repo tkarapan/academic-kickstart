@@ -35,7 +35,14 @@ url_pdf = ""                # optional
 
 Optionally add `cite.bib` (offered as the *Cite* download) and `featured.png` (shown on featured cards and the paper's page).
 
-The news ticker on the home page is generated from the most recent publications.
+The news ticker on the home page and the news page show the most recent items (the number is `news_count` in `hugo.toml`). They are generated from publications, plus any hand-written items in `data/news.yaml`, for example:
+
+```yaml
+- date: 2026-11-18
+  kind: New interactive demo
+  title: "Thought–brain demo: describe a moment of thought and see the brain pattern that might go with it"
+  url: /demo/
+```
 
 **Figures.** Publications without a `featured.*` image get one automatically when an openly licensed version is in PubMed Central (graphical abstract or Figure 1, credited on the page). To use a different figure, replace `featured.*` in the paper's folder; to have none, add `figure = false` to its `index.md`.
 

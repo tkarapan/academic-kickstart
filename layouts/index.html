@@ -41,16 +41,15 @@
 <section id="news" class="ticker" aria-label="News">
   <a class="ticker-label" href="{{ "news/" | relURL }}">News <span aria-hidden="true">→</span></a>
   <div class="ticker-viewport">
-    {{- $items := first (site.Params.news_count | default 6) $byDate }}
+    {{- $items := partial "news-items.html" . }}
     <div class="ticker-track">
       {{- range $copy := slice 1 2 }}
       <ul class="ticker-list"{{ if eq $copy 2 }} aria-hidden="true"{{ end }}>
         {{- range $items }}
-        {{- $type := partial "pub-type.html" . }}
         <li>
-          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
-          <span class="ticker-kind">{{ if eq $type "Preprint" }}New preprint{{ else }}New paper{{ with .Params.publication }} in {{ . | markdownify }}{{ end }}{{ end }}</span>
-          <a href="{{ .RelPermalink }}"{{ if eq $copy 2 }} tabindex="-1"{{ end }}>{{ .Title }}</a>
+          {{ if .label }}<span class="news-label">{{ .label }}</span>{{ else }}<time datetime="{{ .date.Format "2006-01-02" }}">{{ .date.Format "Jan 2006" }}</time>{{ end }}
+          <span class="ticker-kind">{{ .kind | safeHTML }}</span>
+          <a href="{{ .url | relURL }}"{{ if .external }} target="_blank" rel="noopener"{{ end }}{{ if eq $copy 2 }} tabindex="-1"{{ end }}>{{ .title }}</a>
         </li>
         {{- end }}
       </ul>
@@ -98,6 +97,25 @@
     {{- with $metrics }}<p class="stats-note">Citation figures from {{ .source }}, updated monthly.</p>{{ end }}
   </div>
 </section>
+
+{{- with site.GetPage "/demo" }}
+<section class="demo-promo-section" aria-label="Interactive demo">
+  <div class="wrap">
+    <a class="demo-promo glass" href="{{ .RelPermalink }}">
+      {{- with resources.Get "img/demo-brain.png" }}
+      {{- $a := .Resize "120x webp q85" }}{{ $b := .Resize "240x webp q80" }}
+      <img class="demo-promo-art" src="{{ $a.RelPermalink }}" srcset="{{ $a.RelPermalink }} 1x, {{ $b.RelPermalink }} 2x" width="{{ $a.Width }}" height="{{ $a.Height }}" alt="" loading="lazy">
+      {{- end }}
+      <span class="demo-promo-text">
+        <span class="label">Interactive demo</span>
+        <strong>{{ .Title }}</strong>
+        <span>Describe the type of thoughts you are experiencing right now and see a rough estimate of the brain pattern associated with them.</span>
+      </span>
+      <span class="button demo-promo-cta">Try the demo <span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</section>
+{{- end }}
 
 <section id="about" class="section">
   <div class="wrap about">

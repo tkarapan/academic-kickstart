@@ -1,0 +1,17 @@
+# Hand-written news items, shown alongside new publications in the news
+# ticker and on the news page (newest first). Each item needs a date, a
+# short label, a title and a link; "url" can be a page on this site
+# (e.g. /demo/) or a full web address.
+- date: 2026-11-18
+  label: Explore
+  kind: New interactive demo
+  title: "Thought–brain demo: Describe the type of thoughts you are experiencing right now and see a rough estimate of the brain pattern associated with them."
+  url: /demo/
+
+# "date" sets where an item appears among the papers. An optional "label"
+# is shown instead of the month (useful when the date is only for ordering).
+- date: 2026-09-01
+  label: Explore
+  kind: Co-author network
+  title: "See a graph of my co-authors"
+  url: /collaborators/

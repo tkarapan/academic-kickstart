@@ -1,0 +1,13 @@
+{{- /* Recent news: hand-written items (data/news.yaml) and publications, newest first.
+       Returns a list of dicts: date, label (shown instead of the month if set), kind (may contain HTML), title, url, authors. */ -}}
+{{- $items := slice -}}
+{{- range hugo.Data.news }}
+{{- $items = $items | append (dict "date" (time.AsTime .date) "label" (.label | default "") "kind" .kind "title" .title "url" .url "authors" slice "external" (hasPrefix .url "http")) -}}
+{{- end -}}
+{{- range where site.RegularPages "Section" "publication" }}
+{{- $type := partial "pub-type.html" . -}}
+{{- $kind := "New paper" -}}
+{{- if eq $type "Preprint" }}{{ $kind = "New preprint" }}{{ else if eq $type "Thesis" }}{{ $kind = "Thesis" }}{{ else }}{{ with .Params.publication }}{{ $kind = printf "New paper in %s" (. | markdownify) }}{{ end }}{{ end -}}
+{{- $items = $items | append (dict "date" .Date "label" "" "kind" $kind "title" .Title "url" .RelPermalink "authors" (.Params.authors | default slice) "external" false) -}}
+{{- end -}}
+{{- return first (site.Params.news_count | default 6) (sort $items "date" "desc") -}}

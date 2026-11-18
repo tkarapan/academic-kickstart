@@ -60,7 +60,9 @@
   const track = document.querySelector(".ticker-track");
   const list = track && track.querySelector(".ticker-list");
   if (!list) return;
-  const SPEED = 98; // pixels per second
+  // 120 px/s moves the strip by exactly 1 px per frame at 120 Hz and 2 px at
+  // 60 Hz; whole-pixel steps keep the text from shimmering as it moves.
+  const SPEED = 120; // pixels per second
   let width = 0;
   function measure() {
     const w = list.getBoundingClientRect().width;

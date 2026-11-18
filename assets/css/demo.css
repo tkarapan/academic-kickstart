@@ -56,3 +56,5 @@
 }
 .demo-notice { display: inline-block; margin: 0 0 1.6em; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--glass); color: var(--muted); font-size: .9rem; }
 .demo-notice::before { content: "ⓘ"; margin-right: 8px; color: var(--c1); }
+.demo-notice a { color: var(--c1); }
+.demo-text h2 { scroll-margin-top: 90px; }

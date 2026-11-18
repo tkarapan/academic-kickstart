@@ -7,7 +7,7 @@
     <h1>{{ .Title }}</h1>
     <p class="demo-intro">{{ .Params.intro }}</p>
     {{- with .Params.notice }}
-    <p class="demo-notice">{{ . }}</p>
+    <p class="demo-notice">{{ . | markdownify }}</p>
     {{- end }}
 
     <div class="demo" data-base="{{ "demo/data/" | relURL }}">

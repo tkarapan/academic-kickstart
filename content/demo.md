@@ -1,21 +1,21 @@
 ---
 title: "Thought–brain demo"
-description: "A playful interactive demo: describe a moment of thought and see a rough estimate of the brain pattern that might go with it, and the words linked to that pattern."
+description: "A playful interactive demo: describe the type of thoughts you were experiencing and see a brain pattern associated with them, plus the cognitive terms linked to that pattern."
 layout: "demo"
-intro: "Describe what your mind was doing a moment ago, by picking an example or using the sliders, and see a rough estimate of the brain pattern that might go with it, together with the words most linked to that pattern in brain-imaging research."
-notice: "Please note: this is a toy demonstration, not a scientific test. More about what it can and cannot tell you below."
+intro: "Describe the type of thoughts you were experiencing a moment ago and see a brain pattern that is associated with them, together with the cognitive terms most linked to that pattern in brain-imaging research."
+notice: "Please note: this is a toy demonstration, not a scientific test. More about what it can and cannot tell you [below](#what-it-can-and-cannot-tell-you)."
 ---
 
 ## How it works
 
-1. **You describe a moment.** The 16 questions are the kind researchers use to study everyday thinking: was your mind on other people, the past or the future, words or images, and how did it feel?
+1. **You describe a moment.** The 16 questions are the kind we often use in our studies exploring ongoing experience: were your thoughts about other people, the past or the future, were you thinking in words or images, and were your thoughts positive or not?
 2. **A model guesses a brain pattern.** The model was trained on research data linking people's descriptions of their thoughts with measurements of brain activity. From your answers it estimates a pattern across the surface of the brain's left half. Red areas are relatively more active and blue areas relatively less, compared with the brain's average.
 3. **The pattern is turned into words.** The pattern is compared with typical brain maps for hundreds of words, built from thousands of published brain-imaging studies by [NeuroQuery](https://neuroquery.org). Words whose typical maps look like the red parts of your pattern are shown in red. Words that match the blue parts are shown in blue. Bigger words mean a closer match.
-4. **Made small enough for your browser.** Everything runs on your own device. To make that possible, the original model was replaced with a much smaller one that was trained to imitate it. The two agree closely, but not perfectly.
+4. **Made small enough for your browser.** Everything runs on your own device.
 
 ## What it can and cannot tell you
 
-This is a toy demonstration, made for fun and public engagement. **It is not a scientific tool, and it has not been checked or validated.** The brain patterns are rough estimates from a simplified model, and the words are loose associations from the research literature.
+This is a toy demonstration, made for fun and public engagement. **It is not a scientific tool, and, at least for now, it has not been thoroughly checked or validated.** The brain patterns are rough estimates from a simplified model, and the words are loose associations from the research literature.
 
 - It does **not** describe your brain or tell you anything about you.
 - It is **not** a test, and it says nothing about your mental health. Some words come from studies of health conditions; these have been reworded into everyday language.

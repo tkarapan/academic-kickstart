@@ -387,6 +387,8 @@
     const touch = () => { lastActive = performance.now(); };
     ["pointerdown", "pointermove", "wheel", "keydown", "input", "touchstart", "touchmove"].forEach((ev) =>
       root.addEventListener(ev, touch, { passive: true }));
+    // Pause while the page scrolls, so redrawing the brain does not compete with scrolling.
+    window.addEventListener("scroll", touch, { passive: true });
     [nowPanel, pinPanel].forEach((panel) => {
       panel.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hold = true; touch(); } });
       panel.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hold = false; touch(); } });

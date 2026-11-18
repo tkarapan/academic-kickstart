@@ -1,0 +1,8 @@
+# Hand-written news items, shown alongside new publications in the news
+# ticker and on the news page (newest first). Each item needs a date, a
+# short label, a title and a link; "url" can be a page on this site
+# (e.g. /demo/) or a full web address.
+- date: 2026-11-18
+  kind: New interactive demo
+  title: "Thought–brain demo: describe a moment of thought and see the brain pattern that might go with it"
+  url: /demo/

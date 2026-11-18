@@ -47,7 +47,7 @@
       <ul class="ticker-list"{{ if eq $copy 2 }} aria-hidden="true"{{ end }}>
         {{- range $items }}
         <li>
-          <time datetime="{{ .date.Format "2006-01-02" }}">{{ .date.Format "Jan 2006" }}</time>
+          {{ if .label }}<span class="news-label">{{ .label }}</span>{{ else }}<time datetime="{{ .date.Format "2006-01-02" }}">{{ .date.Format "Jan 2006" }}</time>{{ end }}
           <span class="ticker-kind">{{ .kind | safeHTML }}</span>
           <a href="{{ .url | relURL }}"{{ if .external }} target="_blank" rel="noopener"{{ end }}{{ if eq $copy 2 }} tabindex="-1"{{ end }}>{{ .title }}</a>
         </li>

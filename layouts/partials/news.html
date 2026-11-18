@@ -2,7 +2,7 @@
 <ol class="news-list">
   {{- range partial "news-items.html" . }}
   <li>
-    <time datetime="{{ .date.Format "2006-01-02" }}">{{ .date.Format "Jan 2006" }}</time>
+    {{ if .label }}<span class="news-label">{{ .label }}</span>{{ else }}<time datetime="{{ .date.Format "2006-01-02" }}">{{ .date.Format "Jan 2006" }}</time>{{ end }}
     <div>
       <p class="news-kind">{{ .kind | safeHTML }}</p>
       <h3><a href="{{ .url | relURL }}"{{ if .external }} target="_blank" rel="noopener"{{ end }}>{{ .title }}</a></h3>

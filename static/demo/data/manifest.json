@@ -1,0 +1,14 @@
+{
+ "n_vertices": 32492,
+ "n_faces": 64980,
+ "n_gradients": 5,
+ "vertex_scale": 100.0,
+ "gradient_scale": 8000.0,
+ "files": {
+  "vertices": "vertices.i16",
+  "faces": "faces.u16",
+  "gradients": "gradients.i16",
+  "terms": "terms.json",
+  "model": "model.json"
+ }
+}

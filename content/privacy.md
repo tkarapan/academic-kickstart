@@ -11,6 +11,10 @@ With your permission, the site uses Google Analytics to understand how it is use
 
 These cookies are only set if you choose **Accept** in the cookie banner. You can change your choice at any time with **Cookie settings** at the bottom of every page; declining removes the analytics cookies.
 
+## Thought–brain demo
+
+The [thought–brain demo](/demo/) runs entirely in your browser. Your answers to its questions are not stored and are not sent anywhere. If you have accepted analytics cookies, the demo also sends Google Analytics a few anonymous usage events, such as which example moment was clicked or that the sliders were used. These events never include your answers.
+
 ## Preferences stored in your browser
 
 Your theme choice (light or dark) and your cookie choice are saved in your browser's local storage. They are never sent anywhere.

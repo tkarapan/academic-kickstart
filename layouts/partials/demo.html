@@ -1,0 +1,52 @@
+{{- /* Thought–brain demo: everything runs in the browser (assets/js/demo.js, data in static/demo/). */ -}}
+{{- $css := resources.Get "css/demo.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+<section class="section page-plain demo-page">
+  <div class="wrap">
+    <p class="label">Interactive demo</p>
+    <h1>{{ .Title }}</h1>
+    <p class="demo-intro">{{ .Params.intro }}</p>
+
+    <div class="demo" data-base="{{ "demo/data/" | relURL }}">
+      <div class="demo-toolbar">
+        <span class="demo-toolbar-label">Try a moment:</span>
+        <div class="demo-presets" role="group" aria-label="Example moments"></div>
+        <button type="button" class="button demo-pin" disabled>Pin to compare</button>
+      </div>
+
+      <div class="demo-grid">
+        <div class="demo-results">
+          <div class="demo-panels">
+            <article class="demo-panel glass demo-panel-pin" hidden>
+              <header><span class="demo-panel-title">Pinned</span><button type="button" class="link-button demo-unpin">✕ Unpin</button></header>
+              <div class="demo-plot" aria-hidden="true"></div>
+              <div class="demo-words" aria-live="polite"></div>
+            </article>
+            <article class="demo-panel glass demo-panel-now">
+              <header><span class="demo-panel-title">Loading the brain…</span></header>
+              <div class="demo-plot" role="img" aria-label="Estimated brain pattern, left hemisphere, seen from the side"></div>
+              <div class="demo-words" aria-live="polite"></div>
+            </article>
+          </div>
+          <p class="demo-legend">
+            <span class="demo-scale" aria-hidden="true"></span><span>less → more active (relative)</span>
+            <span><b class="w-pos">Red</b> words go with red areas, <b class="w-neg">blue</b> words with blue areas. Bigger = closer match. Drag the brain to turn it.</span>
+          </p>
+        </div>
+
+        <form class="demo-sliders glass" aria-label="Describe your thoughts">
+          <p class="demo-sliders-title">Or set your own: how were your thoughts just now?</p>
+          <div class="demo-questions"></div>
+        </form>
+      </div>
+      <noscript><p class="demo-note">This demo needs JavaScript.</p></noscript>
+    </div>
+
+    <div class="demo-text">
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+<script src="{{ "demo/vendor/plotly-gl3d.min.js" | relURL }}" defer></script>
+{{- $js := resources.Get "js/demo.js" | js.Build (dict "minify" true) | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>

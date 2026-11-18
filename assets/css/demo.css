@@ -34,7 +34,7 @@
 .demo-unpin { font-size: .85rem; white-space: nowrap; }
 .demo-plot { height: clamp(260px, 42vw, 460px); cursor: grab; }
 .demo-panels.is-pinned .demo-plot { height: clamp(220px, 26vw, 340px); }
-.demo-words { min-height: 6.5em; line-height: 1.25; }
+.demo-words { position: relative; min-height: 6.5em; line-height: 1.25; }
 .demo-word { display: inline-block; margin: 0 .5em .1em 0; font-weight: 500; animation: demo-pop .45s ease-out both; }
 @keyframes demo-pop { from { opacity: 0; transform: translateY(8px) scale(.85); } to { opacity: 1; transform: none; } }
 .demo-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; color: var(--muted); font-size: .82rem; margin: 12px 2px 0; }
@@ -56,6 +56,9 @@
 
 @media (max-width: 900px) {
   .demo-grid { grid-template-columns: minmax(0, 1fr); }
+  /* The sliders sit below the words here, so the word box keeps a fixed height. */
+  .demo-words { height: 270px; min-height: 0; overflow: hidden; }
+  .demo-panels.is-pinned .demo-words { height: 170px; }
   .demo-sliders { position: static; max-height: none; }
 }
 @media (max-width: 640px) {

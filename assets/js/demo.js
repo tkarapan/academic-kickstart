@@ -235,10 +235,27 @@
       s.textContent = label;
       s.title = "match r = " + (r >= 0 ? "+" : "") + r.toFixed(2);
       const t = hi > lo ? (Math.abs(r) - lo) / (hi - lo) : 0.5;
-      s.style.fontSize = (scale * (12 + 34 * Math.pow(t, 1.4))).toFixed(0) + "px";
+      s.dataset.size = scale * (12 + 34 * Math.pow(t, 1.4));
+      s.style.fontSize = Math.round(s.dataset.size) + "px";
       s.style.animationDelay = 40 * k + "ms";
       div.appendChild(s);
     });
+    fitWords(div);
+  }
+
+  // Shrink the words, keeping their relative sizes, until they fit the box: on
+  // narrow screens the box has a fixed height, so the sliders below it do not
+  // jump as the words change. Where the box can grow, only over-wide words shrink.
+  function fitWords(div) {
+    const spans = [...div.children];
+    // Layout positions, which ignore the words' pop-in animation (unlike scrollHeight).
+    const fits = () => spans.every((s) => s.offsetTop + s.offsetHeight <= div.clientHeight + 1 && s.offsetWidth <= div.clientWidth);
+    const apply = (k) => spans.forEach((s) => { s.style.fontSize = Math.max(10, Math.round(s.dataset.size * k)) + "px"; });
+    apply(1);
+    if (!spans.length || fits()) return;
+    let lo = 0.3, hi = 1;
+    for (let n = 0; n < 7; n++) { const mid = (lo + hi) / 2; apply(mid); if (fits()) lo = mid; else hi = mid; }
+    apply(lo);
   }
 
   let morphTimer = null;
@@ -441,7 +458,10 @@
     window.addEventListener("resize", () => {
       if (window.innerWidth === lastWidth) return;
       lastWidth = window.innerWidth;
-      setTimeout(() => root.querySelectorAll(".demo-plot").forEach((p) => { if (p.offsetParent) refit(p); }), 200);
+      setTimeout(() => {
+        root.querySelectorAll(".demo-plot").forEach((p) => { if (p.offsetParent) refit(p); });
+        root.querySelectorAll(".demo-words").forEach((w) => { if (w.offsetParent) fitWords(w); });
+      }, 200);
     });
     linkCameras();
     idleRotation();

@@ -202,12 +202,18 @@
   function renderWords(div, words, scale) {
     const [pos, neg] = words;
     div.textContent = "";
+    // Sizes spread across the full range within each colour: the closest red and
+    // the closest blue match are largest, the weakest smallest ("bigger = closer match").
+    const range = (list) => { const a = list.map(([, r]) => Math.abs(r)); return [Math.min(...a), Math.max(...a)]; };
+    const ranges = { "w-pos": range(pos), "w-neg": range(neg) };
     [...pos.map((p) => [p, "w-pos"]), ...neg.map((p) => [p, "w-neg"])].forEach(([[label, r], cls], k) => {
+      const [lo, hi] = ranges[cls];
       const s = document.createElement("span");
       s.className = "demo-word " + cls;
       s.textContent = label;
       s.title = "match r = " + (r >= 0 ? "+" : "") + r.toFixed(2);
-      s.style.fontSize = (scale * (13 + 27 * Math.min(Math.abs(r), 0.7) / 0.7)).toFixed(0) + "px";
+      const t = hi > lo ? (Math.abs(r) - lo) / (hi - lo) : 0.5;
+      s.style.fontSize = (scale * (12 + 34 * Math.pow(t, 1.4))).toFixed(0) + "px";
       s.style.animationDelay = 40 * k + "ms";
       div.appendChild(s);
     });
@@ -332,30 +338,37 @@
   // ---------------------------------------------------------------- idle rotation
   function idleRotation() {
     if (REDUCED_MOTION) return;
-    const SPEED = 0.35;      // radians per second (about 18 s per turn)
-    const RESUME_MS = 1200;  // pause after the pointer leaves or a touch ends
-    let theta = null, visible = true, hold = false, resumeAt = 0, last = 0;
-    const panels = [nowPanel, pinPanel];
-    panels.forEach((panel) => {
-      panel.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hold = true; theta = null; } });
-      panel.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hold = false; resumeAt = performance.now() + RESUME_MS; } });
-      panel.addEventListener("touchstart", () => { hold = true; theta = null; }, { passive: true });
-      panel.addEventListener("touchend", () => { hold = false; resumeAt = performance.now() + 3000; }, { passive: true });
+    const SPEED = 0.3;      // radians per second at full speed (about 21 s per turn)
+    const IDLE_MS = 6000;   // wait after any interaction with the demo before rotating
+    const EASE_MS = 2500;   // then ease in gently
+    let visible = true, hold = false, lastActive = performance.now(), last = 0;
+    const touch = () => { lastActive = performance.now(); };
+    ["pointerdown", "pointermove", "wheel", "keydown", "input", "touchstart", "touchmove"].forEach((ev) =>
+      root.addEventListener(ev, touch, { passive: true }));
+    [nowPanel, pinPanel].forEach((panel) => {
+      panel.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hold = true; touch(); } });
+      panel.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hold = false; touch(); } });
     });
     if ("IntersectionObserver" in window) new IntersectionObserver((e) => { visible = e[0].isIntersecting; }).observe(nowPanel);
+    // The live camera (what is on screen, including any dragging), not Plotly's stored layout.
+    const cameraOf = (p) => {
+      try { return p._fullLayout.scene._scene.getCamera(); } catch (e) { return p._fullLayout.scene.camera; }
+    };
     const frame = (now) => {
       requestAnimationFrame(frame);
       const dt = last ? Math.min(250, now - last) : 0; // capped so a hidden or stalled tab does not jump
       if (now - last < 33) return; // ~30 updates a second is smooth enough and cheap
       last = now;
-      if (hold || !visible || document.hidden || now < resumeAt || morphTimer) return;
-      const plots = [...root.querySelectorAll(".demo-plot")].filter((p) => p._fullLayout && p.offsetParent);
-      if (!plots.length) return;
-      const eye = plots[0]._fullLayout.scene.camera.eye;
-      if (theta === null) theta = Math.atan2(eye.y, eye.x);
-      theta += (SPEED * dt) / 1000;
-      const r = Math.hypot(eye.x, eye.y) || 1.6;
-      plots.forEach((p) => window.Plotly.relayout(p, { "scene.camera.eye": { x: r * Math.cos(theta), y: r * Math.sin(theta), z: eye.z } }));
+      const idle = now - lastActive - IDLE_MS;
+      if (hold || idle <= 0 || !visible || document.hidden || morphTimer) return;
+      const ease = Math.min(1, idle / EASE_MS);
+      const step = (SPEED * dt / 1000) * ease * ease;
+      [...root.querySelectorAll(".demo-plot")].filter((p) => p._fullLayout && p.offsetParent).forEach((p) => {
+        const eye = cameraOf(p).eye;
+        const theta = Math.atan2(eye.y, eye.x) + step;
+        const r = Math.hypot(eye.x, eye.y) || 1.6;
+        window.Plotly.relayout(p, { "scene.camera.eye": { x: r * Math.cos(theta), y: r * Math.sin(theta), z: eye.z } });
+      });
     };
     requestAnimationFrame(frame);
   }

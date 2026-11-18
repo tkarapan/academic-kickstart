@@ -11,7 +11,6 @@ notice: "Please note: this is a toy demonstration, not a scientific test. More a
 1. **You describe a moment.** The 16 questions are the kind we often use in our studies exploring ongoing experience: were your thoughts about other people, the past or the future, were you thinking in words or images, and were your thoughts positive or not?
 2. **A model guesses a brain pattern.** The model was trained on research data linking people's descriptions of their thoughts with measurements of brain activity. From your answers it estimates a pattern across the surface of the brain's left half. Red areas are relatively more active and blue areas relatively less, compared with the brain's average.
 3. **The pattern is turned into words.** The pattern is compared with typical brain maps for hundreds of words, built from thousands of published brain-imaging studies by [NeuroQuery](https://neuroquery.org). Words whose typical maps look like the red parts of your pattern are shown in red. Words that match the blue parts are shown in blue. Bigger words mean a closer match.
-4. **Made small enough for your browser.** Everything runs on your own device.
 
 ## What it can and cannot tell you
 

@@ -65,7 +65,7 @@
         <p class="label">Research</p>
         <h2 class="section-title">Selected and recent work</h2>
       </div>
-      <p class="more-links"><a class="more" href="{{ "publication/" | relURL }}">All publications →</a><a class="more" href="{{ "collaborators/" | relURL }}">Co-author network →</a><a class="more" href="{{ "demo/" | relURL }}">Thought–brain demo →</a></p>
+      <p class="more-links"><a class="more" href="{{ "publication/" | relURL }}">All publications →</a><a class="more" href="{{ "collaborators/" | relURL }}">Co-author network →</a></p>
     </div>
     <ul class="stats" aria-label="At a glance">
       <li><strong>{{ len $pubs }}</strong> publications</li>
@@ -97,6 +97,25 @@
     {{- with $metrics }}<p class="stats-note">Citation figures from {{ .source }}, updated monthly.</p>{{ end }}
   </div>
 </section>
+
+{{- with site.GetPage "/demo" }}
+<section class="demo-promo-section" aria-label="Interactive demo">
+  <div class="wrap">
+    <a class="demo-promo glass" href="{{ .RelPermalink }}">
+      {{- with resources.Get "img/demo-brain.png" }}
+      {{- $a := .Resize "120x webp q85" }}{{ $b := .Resize "240x webp q80" }}
+      <img class="demo-promo-art" src="{{ $a.RelPermalink }}" srcset="{{ $a.RelPermalink }} 1x, {{ $b.RelPermalink }} 2x" width="{{ $a.Width }}" height="{{ $a.Height }}" alt="" loading="lazy">
+      {{- end }}
+      <span class="demo-promo-text">
+        <span class="label">Interactive demo</span>
+        <strong>{{ .Title }}</strong>
+        <span>Describe a moment of thought and see a rough estimate of the brain pattern that might go with it.</span>
+      </span>
+      <span class="button demo-promo-cta">Try the demo <span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</section>
+{{- end }}
 
 <section id="about" class="section">
   <div class="wrap about">

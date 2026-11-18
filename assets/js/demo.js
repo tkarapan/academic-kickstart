@@ -46,6 +46,21 @@
   const LIGHTING = { ambient: 0.6, diffuse: 0.65, specular: 0.12, roughness: 0.6, fresnel: 0,
     vertexnormalsepsilon: 0, facenormalsepsilon: 0 };
   const CAMERA = { eye: { x: -1.6, y: 0, z: 0.1 }, up: { x: 0, y: 0, z: 1 } };
+  // Narrow plot boxes (phones) need the camera further back, or the end of the
+  // brain nearest the camera runs past the edges while it rotates. Wide boxes
+  // (desktop, tablet) keep the default distance.
+  function cameraFor(div) {
+    const aspect = div.clientWidth / (div.clientHeight || 1);
+    const f = Math.pow(Math.max(1, 1.5 / aspect), 0.75);
+    return { eye: { x: CAMERA.eye.x * f, y: CAMERA.eye.y * f, z: CAMERA.eye.z * f }, up: CAMERA.up };
+  }
+  function refit(div) { // keep the current viewing angle, adjust only the distance
+    if (!div._fullLayout) return;
+    let eye;
+    try { eye = div._fullLayout.scene._scene.getCamera().eye; } catch (e) { eye = div._fullLayout.scene.camera.eye; }
+    const want = cameraFor(div).eye, r = Math.hypot(want.x, want.y), th = Math.atan2(eye.y, eye.x);
+    window.Plotly.relayout(div, { "scene.camera.eye": { x: r * Math.cos(th), y: r * Math.sin(th), z: want.z } });
+  }
   const REDUCED_MOTION = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // ---------------------------------------------------------------- analytics (only if the visitor accepted cookies)
@@ -195,7 +210,7 @@
     }], {
       margin: { l: 0, r: 0, t: 0, b: 0 }, paper_bgcolor: "rgba(0,0,0,0)",
       scene: { xaxis: { visible: false }, yaxis: { visible: false }, zaxis: { visible: false },
-        aspectmode: "data", camera: CAMERA, bgcolor: "rgba(0,0,0,0)" },
+        aspectmode: "data", camera: cameraFor(div), bgcolor: "rgba(0,0,0,0)" },
     }, { displayModeBar: false, responsive: true });
   }
 
@@ -322,6 +337,7 @@
     newPlot(el(".demo-plot", pinPanel), displayValues(d, w));
     renderWords(el(".demo-words", pinPanel), topWords(d.terms, w, N_WORDS_PINNED), 0.8);
     window.Plotly.Plots.resize(el(".demo-plot", nowPanel));
+    refit(el(".demo-plot", nowPanel));
     update();
     track("demo_pin", { moment: momentName(state.answers) });
   }
@@ -332,6 +348,7 @@
     pinPanel.hidden = true;
     el(".demo-panels").classList.remove("is-pinned");
     window.Plotly.Plots.resize(el(".demo-plot", nowPanel));
+    refit(el(".demo-plot", nowPanel));
     update();
   }
 
@@ -391,6 +408,12 @@
   }).then(() => {
     update();
     el(".demo-pin").disabled = false;
+    let lastWidth = window.innerWidth; // address-bar resizes on phones change only the height
+    window.addEventListener("resize", () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      setTimeout(() => root.querySelectorAll(".demo-plot").forEach((p) => { if (p.offsetParent) refit(p); }), 200);
+    });
     idleRotation();
     track("demo_ready", {});
   }).catch(() => {

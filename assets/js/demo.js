@@ -28,15 +28,15 @@
   ];
   const EMOTION = 13; // 1 = negative, 10 = positive
   // Example moments (illustrative answers, same order as QUESTIONS).
+  // Example moments: plausible answers for each moment, chosen so the
+  // resulting words are easy to interpret (same order as QUESTIONS).
   const PRESETS = {
-    "Daydreaming on the bus": [8, 4, 2, 3, 2, 8, 6, 6, 1, 3, 2, 4, 6, 7, 7, 5],
-    "Doing a maths test": [8, 1, 10, 3, 1, 3, 1, 2, 10, 2, 10, 9, 2, 5, 2, 8],
-    "Chatting with a friend": [7, 10, 3, 9, 7, 4, 5, 2, 8, 1, 6, 6, 4, 8, 5, 6],
-    "Worrying about tomorrow": [9, 5, 6, 6, 2, 5, 3, 9, 2, 9, 2, 6, 10, 2, 9, 4],
-    "Remembering a holiday": [8, 6, 1, 3, 5, 10, 10, 4, 1, 2, 6, 8, 1, 9, 7, 9],
-    "Listening to music": [7, 2, 1, 4, 10, 6, 4, 3, 7, 1, 4, 5, 2, 8, 4, 6],
+    "Daydreaming on the bus": [10, 4, 2, 5, 5, 10, 7, 8, 3, 3, 2, 6, 5, 9, 6, 5],
+    "Reading a book": [10, 5, 2, 10, 2, 8, 3, 1, 7, 3, 8, 6, 4, 8, 3, 6],
+    "Doing a maths test": [9, 2, 8, 3, 3, 4, 2, 3, 10, 1, 8, 7, 4, 7, 3, 10],
+    "Planning your day": [6, 7, 7, 4, 2, 5, 2, 3, 6, 2, 10, 9, 10, 5, 7, 6],
   };
-  const DEFAULT = new Array(16).fill(5);
+  const DEFAULT = Object.values(PRESETS)[0]; // start on the first example moment
   const N_WORDS = 10, N_WORDS_PINNED = 6, MAX_SOFTENED = 2, MIN_R = 0.05;
 
   // Colour scale (display value -1..1 -> rgb), percentile and gamma used to make the map vivid.
@@ -316,6 +316,7 @@
   }
 
   buildControls();
+  setAnswers(DEFAULT);
   Promise.all([load(), whenPlotly()]).then(([d]) => {
     state.data = d;
     const w = predict(d.model, state.answers);

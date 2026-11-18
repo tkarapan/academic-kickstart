@@ -6,6 +6,9 @@
     <p class="label">Interactive demo</p>
     <h1>{{ .Title }}</h1>
     <p class="demo-intro">{{ .Params.intro }}</p>
+    {{- with .Params.notice }}
+    <p class="demo-notice">{{ . }}</p>
+    {{- end }}
 
     <div class="demo" data-base="{{ "demo/data/" | relURL }}">
       <div class="demo-toolbar">

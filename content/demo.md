@@ -2,7 +2,8 @@
 title: "Thought–brain demo"
 description: "A playful interactive demo: describe a moment of thought and see a rough estimate of the brain pattern that might go with it, and the words linked to that pattern."
 layout: "demo"
-intro: "Describe what your mind was doing a moment ago — pick an example or use the sliders — and see a rough guess at the brain pattern that might go with it, plus the words most linked to that pattern in brain-imaging research. It's a toy, not a test: please read the note below."
+intro: "Describe what your mind was doing a moment ago, by picking an example or using the sliders, and see a rough estimate of the brain pattern that might go with it, together with the words most linked to that pattern in brain-imaging research."
+notice: "Please note: this is a toy demonstration, not a scientific test. More about what it can and cannot tell you below."
 ---
 
 ## How it works
@@ -12,9 +13,9 @@ intro: "Describe what your mind was doing a moment ago — pick an example or us
 3. **The pattern is turned into words.** The pattern is compared with typical brain maps for hundreds of words, built from thousands of published brain-imaging studies by [NeuroQuery](https://neuroquery.org). Words whose typical maps look like the red parts of your pattern are shown in red. Words that match the blue parts are shown in blue. Bigger words mean a closer match.
 4. **Made small enough for your browser.** Everything runs on your own device. To make that possible, the original model was replaced with a much smaller one that was trained to imitate it. The two agree closely, but not perfectly.
 
-## Please read: this is a toy
+## What it can and cannot tell you
 
-This demo is for fun and public engagement. **It is not a scientific tool, and it has not been checked or validated.** The brain patterns are rough estimates from a simplified model, and the words are loose associations from the research literature.
+This is a toy demonstration, made for fun and public engagement. **It is not a scientific tool, and it has not been checked or validated.** The brain patterns are rough estimates from a simplified model, and the words are loose associations from the research literature.
 
 - It does **not** describe your brain or tell you anything about you.
 - It is **not** a test, and it says nothing about your mental health. Some words come from studies of health conditions; these have been reworded into everyday language.

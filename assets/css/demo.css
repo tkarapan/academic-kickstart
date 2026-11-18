@@ -2,7 +2,7 @@
 .demo-page { --w-pos: #ff6b57; --w-neg: #5aa9ff; }
 :root[data-theme="light"] .demo-page { --w-pos: #c0392b; --w-neg: #1f5fa8; }
 .demo-page h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); margin-bottom: .3em; }
-.demo-intro { color: var(--body); max-width: 72ch; margin-bottom: 1.6em; }
+.demo-intro { color: var(--body); max-width: 72ch; margin-bottom: 1em; }
 .w-pos { color: var(--w-pos); }
 .w-neg { color: var(--w-neg); }
 
@@ -54,3 +54,5 @@
   .demo-panels.is-pinned { grid-template-columns: minmax(0, 1fr); }
   .demo-panels.is-pinned .demo-plot, .demo-plot { height: 300px; }
 }
+.demo-notice { display: inline-block; margin: 0 0 1.6em; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--glass); color: var(--muted); font-size: .9rem; }
+.demo-notice::before { content: "ⓘ"; margin-right: 8px; color: var(--c1); }

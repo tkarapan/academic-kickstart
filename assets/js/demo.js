@@ -121,6 +121,48 @@
     return "rgb(" + Math.round(c0[0] + (c1[0] - c0[0]) * t) + "," + Math.round(c0[1] + (c1[1] - c0[1]) * t) + "," + Math.round(c0[2] + (c1[2] - c0[2]) * t) + ")";
   }
   const colours = (vals) => Array.from(vals, colour);
+  // Same colours as colour(), as 0..1 floats (rounded to whole 0..255 steps like the strings).
+  function colourRGB(x, out, o) {
+    let i = 1;
+    while (i < STOPS.length - 1 && x > STOPS[i][0]) i++;
+    const [x0, c0] = STOPS[i - 1], [x1, c1] = STOPS[i];
+    const t = Math.min(1, Math.max(0, (x - x0) / (x1 - x0)));
+    for (let c = 0; c < 3; c++) out[o + c] = Math.round(c0[c] + (c1[c] - c0[c]) * t) / 255;
+  }
+
+  // Recolouring through Plotly rebuilds the whole 65,000-triangle mesh (~100 ms).
+  // Instead, write the new colours straight into the existing GPU colour buffer
+  // (a few ms); Plotly's stored colours are synced once a change has finished, so
+  // a later resize redraws the same thing. Falls back to Plotly if anything differs.
+  function paint(div, vals) {
+    const d = state.data;
+    try {
+      const scene = div._fullLayout.scene._scene, mesh = scene.glplot.objects[0];
+      if (!mesh || !mesh.triangleColors || mesh.triangleCount !== d.I.length) throw new Error("mesh");
+      let rgb = div.__rgb, buf = div.__buf;
+      if (!rgb || rgb.length !== d.nV * 3) rgb = div.__rgb = new Float32Array(d.nV * 3);
+      if (!buf || buf.length !== d.I.length * 12) buf = div.__buf = new Float32Array(d.I.length * 12);
+      for (let k = 0; k < d.nV; k++) colourRGB(vals[k], rgb, 3 * k);
+      // The mesh stores each triangle's corners in reverse order (k, j, i), as RGBA.
+      const put = (v, o) => { buf[o] = rgb[v]; buf[o + 1] = rgb[v + 1]; buf[o + 2] = rgb[v + 2]; buf[o + 3] = 1; };
+      for (let t = 0, o = 0; t < d.I.length; t++, o += 12) {
+        put(3 * d.K[t], o); put(3 * d.J[t], o + 4); put(3 * d.I[t], o + 8);
+      }
+      mesh.triangleColors.update(buf);
+      scene.glplot.redraw();
+      div.__pending = vals;
+    } catch (e) {
+      window.Plotly.restyle(div, { vertexcolor: [colours(vals)] }, [0]);
+      div.__pending = null;
+    }
+  }
+  function syncStored(div) { // keep Plotly's own copy in line with what is shown
+    if (!div.__pending) return;
+    const cols = colours(div.__pending);
+    div.__pending = null;
+    if (div.data && div.data[0]) div.data[0].vertexcolor = cols;
+    if (div._fullData && div._fullData[0]) div._fullData[0].vertexcolor = cols;
+  }
 
   // Exact correlation of the brain map with each word map: r = (w.c) / (sqrt(w'Sw) * sd)
   function topWords(T, w, n) {
@@ -176,16 +218,16 @@
     const div = el(".demo-plot", nowPanel);
     const start = state.shown;
     state.shown = target;
-    if (!start || REDUCED_MOTION) { window.Plotly.restyle(div, { vertexcolor: [colours(target)] }, [0]); return; }
-    const DUR = 500, t0 = performance.now();
     if (morphTimer) cancelAnimationFrame(morphTimer);
+    if (!start || REDUCED_MOTION) { paint(div, target); syncStored(div); return; }
+    const DUR = 500, t0 = performance.now();
     const cur = new Float32Array(target.length);
     const tick = () => {
       const a = Math.min(1, (performance.now() - t0) / DUR);
       const e = a < 0.5 ? 2 * a * a : 1 - Math.pow(-2 * a + 2, 2) / 2;
       for (let k = 0; k < target.length; k++) cur[k] = start[k] + (target[k] - start[k]) * e;
-      window.Plotly.restyle(div, { vertexcolor: [colours(cur)] }, [0]);
-      if (a < 1) morphTimer = requestAnimationFrame(tick);
+      paint(div, a < 1 ? cur : target);
+      if (a < 1) morphTimer = requestAnimationFrame(tick); else { morphTimer = null; syncStored(div); }
     };
     tick();
   }
@@ -290,21 +332,32 @@
   // ---------------------------------------------------------------- idle rotation
   function idleRotation() {
     if (REDUCED_MOTION) return;
-    const IDLE_MS = 20000, STEP_MS = 100, STEP_RAD = 0.02;
-    let last = Date.now(), theta = null, visible = true;
-    ["pointermove", "pointerdown", "keydown", "wheel", "touchstart"].forEach((ev) =>
-      document.addEventListener(ev, () => { last = Date.now(); theta = null; }, { passive: true }));
+    const SPEED = 0.35;      // radians per second (about 18 s per turn)
+    const RESUME_MS = 1200;  // pause after the pointer leaves or a touch ends
+    let theta = null, visible = true, hold = false, resumeAt = 0, last = 0;
+    const panels = [nowPanel, pinPanel];
+    panels.forEach((panel) => {
+      panel.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hold = true; theta = null; } });
+      panel.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hold = false; resumeAt = performance.now() + RESUME_MS; } });
+      panel.addEventListener("touchstart", () => { hold = true; theta = null; }, { passive: true });
+      panel.addEventListener("touchend", () => { hold = false; resumeAt = performance.now() + 3000; }, { passive: true });
+    });
     if ("IntersectionObserver" in window) new IntersectionObserver((e) => { visible = e[0].isIntersecting; }).observe(nowPanel);
-    setInterval(() => {
-      if (!visible || document.hidden || Date.now() - last < IDLE_MS) return;
+    const frame = (now) => {
+      requestAnimationFrame(frame);
+      const dt = last ? Math.min(250, now - last) : 0; // capped so a hidden or stalled tab does not jump
+      if (now - last < 33) return; // ~30 updates a second is smooth enough and cheap
+      last = now;
+      if (hold || !visible || document.hidden || now < resumeAt || morphTimer) return;
       const plots = [...root.querySelectorAll(".demo-plot")].filter((p) => p._fullLayout && p.offsetParent);
       if (!plots.length) return;
       const eye = plots[0]._fullLayout.scene.camera.eye;
       if (theta === null) theta = Math.atan2(eye.y, eye.x);
-      theta += STEP_RAD;
+      theta += (SPEED * dt) / 1000;
       const r = Math.hypot(eye.x, eye.y) || 1.6;
       plots.forEach((p) => window.Plotly.relayout(p, { "scene.camera.eye": { x: r * Math.cos(theta), y: r * Math.sin(theta), z: eye.z } }));
-    }, STEP_MS);
+    };
+    requestAnimationFrame(frame);
   }
 
   // ---------------------------------------------------------------- start

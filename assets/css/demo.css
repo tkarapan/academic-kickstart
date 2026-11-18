@@ -20,10 +20,18 @@
 .demo-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); gap: 20px; align-items: start; }
 .demo-panels { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
 .demo-panels.is-pinned { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Side by side, the two panels share row heights, so a title that wraps in one
+   does not push its brain and words below those of the other. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 641px) {
+    .demo-panels.is-pinned { row-gap: 0; }
+    .demo-panels.is-pinned .demo-panel { display: grid; grid-row: span 3; grid-template-rows: subgrid; align-content: start; }
+  }
+}
 .demo-panel { padding: 14px 18px 16px; min-width: 0; }
 .demo-panel header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .demo-panel-title { font-family: var(--display); font-weight: 600; font-size: 1.05rem; letter-spacing: -.01em; }
-.demo-unpin { font-size: .85rem; }
+.demo-unpin { font-size: .85rem; white-space: nowrap; }
 .demo-plot { height: clamp(260px, 42vw, 460px); cursor: grab; }
 .demo-panels.is-pinned .demo-plot { height: clamp(220px, 26vw, 340px); }
 .demo-words { min-height: 6.5em; line-height: 1.25; }

@@ -54,10 +54,17 @@
     const f = Math.pow(Math.max(1, 1.5 / aspect), 0.75);
     return { eye: { x: CAMERA.eye.x * f, y: CAMERA.eye.y * f, z: CAMERA.eye.z * f }, up: CAMERA.up };
   }
+  function liveCamera(div) { // what is on screen, including any dragging, not Plotly's stored layout
+    try { return div._fullLayout.scene._scene.getCamera(); } catch (e) { return div._fullLayout.scene.camera; }
+  }
+  function copyCamera(from, to) {
+    if (!from._fullLayout || !to._fullLayout) return;
+    const c = liveCamera(from);
+    return window.Plotly.relayout(to, { "scene.camera": { eye: c.eye, up: c.up, center: c.center } });
+  }
   function refit(div) { // keep the current viewing angle, adjust only the distance
     if (!div._fullLayout) return;
-    let eye;
-    try { eye = div._fullLayout.scene._scene.getCamera().eye; } catch (e) { eye = div._fullLayout.scene.camera.eye; }
+    const eye = liveCamera(div).eye;
     const want = cameraFor(div).eye, r = Math.hypot(want.x, want.y), th = Math.atan2(eye.y, eye.x);
     window.Plotly.relayout(div, { "scene.camera.eye": { x: r * Math.cos(th), y: r * Math.sin(th), z: want.z } });
   }
@@ -338,6 +345,7 @@
     renderWords(el(".demo-words", pinPanel), topWords(d.terms, w, N_WORDS_PINNED), 0.8);
     window.Plotly.Plots.resize(el(".demo-plot", nowPanel));
     refit(el(".demo-plot", nowPanel));
+    copyCamera(el(".demo-plot", nowPanel), el(".demo-plot", pinPanel));
     update();
     track("demo_pin", { moment: momentName(state.answers) });
   }
@@ -367,10 +375,6 @@
       panel.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hold = false; touch(); } });
     });
     if ("IntersectionObserver" in window) new IntersectionObserver((e) => { visible = e[0].isIntersecting; }).observe(nowPanel);
-    // The live camera (what is on screen, including any dragging), not Plotly's stored layout.
-    const cameraOf = (p) => {
-      try { return p._fullLayout.scene._scene.getCamera(); } catch (e) { return p._fullLayout.scene.camera; }
-    };
     const frame = (now) => {
       requestAnimationFrame(frame);
       const dt = last ? Math.min(250, now - last) : 0; // capped so a hidden or stalled tab does not jump
@@ -381,11 +385,36 @@
       const ease = Math.min(1, idle / EASE_MS);
       const step = (SPEED * dt / 1000) * ease * ease;
       [...root.querySelectorAll(".demo-plot")].filter((p) => p._fullLayout && p.offsetParent).forEach((p) => {
-        const eye = cameraOf(p).eye;
+        const eye = liveCamera(p).eye;
         const theta = Math.atan2(eye.y, eye.x) + step;
         const r = Math.hypot(eye.x, eye.y) || 1.6;
         window.Plotly.relayout(p, { "scene.camera.eye": { x: r * Math.cos(theta), y: r * Math.sin(theta), z: eye.z } });
       });
+    };
+    requestAnimationFrame(frame);
+  }
+
+  // ---------------------------------------------------------------- linked views
+  // While comparing, turning or zooming one brain turns the other the same way.
+  function linkCameras() {
+    const plots = [el(".demo-plot", nowPanel), el(".demo-plot", pinPanel)];
+    let active = null, until = 0, lastKey = "";
+    const grab = (p) => () => { active = p; until = Infinity; };
+    plots.forEach((p) => {
+      p.addEventListener("pointerdown", grab(p), { passive: true });
+      p.addEventListener("touchstart", grab(p), { passive: true });
+      p.addEventListener("wheel", () => { active = p; until = performance.now() + 400; }, { passive: true });
+    });
+    const release = () => { if (until === Infinity) until = performance.now() + 150; }; // catch the final position
+    ["pointerup", "pointercancel", "touchend", "touchcancel"].forEach((ev) => window.addEventListener(ev, release, { passive: true }));
+    const frame = (now) => {
+      requestAnimationFrame(frame);
+      if (!active) return;
+      if (now > until || !state.pinned) { active = null; lastKey = ""; return; }
+      const c = liveCamera(active), key = JSON.stringify(c.eye) + JSON.stringify(c.up) + JSON.stringify(c.center);
+      if (key === lastKey) return;
+      lastKey = key;
+      copyCamera(active, plots[0] === active ? plots[1] : plots[0]);
     };
     requestAnimationFrame(frame);
   }
@@ -414,6 +443,7 @@
       lastWidth = window.innerWidth;
       setTimeout(() => root.querySelectorAll(".demo-plot").forEach((p) => { if (p.offsetParent) refit(p); }), 200);
     });
+    linkCameras();
     idleRotation();
     track("demo_ready", {});
   }).catch(() => {
